@@ -1,0 +1,252 @@
+/* ============================================================================
+   Button — Figma component set "Button" (node 10443:108219), 96 variants.
+   Shape is a fully rounded pill in every Type/Size combination.
+   ========================================================================== */
+
+.pk-button {
+  box-sizing: border-box; /* Figma strokes draw INSIDE the frame — box-sizing: border-box is required everywhere a border exists, or your computed size will be N px too big */
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--pk-ref-radius-full);
+  border: var(--pk-ref-border-thin) solid transparent;
+  cursor: pointer;
+  transition: background-color 120ms ease, border-color 120ms ease, color 120ms ease;
+}
+
+.pk-button:disabled {
+  cursor: not-allowed;
+}
+
+.pk-button:focus-visible,
+.pk-button[data-force-state='focus'] {
+  outline: var(--pk-ref-border-medium) solid var(--pk-sys-border-focus);
+  outline-offset: var(--pk-ref-space-2);
+}
+
+/* --- Size — Default (~44px tall) / Large (Kiosk-only, ~104px tall) -------- */
+
+.pk-button--default {
+  padding: var(--pk-sys-button-default-v) var(--pk-sys-button-default-h);
+  gap: var(--pk-sys-button-default-gap);
+}
+
+.pk-button--large {
+  /* Kiosk touch-target size — see ButtonProps.size JSDoc. Not for web/mobile. */
+  padding: var(--pk-sys-button-large-v) var(--pk-sys-button-large-h);
+  gap: var(--pk-sys-button-large-gap);
+}
+
+.pk-button__label {
+  white-space: nowrap;
+}
+
+.pk-button__label--sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.pk-button__icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: var(--pk-sys-icon-s);
+  height: var(--pk-sys-icon-s);
+}
+
+.pk-button--large .pk-button__icon {
+  width: var(--pk-sys-icon-xl);
+  height: var(--pk-sys-icon-xl);
+}
+
+/* --- Type: Primary (Cool Blue fill) ---------------------------------------- */
+
+.pk-button--primary {
+  background: var(--pk-sys-primary-enabled);
+  color: var(--pk-sys-primary-text);
+  border-color: transparent;
+}
+
+.pk-button--primary:hover:not(:disabled),
+.pk-button--primary[data-force-state='hover'] {
+  background: var(--pk-sys-primary-hover);
+  color: var(--pk-sys-primary-hover-text);
+}
+
+.pk-button--primary:active:not(:disabled),
+.pk-button--primary[data-force-state='pressed'] {
+  background: var(--pk-sys-primary-pressed);
+  color: var(--pk-sys-primary-hover-text);
+}
+
+/* Inverse deliberately has no Primary override: brand fill stays brand on any surface (mirrors the Mattel Button's `inverse` rule). */
+
+/* --- Type: Secondary (Midnight Purple fill) -------------------------------- */
+
+.pk-button--secondary {
+  background: var(--pk-sys-secondary-enabled);
+  color: var(--pk-sys-secondary-text);
+  border-color: transparent;
+}
+
+.pk-button--secondary:hover:not(:disabled),
+.pk-button--secondary[data-force-state='hover'] {
+  background: var(--pk-sys-secondary-hover);
+  color: var(--pk-sys-secondary-hover-text);
+  border-color: var(--pk-sys-secondary-border);
+}
+
+.pk-button--secondary:active:not(:disabled),
+.pk-button--secondary[data-force-state='pressed'] {
+  background: var(--pk-sys-secondary-pressed);
+  color: var(--pk-sys-secondary-hover-text);
+  border-color: var(--pk-sys-secondary-border);
+}
+
+/* --- Type: Tertiary (outlined, transparent fill) --------------------------- */
+
+.pk-button--tertiary {
+  background: transparent;
+  color: var(--pk-sys-tertiary-text);
+  border-color: var(--pk-sys-tertiary-border);
+}
+
+.pk-button--tertiary:hover:not(:disabled),
+.pk-button--tertiary[data-force-state='hover'] {
+  background: color-mix(in srgb, var(--pk-sys-tertiary-hover) 16%, transparent);
+}
+
+.pk-button--tertiary:active:not(:disabled),
+.pk-button--tertiary[data-force-state='pressed'] {
+  background: color-mix(in srgb, var(--pk-sys-tertiary-pressed) 24%, transparent);
+}
+
+/* --- Type: Ghost/Link (borderless — distinguishes it from Tertiary) -------- */
+
+.pk-button--ghost {
+  background: transparent;
+  color: var(--pk-sys-tertiary-text);
+  border-color: transparent;
+}
+
+.pk-button--ghost:hover:not(:disabled),
+.pk-button--ghost[data-force-state='hover'] {
+  background: color-mix(in srgb, var(--pk-sys-tertiary-hover) 16%, transparent);
+}
+
+.pk-button--ghost:active:not(:disabled),
+.pk-button--ghost[data-force-state='pressed'] {
+  background: color-mix(in srgb, var(--pk-sys-tertiary-pressed) 24%, transparent);
+}
+
+/* --- Type: Success / Error / Warning / Info (solid Feedback fill) ---------
+   The *-bg tokens are pale tints, too light for a filled CTA — the *-border
+   step (500-step, saturated) is used as the solid background instead. */
+
+.pk-button--success {
+  background: var(--pk-sys-success-border);
+  color: var(--pk-sys-text-white);
+  border-color: transparent;
+}
+.pk-button--success:hover:not(:disabled),
+.pk-button--success[data-force-state='hover'] {
+  background: var(--pk-sys-success-hover);
+}
+.pk-button--success:active:not(:disabled),
+.pk-button--success[data-force-state='pressed'] {
+  background: var(--pk-sys-success-pressed);
+}
+
+.pk-button--error {
+  background: var(--pk-sys-error-border);
+  color: var(--pk-sys-text-white);
+  border-color: transparent;
+}
+.pk-button--error:hover:not(:disabled),
+.pk-button--error[data-force-state='hover'] {
+  background: var(--pk-sys-error-hover);
+}
+.pk-button--error:active:not(:disabled),
+.pk-button--error[data-force-state='pressed'] {
+  background: var(--pk-sys-error-pressed);
+}
+
+.pk-button--warning {
+  background: var(--pk-sys-warning-border);
+  color: var(--pk-sys-text-white);
+  border-color: transparent;
+}
+.pk-button--warning:hover:not(:disabled),
+.pk-button--warning[data-force-state='hover'] {
+  background: var(--pk-sys-warning-hover);
+}
+.pk-button--warning:active:not(:disabled),
+.pk-button--warning[data-force-state='pressed'] {
+  background: var(--pk-sys-warning-pressed);
+}
+
+.pk-button--info {
+  background: var(--pk-sys-info-border);
+  color: var(--pk-sys-text-white);
+  border-color: transparent;
+}
+.pk-button--info:hover:not(:disabled),
+.pk-button--info[data-force-state='hover'] {
+  background: var(--pk-sys-info-hover);
+}
+.pk-button--info:active:not(:disabled),
+.pk-button--info[data-force-state='pressed'] {
+  background: var(--pk-sys-info-pressed);
+}
+
+/* --- State: Disabled --------------------------------------------------------
+   Only Primary, Secondary and Tertiary have a real Disabled treatment in the
+   source file. Success/Error/Warning/Info and Ghost fall back to Tertiary's
+   treatment rather than inventing a new one. */
+
+.pk-button--primary:disabled,
+.pk-button--secondary:disabled {
+  background: var(--pk-sys-disabled-cta-bg);
+  color: var(--pk-sys-disabled-text);
+  border-color: transparent;
+}
+
+.pk-button--tertiary:disabled,
+.pk-button--success:disabled,
+.pk-button--error:disabled,
+.pk-button--warning:disabled,
+.pk-button--info:disabled {
+  background: var(--pk-sys-disabled-cta-bg);
+  color: var(--pk-sys-disabled-text);
+  border-color: var(--pk-sys-disabled-border);
+}
+
+.pk-button--ghost:disabled {
+  /* No border here either — Ghost stays borderless in every state. */
+  background: var(--pk-sys-disabled-cta-bg);
+  color: var(--pk-sys-disabled-text);
+  border-color: transparent;
+}
+
+/* --- Inverse (button sits on a dark/brand surface) --------------------------
+   Only Tertiary/Ghost need an override: their default text (and Tertiary's
+   border) is Midnight Purple, which disappears on a dark surface. Primary,
+   Secondary and the Feedback types already use white/brand fills that read
+   fine on light or dark, so they are intentionally left untouched. */
+
+.pk-button--tertiary.pk-button--inverse,
+.pk-button--ghost.pk-button--inverse {
+  color: var(--pk-sys-text-inverse);
+}
+
+.pk-button--tertiary.pk-button--inverse {
+  border-color: var(--pk-sys-text-inverse);
+}

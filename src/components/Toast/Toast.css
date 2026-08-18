@@ -1,0 +1,116 @@
+.pk-toast {
+  --pk-comp-toast-icon-size: 32px; /* leading-circle diameter — no --pk-sys-icon-* token names a circle, only a bare glyph size; mirrors Badge's --pk-comp-badge-circle-size reasoning */
+  --pk-comp-toast-icon-bg-promo: var(--pk-ref-magenta-200); /* promo's icon-circle fill has no --pk-sys-* alias (warning/success reuse their --pk-sys-*-border token instead) — component-scoped alias per DS convention, see Badge.css --pk-comp-badge-color-linked */
+  box-sizing: border-box; /* Figma strokes draw INSIDE the frame */
+  display: flex;
+  align-items: flex-start;
+  gap: var(--pk-sys-level2-gap);
+  padding: var(--pk-sys-level2-vertical) var(--pk-sys-level2-horizontal);
+  border-radius: var(--pk-ref-radius-lg);
+  border: var(--pk-ref-border-thin) solid transparent;
+}
+
+.pk-toast--warning {
+  background: var(--pk-sys-warning-bg);
+  border-color: var(--pk-sys-warning-border);
+  color: var(--pk-sys-warning-text);
+}
+.pk-toast--warning .pk-toast__icon {
+  background: var(--pk-sys-warning-border);
+}
+
+.pk-toast--promo {
+  background: var(--pk-sys-bg-magenta-light);
+  border-color: var(--pk-sys-border-magenta);
+  /* NOT --pk-sys-text-magenta: that token is Magenta/200, nearly the same
+     saturation as this Magenta/100 background (contrast ~1.3:1, unreadable).
+     The system's own contrast rule puts Magenta 100-200 in the "light/bright
+     fill" bucket, which always takes Midnight Purple text, not more magenta. */
+  color: var(--pk-sys-text-primary);
+}
+.pk-toast--promo .pk-toast__icon {
+  background: var(--pk-comp-toast-icon-bg-promo);
+}
+
+.pk-toast--success {
+  background: var(--pk-sys-success-bg);
+  border-color: transparent; /* screenshot shows little/no visible border on this variant — kept transparent rather than dropped so box sizing stays identical across all three variants */
+  color: var(--pk-sys-success-text);
+}
+.pk-toast--success .pk-toast__icon {
+  background: var(--pk-sys-success-border);
+}
+
+.pk-toast__icon {
+  box-sizing: border-box;
+  width: var(--pk-comp-toast-icon-size);
+  height: var(--pk-comp-toast-icon-size);
+  border-radius: var(--pk-ref-radius-full);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  color: var(--pk-sys-text-white); /* the passed-in icon asset is expected to use currentColor, so it reads white on the solid circle per the confirmed screenshots */
+}
+
+.pk-toast__icon svg {
+  width: var(--pk-sys-icon-m);
+  height: var(--pk-sys-icon-m);
+}
+
+.pk-toast__content {
+  flex: 1 1 auto;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--pk-sys-gap-xs);
+}
+
+.pk-toast__title {
+  margin: 0;
+  text-transform: uppercase; /* .pk-text-headline-small doesn't carry uppercase (only headline-large/medium do, and both are too large for a toast card) — borrowing its weight/size and adding the transform locally */
+}
+
+.pk-toast__message {
+  margin: 0;
+}
+
+.pk-toast__message strong {
+  font-family: var(--pk-sys-font-ui-bold); /* the DS separates Book/Bold as distinct font-family tokens rather than font-weight steps of one family, so a bare <strong> needs the family swapped explicitly or it renders as a synthetic/fake bold */
+  font-weight: 700;
+}
+
+.pk-toast__dismiss {
+  box-sizing: border-box;
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--pk-sys-icon-l);
+  height: var(--pk-sys-icon-l);
+  padding: 0;
+  border: var(--pk-ref-border-thin) solid transparent;
+  border-radius: var(--pk-ref-radius-full);
+  background: transparent;
+  color: currentColor;
+  font-size: var(--pk-sys-icon-m); /* no dismiss icon asset exists in this extraction — a plain × glyph stands in, sized off the icon-m token rather than an invented pixel value */
+  line-height: 1;
+  cursor: pointer;
+  transition: background-color 120ms ease;
+}
+
+.pk-toast__dismiss:hover:not(:disabled),
+.pk-toast__dismiss[data-force-state='hover'] {
+  background: var(--pk-sys-surface-hover);
+}
+
+.pk-toast__dismiss:active:not(:disabled),
+.pk-toast__dismiss[data-force-state='pressed'] {
+  background: var(--pk-sys-surface-pressed);
+}
+
+.pk-toast__dismiss:focus-visible,
+.pk-toast__dismiss[data-force-state='focus'] {
+  outline: var(--pk-ref-border-medium) solid var(--pk-sys-border-focus);
+  outline-offset: var(--pk-ref-space-2);
+}

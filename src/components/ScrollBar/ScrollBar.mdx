@@ -1,0 +1,122 @@
+import { Meta, Canvas, Controls } from '@storybook/addon-docs/blocks'
+import * as ScrollBarStories from './ScrollBar.stories'
+
+<Meta of={ScrollBarStories} />
+
+# Scroll Bar
+
+A visual indicator of content position within a scrollable area. Reach for it
+in lists, panels, and content containers where the content can exceed the
+visible area — the native OS scrollbar is hidden and replaced by this
+handle/track, driven by the same real scroll position.
+
+<Canvas of={ScrollBarStories.Playground} />
+<Controls of={ScrollBarStories.Playground} />
+
+---
+
+## Overflow behavior
+
+<Canvas of={ScrollBarStories.Overflow} />
+
+The handle and track only render once content height exceeds the viewport's
+`maxHeight` — handle size scales to the visible content fraction, and its
+position tracks scroll progress in real time. When content fits entirely
+within the viewport, nothing renders at all: no empty track, no zero-height
+handle. That's the "auto-hide" behavior working correctly, not a bug to
+design around.
+
+---
+
+## States
+
+<Canvas of={ScrollBarStories.States} />
+
+Two real states are implemented in CSS: the handle sits at a tertiary color
+by default and darkens to a secondary color on `:hover` / `:active` (pressed).
+A `:focus-visible` outline appears when the handle is reached via keyboard.
+`forceState` exists only so this page can show hover, focus, and pressed open
+at once for a static screenshot — it must never be used in application code.
+
+---
+
+## Content types
+
+<Canvas of={ScrollBarStories.ContentTypes} />
+
+The handle math only cares about total rendered content height, not what that
+content is — dense list rows and long-form paragraph text both work
+identically as `children`.
+
+---
+
+## Tokens consumed
+
+| Token | Used for |
+|---|---|
+| `--pk-sys-gap-xs` | Gap between the content viewport and the track |
+| `--pk-ref-radius-xs` | Track corner radius |
+| `--pk-sys-surface-subtle` | Track background fill |
+| `--pk-ref-radius-full` | Handle corner radius (fully rounded) |
+| `--pk-sys-text-tertiary` | Handle background, default state |
+| `--pk-sys-text-secondary` | Handle background, hover and pressed states |
+| `--pk-ref-border-medium` | Focus outline width |
+| `--pk-sys-border-focus` | Focus outline color |
+| `--pk-ref-space-2` | Focus outline offset |
+
+Two more variables are declared locally in `ScrollBar.css` rather than pulled
+from the token set, since neither has a system-token equivalent:
+`--pk-comp-scroll-bar-rail-width` (8px — matched 1:1 to the handle width, since
+the Figma source crop shows no separate track chrome to size against) and
+`--pk-comp-scroll-bar-max-height` (the demo viewport constraint, set at
+runtime from the `maxHeight` prop).
+
+---
+
+## Do / Don't
+
+**Do**
+- Use Scroll Bar for lists, panels, and content containers where content can
+  genuinely exceed the visible area — bookings lists, venue policy text, and
+  similar overflow content.
+- Give the viewport real height via `maxHeight` so the browser has something
+  to constrain against and the handle can activate.
+- Let it auto-hide when content fits — that's the intended behavior, not a
+  state to override.
+
+**Don't**
+- Don't use it on content that already fits entirely within its container —
+  the track/handle won't render at all.
+- Don't use it on mobile — this is a desktop, pointer-driven scrollbar; defer
+  to native platform scrolling there instead.
+- Don't make the track itself interactive. Only the handle responds to drag;
+  there's no click-to-jump on the track and no track hover state.
+
+---
+
+## Accessibility
+
+The handle is a focusable element (`tabIndex={0}`) with `role="scrollbar"`,
+`aria-orientation="vertical"`, and `aria-controls` pointing at the scrollable
+viewport, so assistive technology can identify what it's driving.
+`aria-valuenow` / `aria-valuemin` / `aria-valuemax` mirror scroll progress as
+a 0–100 percentage in real time. Keyboard users can focus the handle and use
+`ArrowUp` / `ArrowDown` to scroll in 10%-of-viewport steps, or `Home` / `End`
+to jump to the top or bottom. The underlying viewport is a plain scrollable
+`<div>` with the OS-drawn scrollbar hidden via `scrollbar-width`/
+`-webkit-scrollbar`, so mouse wheel and trackpad scrolling keep working
+natively alongside the custom handle.
+
+---
+
+## Figma parity
+
+Source: file `x40IO8pltwoAFiVkBZEUzT`, node `12851:28067`.
+
+Figma doesn't specify a minimum handle size. Without a floor, a handle
+representing a tiny slice of very long content would shrink below a
+comfortably draggable size, so the implementation adds a 24px minimum
+(`MIN_HANDLE_SIZE`) that isn't part of the Figma spec itself. The track width
+is also matched 1:1 to the 8px handle width rather than given a separate,
+wider gutter, since the source file's isolated component crop shows no
+visible track chrome to size against.

@@ -1,0 +1,142 @@
+import { Meta, Canvas, Controls } from '@storybook/addon-docs/blocks'
+import * as CheckboxStories from './Checkbox.stories'
+
+<Meta of={CheckboxStories} />
+
+# Checkbox
+
+A multi-select input for choosing any number of options from a set, or for a single
+confirmation (e.g. accepting a waiver). Use it whenever more than one option can be true
+at once.
+
+<Canvas of={CheckboxStories.Playground} />
+<Controls of={CheckboxStories.Playground} />
+
+---
+
+## Checked states
+
+<Canvas of={CheckboxStories.CheckedStates} />
+
+Three states: unchecked, checked, and indeterminate. Indeterminate is for a parent
+checkbox that represents a partially-selected group of children — it always resolves to
+fully checked on the first click, it never toggles back to unchecked.
+
+---
+
+## Sizes
+
+<Canvas of={CheckboxStories.Sizes} />
+
+| Size | Box | Use for |
+|---|---|---|
+| `mobile` | 20px | Mobile app / narrow viewports |
+| `desktop` | 24px | Default — web app, booking flows |
+| `kiosk` | 32px | In-venue kiosk, viewed at arm's length |
+
+Regardless of the visual box size, the tappable/clickable hit area is always a minimum of
+44×44px, centered on the box.
+
+---
+
+## States
+
+<Canvas of={CheckboxStories.States} />
+
+Real states are real CSS (`:hover`, `:focus-within`) plus the native `disabled`
+attribute — `forceState` exists only so this page can show every state in one static
+screenshot, and must never be used in application code.
+
+---
+
+## Error status
+
+<Canvas of={CheckboxStories.ErrorStatus} />
+
+Error only ever applies when the checkbox is unchecked — matching the Figma component,
+which has no Error variant for Checked=Yes or Checked=Indeterminate. Once a box is
+checked, any error styling is dropped.
+
+---
+
+## Disabled
+
+<Canvas of={CheckboxStories.Disabled} />
+
+---
+
+## Tooltip icon and grouping
+
+<Canvas of={CheckboxStories.WithTooltipAndGrouping} />
+
+The optional tooltip icon sits after the label for supplementary help text. Indeterminate
+is the standard pattern for a parent checkbox that summarizes a set of child checkboxes
+(e.g. "All tee times" above three individual slots).
+
+---
+
+## Tokens consumed
+
+| Token | Used for |
+|---|---|
+| `--pk-ref-magenta-200` | Checked fill and border color (via component-tier `--pk-comp-checkbox-color-checked` — no `--pk-sys-*` semantic token maps to "checkbox fill" specifically) |
+| `--pk-sys-gap-sm` | Gap between the box and the label |
+| `--pk-ref-radius-full` | Fully-rounded hover/focus hit-area background |
+| `--pk-sys-surface-hover` | Hit-area background on hover / `forceState="hover"` |
+| `--pk-ref-border-medium` | Focus ring thickness |
+| `--pk-sys-border-focus` | Focus ring color |
+| `--pk-ref-radius-xs` | Box corner radius |
+| `--pk-sys-border-strong` | Box border color, unchecked |
+| `--pk-sys-bg-default` | Box background, unchecked |
+| `--pk-sys-error-border` | Box border color when `error` is true (and unchecked) |
+| `--pk-sys-text-inverse` | Check/minus icon color on the filled (checked) box |
+| `--pk-sys-surface-disabled` | Box background, disabled |
+| `--pk-sys-disabled-border` | Box border color, disabled |
+| `--pk-sys-text-disabled` | Label and icon color, disabled |
+| `--pk-sys-text-primary` | Label color, default |
+| `--pk-sys-icon-s` | Tooltip icon size |
+| `--pk-ref-border-thin` | Tooltip icon border thickness |
+| `--pk-sys-border-default` | Tooltip icon border color |
+| `--pk-sys-text-secondary` | Tooltip icon color |
+
+Label text uses the `pk-text-body-medium` text style; the tooltip icon glyph uses
+`pk-text-label-small`.
+
+---
+
+## Do / Don't
+
+**Do**
+- Use for multi-select
+- Always include a visible label
+- Use indeterminate for parent-child groups
+
+**Don't**
+- Use for a single on/off toggle — that's the Toggle component
+- Rely on color alone to indicate state
+- Nest more than two levels
+
+Layout note: when stacking a group of related checkboxes, keep 8–12px vertical spacing
+between items on the containing element — the component itself doesn't enforce this.
+
+---
+
+## Accessibility
+
+Checkbox renders a native `<input type="checkbox">` wrapped in a `<label>`, so clicking
+the label text toggles the box and the browser's built-in keyboard behavior (Tab to
+focus, Space to toggle) works with no extra wiring. Indeterminate has no JSX attribute on
+a native input, so it's set imperatively via a ref effect (`inputRef.current.indeterminate
+= true`) and mirrored to assistive tech with `aria-checked="mixed"`. The error state sets
+`aria-invalid` on the input.
+
+---
+
+## Figma parity
+
+Source: file `x40IO8pltwoAFiVkBZEUzT`, node `33:68195` (component set `33:68420`, 58
+variants).
+
+The Figma `Status=Error` option only exists on the Checked=No variant — the component
+codifies that constraint in code (`error && checked === false`) rather than exposing an
+error state that could be combined with Checked=Yes, which has no corresponding design.

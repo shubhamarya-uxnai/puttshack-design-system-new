@@ -1,0 +1,104 @@
+.pk-chip {
+  /* No --pk-ref-space step lands on 3px. Figma's own auto-layout measures
+     4px vertical padding on this pill, but that was set against a text
+     box auto-sized to a tight 14px glyph box. The system's mandatory
+     .pk-text-label-medium style reserves a full 16px line-height, so 4px
+     padding would render 24px tall instead of the spec's measured 22px —
+     3px is what actually hits the exact height once the real style is applied. */
+  --pk-comp-chip-label-v-padding: 3px;
+  /* Figma's remove icon is drawn at 12px, below the smallest system icon
+     step (--pk-sys-icon-s, 16px). This is the tappable button size that
+     wraps it while still fitting inside the 24px-tall AVATAR chip. */
+  --pk-comp-chip-remove-size: 16px;
+  /* The remove icon's own glyph size — matches the Figma-measured 12x12
+     "Remove icon" instance exactly; no system icon-size token goes this small. */
+  --pk-comp-chip-remove-icon-size: 12px;
+
+  box-sizing: border-box;
+  display: inline-flex;
+  align-items: center;
+  border-radius: var(--pk-ref-radius-full);
+  white-space: nowrap;
+}
+
+.pk-chip--default,
+.pk-chip--avatar {
+  background: var(--pk-sys-bg-inverse);
+  color: var(--pk-sys-text-inverse);
+}
+
+.pk-chip--promo {
+  /* Colors-Semantic has no literal "Yellow" token. Orange is the closest
+     brand-yellow-adjacent hue in this palette, and matches the Yellow
+     variant's own bound Figma value (#FFC629 = --pk-ref-orange-100). */
+  background: var(--pk-ref-orange-100);
+  color: var(--pk-sys-text-primary);
+}
+
+.pk-chip--default,
+.pk-chip--promo {
+  padding: var(--pk-comp-chip-label-v-padding) var(--pk-ref-space-12);
+}
+
+.pk-chip--avatar {
+  padding: var(--pk-ref-space-2);
+  gap: var(--pk-ref-space-4);
+}
+
+.pk-chip__avatar {
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--pk-sys-icon-m);
+  height: var(--pk-sys-icon-m);
+  border-radius: var(--pk-ref-radius-full);
+  overflow: hidden;
+  /* Placeholder fill for the no-image/no-initials edge case — a light
+     overlay on the dark pill so initials stay legible; not a bound Figma
+     value since the source component only shows a filled avatar image. */
+  background: var(--pk-ref-white-24);
+}
+
+.pk-chip__avatar-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.pk-chip__remove {
+  box-sizing: border-box;
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--pk-comp-chip-remove-size);
+  height: var(--pk-comp-chip-remove-size);
+  padding: 0;
+  border: none;
+  border-radius: var(--pk-ref-radius-full);
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+}
+
+.pk-chip__remove svg {
+  width: var(--pk-comp-chip-remove-icon-size);
+  height: var(--pk-comp-chip-remove-icon-size);
+}
+
+.pk-chip__remove:hover:not(:disabled),
+.pk-chip__remove[data-force-state='hover'] {
+  background: var(--pk-ref-white-16);
+}
+
+.pk-chip__remove:active,
+.pk-chip__remove[data-force-state='pressed'] {
+  background: var(--pk-ref-white-24);
+}
+
+.pk-chip__remove:focus-visible,
+.pk-chip__remove[data-force-state='focus'] {
+  outline: var(--pk-ref-border-medium) solid var(--pk-sys-border-focus);
+  outline-offset: var(--pk-ref-border-thin);
+}

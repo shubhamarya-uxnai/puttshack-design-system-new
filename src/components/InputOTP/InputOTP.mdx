@@ -1,0 +1,127 @@
+import { Meta, Canvas, Controls } from '@storybook/addon-docs/blocks'
+import * as InputOTPStories from './InputOTP.stories'
+
+<Meta of={InputOTPStories} />
+
+# Input OTP
+
+A row of single-digit cells for fixed-length codes: OTPs, verification
+codes, and PINs. Use it whenever the destination knows the exact code
+length up front, never for phone numbers, booking references, or any other
+variable-length input.
+
+<Canvas of={InputOTPStories.Playground} />
+<Controls of={InputOTPStories.Playground} />
+
+---
+
+## Sizes
+
+<Canvas of={InputOTPStories.Sizes} />
+
+`size` drives cell dimensions and fill via `[data-screen]`, matching the
+device mode confirmed in the source file:
+
+| Size | Cell dimensions | Fill |
+|---|---|---|
+| `mobile` | 44 × 52px | Bordered, transparent/white fill |
+| `desktop` | 60 × 68px (default) | Filled, no border (pale grey) |
+| `kiosk` | 76 × 84px | Filled, dark surface — pairs with this system's dark color mode |
+
+---
+
+## Error state
+
+<Canvas of={InputOTPStories.ErrorState} />
+
+`error` is component-level, not per-cell: on error, every cell takes the
+error border together and the whole code clears and refocuses the first
+cell — never highlight only the offending cell. Pass `errorMessage` to
+render supporting copy below the cells.
+
+---
+
+## Lengths
+
+<Canvas of={InputOTPStories.Lengths} />
+
+`length` sets how many digit cells render (default 6). The Figma source
+uses 6 as its visual example; soft guidance caps this around 8 digits for
+codes that stay comfortably scannable — `length` itself isn't clamped, but
+treat 8 as the practical ceiling rather than reaching for this component on
+longer identifiers.
+
+---
+
+## Tokens consumed
+
+| Token | Used for |
+|---|---|
+| `--pk-sys-gap-sm` | Gap between label and cell row; gap between cells (mobile/desktop) |
+| `--pk-ref-radius-md` | Cell corner radius (desktop) |
+| `--pk-ref-radius-sm` | Cell corner radius (mobile) |
+| `--pk-sys-text-primary` | Label text color; digit color (mobile/desktop) |
+| `--pk-sys-text-inverse` | Label and digit color on kiosk's dark surface |
+| `--pk-sys-border-strong` | Cell border color (mobile) |
+| `--pk-sys-bg-default` | Cell fill (mobile) |
+| `--pk-ref-black-06` | Cell fill (desktop) — closest confirmed match to the source screenshot; no `--pk-sys-surface-*` token lands on this exact tone |
+| `--pk-sys-surface-inverse` | Cell fill (kiosk) |
+| `--pk-ref-border-thin` | Cell border width |
+| `--pk-sys-font-ui-bold` | Digit font family |
+| `--pk-ref-magenta-200` | Caret color — Figma's Active state uses a blinking magenta cursor |
+| `--pk-sys-border-focus` | Focus ring (`:focus-visible`) |
+| `--pk-sys-error-border` | Cell border color when `error` is true |
+| `--pk-sys-error-text` | Error message color |
+
+Cell width/height, the kiosk radius/gap, and the digit font size are pinned
+as component-tier variables (`--pk-comp-input-otp-*`) rather than mapped to
+a `--pk-ref-*` step, because the confirmed values (44/52/60/68/76/84px cells,
+10px kiosk radius/gap) fall between the nearest spacing and radius steps.
+
+---
+
+## Do / Don't
+
+**Do**
+- Use for fixed-length digit entry: OTPs, verification codes, PINs (roughly up to 8 digits).
+- Label the group as a whole with `label` — it describes what the whole code is for, not any single cell.
+- Let `onComplete` fire the submit — once every cell is filled the code is ready, no separate confirm button needed.
+- Reserve `autoFocus` for screens where the OTP input is the primary or only action — stealing focus elsewhere is disorienting.
+
+**Don't**
+- Don't use for phone numbers, booking references, or any other variable-length input — reach for a standard text field with `inputMode="numeric"` instead.
+- Don't label individual cells (no "Digit 1", "D2", "D3" visible labels) — the group label is the only label a user sees.
+- Don't highlight only the cell that caused an error — error is a whole-component state, and on error all cells clear and refocus the first cell together.
+- Don't let the keyboard dismiss between cells on mobile — auto-advance is built to keep focus (and the keyboard) in place through entry.
+
+---
+
+## Accessibility
+
+Each cell is a real `<input type="text" inputMode="numeric" maxLength={1}>`,
+so it inherits native keyboard, autofill, and screen-reader input behavior
+rather than emulating one with `<div>`s. The row of cells sits in a
+`role="group"` container, labeled via `aria-labelledby` pointing at the
+visible `label` when one is passed. Each cell additionally carries its own
+`aria-label` ("Digit 1 of 6", etc.) for screen-reader context, separate
+from the never-shown-visually per-cell labeling the Do/Don't above warns
+against. On error, cells get `aria-invalid` and the message below renders
+with `role="alert"` so assistive tech announces it as it appears. Backspace
+on an empty cell moves focus back and clears the previous cell; paste (or
+OS/SMS autofill delivering the full code into one cell) distributes digits
+across the remaining cells from the cursor position.
+
+---
+
+## Figma parity
+
+Source: file `x40IO8pltwoAFiVkBZEUzT`, node `12731:83461` ("Numeric
+Input" — the file's own documentation canvas for this component).
+
+Two values in the implementation are pinned as confirmed-but-unmapped
+constants rather than forced onto a nearby token: the desktop cell fill
+(`--pk-ref-black-06`, since no `--pk-sys-surface-*` token matches the pale
+grey in the source screenshot) and the kiosk cell radius/gap (10px, which
+falls between the `sm`/`md` radius steps and the `gap-sm`/`gap-md` steps).
+Both are called out in the component's own CSS rather than silently
+rounded.

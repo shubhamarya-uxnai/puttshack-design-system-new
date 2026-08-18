@@ -1,0 +1,61 @@
+import { Meta } from '@storybook/addon-docs/blocks'
+
+<Meta title="Start Here/Introduction" />
+
+# Puttshack Design System 2026
+
+Tokens, styles and 10 components generated from the Puttshack Design System
+2026 Figma file, code-accurate to the component set, colors, spacing and
+typography defined there.
+
+> **An independent extraction, not an official Puttshack release.** Built by
+> reading the design system file (`x40IO8pltwoAFiVkBZEUzT`) directly — every
+> color, spacing value and variant below traces back to a real Figma node,
+> not an approximation.
+
+---
+
+## What's in this codebase
+
+- **Tokens** (`src/styles/tokens.css`) — the full color, spacing, corner
+  radius, border width, opacity and shadow scale, in two tiers: `--pk-ref-*`
+  (primitives, never consume directly) and `--pk-sys-*` (semantic, bind
+  these).
+- **Text Styles** (`src/styles/text-styles.css`) — the 17 named Text Styles
+  from the file, as ready-to-use classes (`.pk-text-headline-large`,
+  `.pk-text-body-medium`, …).
+- **10 components** (`src/components/*`) — Button, Checkbox, Radio Button,
+  Toggle, Chip, Badge, Input Field, Input OTP, Scroll Bar and Toast. Each is
+  a `.tsx` + `.css` pair, token-bound throughout, with real interaction
+  states (`:hover`, `:focus-visible`, `:active`, `disabled`) rather than
+  variant props standing in for them.
+
+## Two things this system deliberately does NOT have
+
+1. **A dark theme.** The source file's Colors - Semantic collection has a
+   second mode, but it is literally named *"Dark (NOT TO BE USED)"* — so
+   there is no dark theme here, on purpose, not by omission.
+2. **A brand switcher.** Puttshack is a single brand — there's no Mattel-style
+   multi-brand axis to switch between.
+
+## The one switch this system does have
+
+**Screen** (device mode) — Mobile / Desktop / Kiosk — in the toolbar above.
+Only three components currently key off it with confirmed values pulled
+directly from the file: **Checkbox**, **Radio Button** and **Input OTP** all
+scale their control size (and, for OTP, cell radius/fill) per device. Every
+other component in this Storybook renders at a single Desktop-equivalent
+size — see each component's own docs page for what is and isn't scaled.
+
+## Reading path
+
+1. **Foundations** — every token and text style, with live swatches.
+2. **Components** — one page per component: a Playground you can drive with
+   the Controls panel, every variant laid out for comparison, and the exact
+   tokens each one consumes.
+
+## What this Storybook is for
+
+The Figma file documents the intended design. This documents the *contract*
+— running code, not a drawing of it. Every color below is a live `var()`
+chain, not a swatch someone pasted; every state is real, not a static frame.

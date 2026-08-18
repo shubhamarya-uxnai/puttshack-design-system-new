@@ -1,0 +1,151 @@
+/* ============================================================================
+   Toggle — Figma component set "Toggle" (node 33:69225).
+   Track 40×24px (default) / 32×20px (small); knob = track-height − 4px.
+   ========================================================================== */
+
+.pk-toggle {
+  /* No --pk-sys-* pair names these two exact switch sizes — confirmed exact
+     from the source file's own no-label instances, so they live here. */
+  --pk-comp-toggle-track-w: 40px;
+  --pk-comp-toggle-track-h: 24px;
+  /* Knob diameter = track-h − (inset * 2), i.e. track-height minus ~4px. */
+  --pk-comp-toggle-knob-inset: 2px;
+  /* No --pk-sys-* name matches "toggle on-fill" exactly. */
+  --pk-comp-toggle-color-on: var(--pk-ref-magenta-200);
+
+  position: relative;
+  box-sizing: border-box;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--pk-sys-gap-sm);
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.pk-toggle--small {
+  --pk-comp-toggle-track-w: 32px;
+  --pk-comp-toggle-track-h: 20px;
+}
+
+.pk-toggle--disabled {
+  cursor: not-allowed;
+}
+
+.pk-toggle__control {
+  position: relative;
+  box-sizing: border-box;
+  display: inline-flex;
+  flex: none;
+  width: var(--pk-comp-toggle-track-w);
+  height: var(--pk-comp-toggle-track-h);
+}
+
+.pk-toggle__input {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  opacity: 0;
+  cursor: pointer;
+}
+.pk-toggle--disabled .pk-toggle__input {
+  cursor: not-allowed;
+}
+
+/* box-sizing: border-box — Figma strokes draw INSIDE the frame, so the border
+   must be included in the box's own width/height or the rendered size drifts
+   from the Figma spec. */
+.pk-toggle__track {
+  position: relative;
+  box-sizing: border-box;
+  display: block;
+  width: 100%;
+  height: 100%;
+  border-radius: var(--pk-ref-radius-full);
+  border: var(--pk-ref-border-medium) solid var(--pk-sys-border-strong);
+  background: transparent;
+  transition: background-color 200ms ease, border-color 200ms ease, box-shadow 200ms ease;
+}
+
+.pk-toggle__knob {
+  position: absolute;
+  top: var(--pk-comp-toggle-knob-inset);
+  left: var(--pk-comp-toggle-knob-inset);
+  box-sizing: border-box;
+  width: calc(var(--pk-comp-toggle-track-h) - (var(--pk-comp-toggle-knob-inset) * 2));
+  height: calc(var(--pk-comp-toggle-track-h) - (var(--pk-comp-toggle-knob-inset) * 2));
+  border-radius: var(--pk-ref-radius-full);
+  background: var(--pk-sys-surface-default);
+  /* 200ms ease isn't spec'd for Toggle in the extracted docs — matches this
+     system's other 150–200ms interaction transitions (see Button/Radio). */
+  transition: transform 200ms ease, background-color 200ms ease;
+}
+
+/* --- Checked (Figma "Turn=On") --------------------------------------------- */
+
+.pk-toggle__input:checked ~ .pk-toggle__track {
+  background: var(--pk-comp-toggle-color-on);
+  border-color: var(--pk-comp-toggle-color-on);
+}
+
+.pk-toggle__input:checked ~ .pk-toggle__track .pk-toggle__knob {
+  /* track-w − knob-w − 2×inset simplifies to track-w − track-h, since
+     knob-w = track-h − 2×inset — holds for both sizes without a duplicate
+     per-size travel-distance token. */
+  transform: translateX(calc(var(--pk-comp-toggle-track-w) - var(--pk-comp-toggle-track-h)));
+}
+
+/* --- Hover — magenta ring around the track --------------------------------- */
+
+.pk-toggle:hover:not(.pk-toggle--disabled) .pk-toggle__track,
+.pk-toggle[data-force-state='hover'] .pk-toggle__track {
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--pk-comp-toggle-color-on) 40%, transparent);
+}
+
+/* --- Focus ------------------------------------------------------------------ */
+
+.pk-toggle__input:focus-visible ~ .pk-toggle__track {
+  outline: var(--pk-ref-border-medium) solid var(--pk-sys-border-focus);
+  outline-offset: var(--pk-ref-space-2);
+}
+
+/* --- Disabled — both On/Off desaturate to grey ------------------------------ */
+
+.pk-toggle__input:disabled ~ .pk-toggle__track {
+  background: var(--pk-sys-surface-disabled);
+  border-color: var(--pk-sys-disabled-border);
+}
+.pk-toggle__input:disabled:checked ~ .pk-toggle__track {
+  background: var(--pk-sys-surface-disabled);
+  border-color: var(--pk-sys-disabled-border);
+}
+.pk-toggle__input:disabled ~ .pk-toggle__track .pk-toggle__knob {
+  background: var(--pk-sys-text-disabled);
+}
+
+/* --- Label + tooltip icon ---------------------------------------------------- */
+
+.pk-toggle__label {
+  color: var(--pk-sys-text-primary);
+}
+.pk-toggle--disabled .pk-toggle__label {
+  color: var(--pk-sys-text-disabled);
+}
+
+.pk-toggle__tooltip-icon {
+  box-sizing: border-box;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--pk-sys-icon-s);
+  height: var(--pk-sys-icon-s);
+  flex-shrink: 0;
+  border-radius: var(--pk-ref-radius-full);
+  border: var(--pk-ref-border-thin) solid var(--pk-sys-border-default);
+  color: var(--pk-sys-text-secondary);
+}
+.pk-toggle--disabled .pk-toggle__tooltip-icon {
+  color: var(--pk-sys-text-disabled);
+  border-color: var(--pk-sys-disabled-border);
+}

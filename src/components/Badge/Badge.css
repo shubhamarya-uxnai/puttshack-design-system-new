@@ -1,0 +1,84 @@
+.pk-badge {
+  --pk-comp-badge-circle-size: 24px; /* diameter for `small` / `icon-only` — no --pk-sys-* size token maps to this exact circle dimension */
+  --pk-comp-badge-dot-size: 12px; /* diameter for `dot` */
+  --pk-comp-badge-color-linked: var(--pk-ref-magenta-200); /* `linked` status fill — no --pk-sys-* name maps to this "badge brand fill" color */
+  box-sizing: border-box;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  white-space: nowrap;
+}
+
+.pk-badge--dot {
+  width: var(--pk-comp-badge-dot-size);
+  height: var(--pk-comp-badge-dot-size);
+  border-radius: var(--pk-ref-radius-full);
+}
+
+.pk-badge--small,
+.pk-badge--icon-only {
+  width: var(--pk-comp-badge-circle-size);
+  height: var(--pk-comp-badge-circle-size);
+  border-radius: var(--pk-ref-radius-full);
+}
+
+.pk-badge--text-filled,
+.pk-badge--icon-text {
+  border-radius: var(--pk-ref-radius-full);
+  /* gap-sm (8px) is the only --pk-sys-* spacing token that lands this pill at the
+     ~28-32px tall shown in the screenshot once the 16px label line-height is added
+     top and bottom (8 + 16 + 8 = 32px). */
+  padding: var(--pk-sys-gap-sm) var(--pk-sys-level3-horizontal);
+  gap: var(--pk-sys-gap-xs);
+}
+
+.pk-badge__icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--pk-sys-icon-s);
+  height: var(--pk-sys-icon-s);
+  flex-shrink: 0;
+}
+
+.pk-badge__icon svg {
+  width: 100%;
+  height: 100%;
+}
+
+.pk-badge__label {
+  /* The screenshot's label text ("PRIMARY") reads visually bolder than any Book-weight
+     .pk-text-label-* class, so this is its own small type treatment (Ringside Bold at
+     Label size) rather than forcing an ill-fitting shared class onto it. */
+  font-family: var(--pk-sys-font-ui-bold);
+  font-weight: 700;
+  font-size: 12px;
+  line-height: 16px;
+  text-transform: uppercase;
+}
+
+.pk-badge--linked {
+  background: var(--pk-comp-badge-color-linked);
+  color: var(--pk-sys-text-white);
+}
+
+.pk-badge--linked-secondary {
+  background: var(--pk-sys-bg-inverse);
+  color: var(--pk-sys-text-white);
+}
+
+.pk-badge--warning {
+  background: var(--pk-sys-warning-bg);
+  color: var(--pk-sys-warning-text);
+}
+
+.pk-badge--success {
+  background: var(--pk-sys-success-bg);
+  color: var(--pk-sys-success-text);
+}
+
+.pk-badge--disabled {
+  background: var(--pk-sys-surface-disabled);
+  color: var(--pk-sys-text-disabled);
+}

@@ -1,0 +1,109 @@
+.pk-input-otp {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--pk-sys-gap-sm);
+
+  /* Component-tier tokens — cell width/height and the kiosk radius/gap have
+     no matching --pk-ref-* step (spacing scale skips 44/52/60/68/76/84,
+     radius scale skips 10px), so they're pinned here as the confirmed
+     values from the source file rather than forced onto a nearby token.
+     Desktop values are the default; [data-screen] overrides per mode. */
+  --pk-comp-input-otp-cell-w: 60px;
+  --pk-comp-input-otp-cell-h: 68px;
+  --pk-comp-input-otp-cell-radius: var(--pk-ref-radius-md);
+  --pk-comp-input-otp-cell-gap: var(--pk-sys-gap-sm);
+  /* No named Text Style matches the large bold OTP digit (screenshot shows
+     ~28-32px bold, bigger than any Title/Headline step at that weight) —
+     scoped as a component size per the source file's own guidance. */
+  --pk-comp-input-otp-digit-size: 28px;
+}
+
+.pk-input-otp[data-screen='mobile'] {
+  --pk-comp-input-otp-cell-w: 44px;
+  --pk-comp-input-otp-cell-h: 52px;
+  --pk-comp-input-otp-cell-radius: var(--pk-ref-radius-sm);
+  --pk-comp-input-otp-cell-gap: var(--pk-sys-gap-sm);
+  --pk-comp-input-otp-digit-size: 20px;
+}
+
+.pk-input-otp[data-screen='kiosk'] {
+  --pk-comp-input-otp-cell-w: 76px;
+  --pk-comp-input-otp-cell-h: 84px;
+  /* 10px radius and 10px gap both fall between the sm(8)/md(12) and
+     gap-sm(8)/gap-md(16) steps — confirmed exact values, not roundable. */
+  --pk-comp-input-otp-cell-radius: 10px;
+  --pk-comp-input-otp-cell-gap: 10px;
+  --pk-comp-input-otp-digit-size: 36px;
+}
+
+.pk-input-otp__label {
+  color: var(--pk-sys-text-primary);
+}
+
+/* Kiosk pairs with this system's Dark color mode — the one dark-surface
+   exception in an otherwise Light-only codebase, so the group label flips
+   to inverse text for contrast against the dark kiosk backdrop. */
+.pk-input-otp[data-screen='kiosk'] .pk-input-otp__label {
+  color: var(--pk-sys-text-inverse);
+}
+
+.pk-input-otp__cells {
+  display: flex;
+  gap: var(--pk-comp-input-otp-cell-gap);
+}
+
+.pk-input-otp__cell {
+  box-sizing: border-box; /* Figma strokes draw INSIDE the frame — keeps px sizing exact once a border is added on focus/error */
+  width: var(--pk-comp-input-otp-cell-w);
+  height: var(--pk-comp-input-otp-cell-h);
+  border-radius: var(--pk-comp-input-otp-cell-radius);
+  border: var(--pk-ref-border-thin) solid transparent;
+  background: transparent;
+  color: var(--pk-sys-text-primary);
+  font-family: var(--pk-sys-font-ui-bold);
+  font-weight: 700;
+  font-size: var(--pk-comp-input-otp-digit-size);
+  text-align: center;
+  padding: 0;
+  outline: none;
+  appearance: none;
+  caret-color: var(--pk-ref-magenta-200); /* Figma: Active state = blinking magenta cursor */
+  transition: border-color 120ms ease, background-color 120ms ease;
+}
+
+/* Mobile: bordered cell, transparent/white fill. */
+.pk-input-otp[data-screen='mobile'] .pk-input-otp__cell {
+  border-color: var(--pk-sys-border-strong);
+  background: var(--pk-sys-bg-default);
+}
+
+/* Desktop: filled cell, no border. Pale grey fill — no --pk-sys-surface-*
+   token lands on this exact tone, --pk-ref-black-06 is the confirmed
+   closest match against the source file's screenshot. */
+.pk-input-otp[data-screen='desktop'] .pk-input-otp__cell {
+  background: var(--pk-ref-black-06);
+}
+
+/* Kiosk: dark fill on the dark kiosk backdrop — Surface/Inverse is built
+   for exactly this ("subtle surface overlay on dark"). */
+.pk-input-otp[data-screen='kiosk'] .pk-input-otp__cell {
+  background: var(--pk-sys-surface-inverse);
+  color: var(--pk-sys-text-inverse);
+}
+
+.pk-input-otp__cell:focus-visible {
+  outline: 2px solid var(--pk-sys-border-focus);
+  outline-offset: 2px;
+}
+
+/* Error is component-level: every cell takes the error border together,
+   never just the offending one. */
+.pk-input-otp--error .pk-input-otp__cell {
+  border-color: var(--pk-sys-error-border);
+}
+
+.pk-input-otp__error {
+  margin: 0;
+  color: var(--pk-sys-error-text);
+}

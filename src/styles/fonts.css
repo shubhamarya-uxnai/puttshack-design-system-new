@@ -1,0 +1,52 @@
+/* ============================================================================
+   PUTTSHACK TYPEFACES
+
+   Two families:
+     Ringside Regular  (Book + Bold) — UI: Headline / Title / Body / Label
+     Gyst Variable      (Bold + Bold Italic) — brand expression: Display only
+
+   Both are licensed commercial fonts and their font files are not bundled in
+   this extraction. The @font-face blocks below are wired up and ready — drop
+   the licensed .woff2 files into src/styles/fonts/ and uncomment the `src`
+   line. Until then, every text style falls back to the system stack declared
+   in the `font-family` tokens, so the app still renders correctly, just in a
+   substitute typeface.
+   ========================================================================== */
+
+@font-face {
+  font-family: 'Ringside Regular Book';
+  /* src: url('./fonts/RingsideRegular-Book.woff2') format('woff2'); */
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Ringside Regular Bold';
+  /* src: url('./fonts/RingsideRegular-Bold.woff2') format('woff2'); */
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Gyst Variable';
+  /* src: url('./fonts/GystVariable-Bold.woff2') format('woff2'); */
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Gyst Variable';
+  /* src: url('./fonts/GystVariable-BoldItalic.woff2') format('woff2'); */
+  font-weight: 700;
+  font-style: italic;
+  font-display: swap;
+}
+
+:root {
+  --pk-sys-font-ui:      'Ringside Regular Book', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif;
+  --pk-sys-font-ui-bold: 'Ringside Regular Bold', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif;
+  --pk-sys-font-display: 'Gyst Variable', 'Ringside Regular Bold', Georgia, serif;
+}

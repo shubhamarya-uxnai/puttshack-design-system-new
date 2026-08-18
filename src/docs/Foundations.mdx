@@ -1,0 +1,169 @@
+import { Meta } from '@storybook/addon-docs/blocks'
+import { ColorSwatch, SwatchGrid, SizeSwatch, TypeSpecimen } from './specimens'
+
+<Meta title="Start Here/Foundations" />
+
+# Foundations
+
+Every value below is a live `var()` resolving against `src/styles/tokens.css`
+and `src/styles/text-styles.css` — not a pasted swatch. Full source-of-truth
+table (including the primitive each semantic token resolves to): `src/lib/puttshack-tokens.json`.
+
+---
+
+## Color — Text + Icon
+
+The **only** group allowed to color text or icons in this system.
+
+<SwatchGrid>
+  <ColorSwatch name="Primary" varName="--pk-sys-text-primary" />
+  <ColorSwatch name="Secondary" varName="--pk-sys-text-secondary" />
+  <ColorSwatch name="Tertiary" varName="--pk-sys-text-tertiary" />
+  <ColorSwatch name="Disabled" varName="--pk-sys-text-disabled" />
+  <ColorSwatch name="Inverse" varName="--pk-sys-text-inverse" />
+  <ColorSwatch name="White" varName="--pk-sys-text-white" />
+  <ColorSwatch name="Black" varName="--pk-sys-text-black" />
+  <ColorSwatch name="Orange" varName="--pk-sys-text-orange" />
+  <ColorSwatch name="Magenta" varName="--pk-sys-text-magenta" />
+  <ColorSwatch name="Blue" varName="--pk-sys-text-blue" />
+</SwatchGrid>
+
+## Color — Background & Surface
+
+`Background/Background` is the branded **screen backdrop** (magenta) —
+`Background/Default` is the **white card** color. Don't confuse the two.
+
+<SwatchGrid>
+  <ColorSwatch name="Background/Background" varName="--pk-sys-bg-background" />
+  <ColorSwatch name="Background/Default" varName="--pk-sys-bg-default" />
+  <ColorSwatch name="Background/Inverse" varName="--pk-sys-bg-inverse" />
+  <ColorSwatch name="Background/Blue" varName="--pk-sys-bg-blue" />
+  <ColorSwatch name="Background/Orange" varName="--pk-sys-bg-orange" />
+  <ColorSwatch name="Background/Magenta light" varName="--pk-sys-bg-magenta-light" />
+  <ColorSwatch name="Background/Magenta Dark" varName="--pk-sys-bg-magenta-dark" />
+  <ColorSwatch name="Surface/Subtle" varName="--pk-sys-surface-subtle" />
+  <ColorSwatch name="Surface/Hover" varName="--pk-sys-surface-hover" />
+  <ColorSwatch name="Surface/Pressed" varName="--pk-sys-surface-pressed" />
+  <ColorSwatch name="Surface/Selected" varName="--pk-sys-surface-selected" />
+  <ColorSwatch name="Surface/Disabled" varName="--pk-sys-surface-disabled" />
+</SwatchGrid>
+
+## Color — Border
+
+<SwatchGrid>
+  <ColorSwatch name="Border/Default" varName="--pk-sys-border-default" />
+  <ColorSwatch name="Border/Subtle" varName="--pk-sys-border-subtle" />
+  <ColorSwatch name="Border/Strong" varName="--pk-sys-border-strong" />
+  <ColorSwatch name="Border/Selected" varName="--pk-sys-border-selected" />
+  <ColorSwatch name="Border/Focus" varName="--pk-sys-border-focus" />
+  <ColorSwatch name="Border/Magenta" varName="--pk-sys-border-magenta" />
+</SwatchGrid>
+
+## Color — Interactive
+
+The Button model: **Primary = Cool Blue fill + Midnight Purple text. Secondary
+= Midnight Purple fill + white text.** Both turn magenta on hover/pressed.
+
+<SwatchGrid>
+  <ColorSwatch name="Primary/Enabled" varName="--pk-sys-primary-enabled" />
+  <ColorSwatch name="Primary/Hover" varName="--pk-sys-primary-hover" />
+  <ColorSwatch name="Primary/Pressed" varName="--pk-sys-primary-pressed" />
+  <ColorSwatch name="Secondary/Enabled" varName="--pk-sys-secondary-enabled" />
+  <ColorSwatch name="Secondary/Hover" varName="--pk-sys-secondary-hover" />
+  <ColorSwatch name="Tertiary/Text" varName="--pk-sys-tertiary-text" />
+  <ColorSwatch name="Link/Text" varName="--pk-sys-link-text" />
+  <ColorSwatch name="Disabled/CTA Background" varName="--pk-sys-disabled-cta-bg" />
+</SwatchGrid>
+
+## Color — Feedback
+
+Each family follows the same shape: pale `Background`, saturated `Border`,
+dark `Text` — the 100/500/700 pattern.
+
+<SwatchGrid>
+  <ColorSwatch name="Success/Background" varName="--pk-sys-success-bg" />
+  <ColorSwatch name="Success/Border" varName="--pk-sys-success-border" />
+  <ColorSwatch name="Success/Text" varName="--pk-sys-success-text" />
+  <ColorSwatch name="Error/Background" varName="--pk-sys-error-bg" />
+  <ColorSwatch name="Error/Border" varName="--pk-sys-error-border" />
+  <ColorSwatch name="Error/Text" varName="--pk-sys-error-text" />
+  <ColorSwatch name="Warning/Background" varName="--pk-sys-warning-bg" />
+  <ColorSwatch name="Warning/Border" varName="--pk-sys-warning-border" />
+  <ColorSwatch name="Warning/Text" varName="--pk-sys-warning-text" />
+  <ColorSwatch name="Info/Background" varName="--pk-sys-info-bg" />
+  <ColorSwatch name="Info/Border" varName="--pk-sys-info-border" />
+  <ColorSwatch name="Info/Text" varName="--pk-sys-info-text" />
+</SwatchGrid>
+
+---
+
+## Spacing
+
+4px rhythm (2px is the only half-step). `GAP/*` and `Container/*` /
+`Level 2/*` / `Level 3/*` are the semantic groups components actually bind —
+never the raw scale below.
+
+<div>
+  <SizeSwatch name="space-8" varName="--pk-ref-space-8" />
+  <SizeSwatch name="space-16" varName="--pk-ref-space-16" />
+  <SizeSwatch name="space-24" varName="--pk-ref-space-24" />
+  <SizeSwatch name="space-32" varName="--pk-ref-space-32" />
+  <SizeSwatch name="space-48" varName="--pk-ref-space-48" />
+</div>
+
+## Corner Radius
+
+T-shirt sized, matched to component size — never mix a large component with a
+small radius.
+
+<div>
+  <SizeSwatch name="radius-xs (chips, checkboxes)" varName="--pk-ref-radius-xs" kind="radius" />
+  <SizeSwatch name="radius-sm (buttons, inputs)" varName="--pk-ref-radius-sm" kind="radius" />
+  <SizeSwatch name="radius-md (cards, modals)" varName="--pk-ref-radius-md" kind="radius" />
+  <SizeSwatch name="radius-lg (large cards)" varName="--pk-ref-radius-lg" kind="radius" />
+  <SizeSwatch name="radius-full (pills, toggles)" varName="--pk-ref-radius-full" kind="radius" />
+</div>
+
+## Border Width
+
+Semantic, not numeric — `thin` is the default; escalate only to signal state
+or emphasis.
+
+| Token | Value | Use |
+|---|---|---|
+| `--pk-ref-border-none` | 0px | no stroke |
+| `--pk-ref-border-hairline` | 0.5px | ultra-fine dividers |
+| `--pk-ref-border-thin` | 1px | **default** — inputs, cards, dividers |
+| `--pk-ref-border-medium` | 2px | emphasis — active, selected, focus-adjacent |
+| `--pk-ref-border-thick` | 4px | strong emphasis, decorative only |
+
+---
+
+## Text Styles
+
+The 17 named styles — apply the class, never hand-compose font-size/weight.
+**Display** uses Gyst Variable (brand expression only — never UI chrome);
+everything else uses Ringside Regular.
+
+<div>
+  <TypeSpecimen name="Headline/Large" className="pk-text-headline-large" />
+  <TypeSpecimen name="Headline/Medium" className="pk-text-headline-medium" />
+  <TypeSpecimen name="Headline/Small" className="pk-text-headline-small" />
+  <TypeSpecimen name="Title/Large" className="pk-text-title-large" />
+  <TypeSpecimen name="Title/Large Capital" className="pk-text-title-large-capital" />
+  <TypeSpecimen name="Title/Medium" className="pk-text-title-medium" />
+  <TypeSpecimen name="Title/Small" className="pk-text-title-small" />
+  <TypeSpecimen name="Title/Small Capital" className="pk-text-title-small-capital" />
+  <TypeSpecimen name="Body/Large" className="pk-text-body-large" sample="Playing 18 holes of mini golf, indoors, with a drink in hand." />
+  <TypeSpecimen name="Body/Medium" className="pk-text-body-medium" sample="Playing 18 holes of mini golf, indoors, with a drink in hand." />
+  <TypeSpecimen name="Body/Small" className="pk-text-body-small" sample="Playing 18 holes of mini golf, indoors, with a drink in hand." />
+  <TypeSpecimen name="Label/Large" className="pk-text-label-large" sample="Book now" />
+  <TypeSpecimen name="Label/Medium" className="pk-text-label-medium" sample="Email address" />
+  <TypeSpecimen name="Label/Small" className="pk-text-label-small" sample="2 min ago" />
+  <TypeSpecimen name="Label/x-Small" className="pk-text-label-x-small" sample="Terms apply" />
+</div>
+
+*(Display styles — `Display/Large`, `Display/Medium`, `Display/Small`,
+`Display/headline-*` — need the licensed Gyst Variable font file to render
+correctly; see `src/styles/fonts.css`. They're omitted from the live specimen
+above since they currently fall back to the system stack.)*

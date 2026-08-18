@@ -1,0 +1,129 @@
+import { Meta, Canvas, Controls } from '@storybook/addon-docs/blocks'
+import * as RadioButtonStories from './RadioButton.stories'
+
+<Meta of={RadioButtonStories} />
+
+# Radio Button
+
+A single-selection input for choosing exactly one option from a visible set — tee times,
+party sizes, venue picks. Reach for it whenever the options are mutually exclusive and few
+enough to show all at once; for longer lists or free-form choice, use a different control.
+
+<Canvas of={RadioButtonStories.Playground} />
+<Controls of={RadioButtonStories.Playground} />
+
+---
+
+## Sizes
+
+<Canvas of={RadioButtonStories.Sizes} />
+
+Three discrete circle sizes, matching Checkbox's scale: `mobile` (20px), `desktop` (24px,
+default), `kiosk` (32px). Pick the size that matches the screen the flow is built for — these
+are not responsive breakpoints, they're separate Figma variants.
+
+---
+
+## Selection style
+
+<Canvas of={RadioButtonStories.SelectionStyle} />
+
+The plain filled dot is the default selected style. "Selected with Tick" swaps in a solid
+magenta circle with a white checkmark — use it in contexts where clarity of completion
+matters more than a minimal look (e.g. a multi-step booking flow where users need an
+unambiguous "this step is done" signal).
+
+---
+
+## States
+
+<Canvas of={RadioButtonStories.States} />
+
+Real states are real CSS (`:hover` / `:focus-visible`) plus the `disabled` attribute —
+`forceState` exists only so this page can show every state in one static screenshot, and
+must never be used in application code.
+
+---
+
+## Radio groups
+
+<Canvas of={RadioButtonStories.GroupExample} />
+
+RadioButton renders one correct, controlled input — it does not ship a RadioGroup wrapper.
+Mutual exclusion is a consumer concern: give every radio in a set the same native `name` (or
+drive them from shared controlled state) so selecting one clears the others. Space items
+8–12px apart vertically, and pair the group with a visible heading.
+
+---
+
+## Disabled
+
+<Canvas of={RadioButtonStories.Disabled} />
+
+Disabled radios can be unchecked or checked — there's no error/validation status on the
+component itself, since validating a radio group (e.g. "you must pick one") happens at the
+group or field level, not per-radio.
+
+---
+
+## Tokens consumed
+
+| Token | Used for |
+|---|---|
+| `--pk-sys-gap-sm` | Gap between the circle and the label/tooltip text |
+| `--pk-sys-gap-xs` | Gap between the label and the tooltip icon |
+| `--pk-ref-radius-full` | Fully round corners on the circle and the inner mark |
+| `--pk-sys-border-strong` | Default (unselected) circle border color |
+| `--pk-sys-surface-default` | Default circle fill |
+| `--pk-ref-border-medium` | Circle border width, and the focus ring width |
+| `--pk-sys-text-primary` | Plain-dot fill color when checked; label text color |
+| `--pk-sys-text-inverse` | Checkmark color inside the "tick" style |
+| `--pk-sys-text-secondary` | Hover border color; tooltip icon color |
+| `--pk-sys-border-focus` | Focus-visible outline color |
+| `--pk-ref-space-2` | Focus-visible outline offset |
+| `--pk-sys-disabled-border` | Circle border color when disabled |
+| `--pk-sys-surface-disabled` | Circle fill when disabled + checked |
+| `--pk-sys-text-disabled` | Mark, label and tooltip icon color when disabled |
+| `--pk-sys-icon-s` | Tooltip icon size |
+| `--pk-ref-magenta-200` | "Tick" style checked fill (reuses Checkbox's checked magenta — no `--pk-sys-*` token exists for it) |
+| `--pk-ref-magenta-300` | "Tick" style checked + hover fill |
+
+`--pk-comp-radio-size`, `--pk-comp-radio-mark-scale`, `--pk-comp-radio-label-line-height` and
+the checkmark mask icon are component-local tokens with no `--pk-sys-*` equivalent — see the
+comments at the top of `RadioButton.css` for why.
+
+---
+
+## Do / Don't
+
+**Do**
+- Pre-select a default option when a safe default exists.
+- Use clear, concise labels.
+- Group radios under a visible heading.
+
+**Don't**
+- Use radio buttons for actions — they're for selection only.
+- Nest radio groups inside one another.
+- Leave a required group with no default selected.
+
+---
+
+## Accessibility
+
+RadioButton wraps a native `<input type="radio">` inside a `<label>`, so the label, the
+tooltip icon, and the circle all sit inside one tap target and clicking anywhere in it
+toggles the input. Keyboard focus and arrow-key navigation between grouped radios come from
+the browser's native handling of a shared `name` attribute — no ARIA is added or needed
+beyond that. Focus is shown with a visible `:focus-visible` outline rather than a color
+change alone.
+
+---
+
+## Figma parity
+
+Source: file `x40IO8pltwoAFiVkBZEUzT`, node `33:68532` (component set `290:19385`, 36
+variants).
+
+Figma doesn't spec an exact pixel size for the inner mark (dot or checkmark), so the
+component derives it as a fraction (`--pk-comp-radio-mark-scale: 0.5`) of the circle size
+rather than a fixed value — a judgment call made in code, not lifted directly from the file.

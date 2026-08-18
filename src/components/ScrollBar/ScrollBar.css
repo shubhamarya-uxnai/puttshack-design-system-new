@@ -1,0 +1,73 @@
+.pk-scroll-bar {
+  /* Figma specs 8px for the handle only — the source file's isolated
+     component crop shows no visible track chrome, so there's no separate
+     track width to extract. Matched 1:1 to the handle for a single flush
+     rail rather than inventing a wider gutter. */
+  --pk-comp-scroll-bar-rail-width: 8px;
+  --pk-comp-scroll-bar-max-height: none;
+
+  position: relative;
+  display: flex;
+  align-items: stretch;
+  gap: var(--pk-sys-gap-xs);
+  min-height: 0;
+  max-height: var(--pk-comp-scroll-bar-max-height);
+}
+
+.pk-scroll-bar__viewport {
+  flex: 1 1 auto;
+  min-width: 0;
+  min-height: 0;
+  overflow-y: auto;
+  /* Native chrome is replaced entirely by .pk-scroll-bar__track /
+     .pk-scroll-bar__handle below — this only removes the OS-drawn bar,
+     real scroll position/keyboard/wheel behavior is untouched. */
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.pk-scroll-bar__viewport::-webkit-scrollbar {
+  display: none;
+}
+
+.pk-scroll-bar__track {
+  flex: 0 0 auto;
+  position: relative;
+  box-sizing: border-box;
+  width: var(--pk-comp-scroll-bar-rail-width);
+  border-radius: var(--pk-ref-radius-xs);
+  background: var(--pk-sys-surface-subtle);
+  /* Do: xs radius for the track, fully rounded for the handle. Don't: the
+     track itself is never interactive — no click-to-jump, no track hover
+     state, so no cursor/pointer rules live here. */
+}
+
+.pk-scroll-bar__handle {
+  position: absolute;
+  top: 0;
+  left: 0;
+  box-sizing: border-box;
+  width: var(--pk-comp-scroll-bar-rail-width);
+  border-radius: var(--pk-ref-radius-full);
+  background: var(--pk-sys-text-tertiary);
+  cursor: grab;
+  touch-action: none;
+  transition: background-color 120ms ease;
+}
+
+.pk-scroll-bar__handle:hover,
+.pk-scroll-bar__handle[data-force-state='hover'] {
+  background: var(--pk-sys-text-secondary);
+}
+
+.pk-scroll-bar__handle:active,
+.pk-scroll-bar__handle[data-force-state='pressed'] {
+  background: var(--pk-sys-text-secondary);
+  cursor: grabbing;
+}
+
+.pk-scroll-bar__handle:focus-visible,
+.pk-scroll-bar__handle[data-force-state='focus'] {
+  outline: var(--pk-ref-border-medium) solid var(--pk-sys-border-focus);
+  outline-offset: var(--pk-ref-space-2);
+}

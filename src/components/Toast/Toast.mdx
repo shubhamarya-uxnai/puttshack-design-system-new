@@ -1,0 +1,117 @@
+import { Meta, Canvas, Controls } from '@storybook/addon-docs/blocks'
+import * as ToastStories from './Toast.stories'
+
+<Meta of={ToastStories} />
+
+# Toast
+
+A short, non-blocking status message — a cautionary heads-up, a positive
+confirmation, or an on-brand promotional callout — surfaced near the top of
+the screen without interrupting the task underneath it.
+
+<Canvas of={ToastStories.Playground} />
+<Controls of={ToastStories.Playground} />
+
+---
+
+## Variants
+
+<Canvas of={ToastStories.Types} />
+
+| Variant | Layout | Use for |
+|---|---|---|
+| `warning` | Single flowing sentence with a bold lead-in, leading yellow icon-circle | Cautionary heads-up messages (e.g. a lane closing soon) |
+| `promo` | Single flowing sentence with a bold lead-in, leading magenta icon-circle | On-brand promotional callouts — a Puttshack brand moment, not a standard feedback color |
+| `success` | Bold uppercase title, lighter body message below, leading green icon-circle | Positive confirmations (e.g. a booking is confirmed) |
+
+For `warning` and `promo`, pass `message` as JSX with an inner `<strong>` around
+the lead-in phrase — the component doesn't parse bold out of a plain string.
+`title` is only meaningful for `success`; leave it unset for the other two.
+
+---
+
+## States
+
+<Canvas of={ToastStories.States} />
+
+Real states come from real CSS on the dismiss control: `:hover` and `:active`
+shift its background, `:focus-visible` draws the focus outline. `forceState`
+exists only so this page can show hover, focus, and pressed open at once for
+a static screenshot — it must never be used in application code.
+
+---
+
+## With dismiss
+
+<Canvas of={ToastStories.WithDismiss} />
+
+`onDismiss` is optional — the × control only renders when a handler is
+passed. Omit it for a toast that clears itself (e.g. on a timer) and pass it
+whenever the person should be able to close the message manually.
+
+---
+
+## Tokens consumed
+
+| Token | Used for |
+|---|---|
+| `--pk-sys-level2-gap` | Gap between icon, content, and dismiss control |
+| `--pk-sys-level2-vertical` / `--pk-sys-level2-horizontal` | Card padding |
+| `--pk-ref-radius-lg` | Card corner radius |
+| `--pk-ref-border-thin` | Card border width |
+| `--pk-sys-warning-bg` / `--pk-sys-warning-border` / `--pk-sys-warning-text` | `warning` background, border, and text |
+| `--pk-sys-bg-magenta-light` / `--pk-sys-border-magenta` / `--pk-sys-text-magenta` | `promo` background, border, and text |
+| `--pk-sys-success-bg` / `--pk-sys-success-border` / `--pk-sys-success-text` | `success` background, icon-circle fill, and text |
+| `--pk-ref-magenta-200` | `promo` icon-circle fill (component-scoped alias — no `--pk-sys-*` name maps to this exact fill) |
+| `--pk-ref-radius-full` | Icon-circle and dismiss-control corner radius |
+| `--pk-sys-icon-m` | Icon glyph size inside the circle, and the dismiss glyph's font size |
+| `--pk-sys-icon-l` | Dismiss control's hit-area width/height |
+| `--pk-sys-text-white` | Icon color on the solid circle (icon assets are expected to use `currentColor`) |
+| `--pk-sys-gap-xs` | Gap between `title` and `message` |
+| `--pk-sys-font-ui-bold` | `<strong>` typeface inside `message` (Ringside Bold, swapped explicitly rather than relying on synthetic bold) |
+| `--pk-sys-surface-hover` / `--pk-sys-surface-pressed` | Dismiss control hover / pressed background |
+| `--pk-ref-border-medium` / `--pk-sys-border-focus` / `--pk-ref-space-2` | Dismiss control focus-visible outline width, color, and offset |
+
+The 32px icon-circle diameter has no matching `--pk-sys-*` size token — it's
+declared locally in Toast.css as `--pk-comp-toast-icon-size`.
+
+---
+
+## Do / Don't
+
+**Do**
+- Use `warning` for cautionary heads-up messages, `success` for positive
+  confirmations, and `promo` for on-brand promotional callouts.
+- Always pass an `icon` — there's no default icon asset in this codebase, so
+  the toast has an empty circle without one.
+- Pass `message` as JSX with an inner `<strong>` around the lead-in phrase for
+  `warning`/`promo`.
+
+**Don't**
+- Don't use `promo` for a standard feedback message — it's a Puttshack
+  brand/promotional color, not a substitute for `warning` or `success`.
+- Don't set `title` on `warning` or `promo` — that layout is a single flowing
+  sentence, not a title-plus-body pair.
+- Don't use `forceState` outside of Storybook documentation.
+
+---
+
+## Accessibility
+
+Toast renders a `<div role="status">`, marking it a polite live region so
+assistive technology announces the message without interrupting whatever the
+person is currently doing. The icon is `aria-hidden` since it's decorative
+alongside the text. When `onDismiss` is provided, the dismiss control is a
+real `<button type="button" aria-label="Dismiss">`, so it's reachable and
+operable via keyboard (Tab to focus, Enter/Space to activate) like any native
+button.
+
+---
+
+## Figma parity
+
+Source: file `x40IO8pltwoAFiVkBZEUzT`, node `1290:149876` ("Toasts / Alerts",
+component "Toast" `13257:1210`).
+
+Figma's variant option "Megenta" is a typo for "Magenta" in the source
+file — the code uses `promo` for that variant and never reproduces the typo.

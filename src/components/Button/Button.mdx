@@ -1,0 +1,131 @@
+import { Meta, Canvas, Controls } from '@storybook/addon-docs/blocks'
+import * as ButtonStories from './Button.stories'
+
+<Meta of={ButtonStories} />
+
+# Button
+
+The tappable control for triggering an action — booking a bay, confirming a party size,
+starting checkout. Reach for it any time the user needs to move something forward.
+
+<Canvas of={ButtonStories.Playground} />
+<Controls of={ButtonStories.Playground} />
+
+---
+
+## Types
+
+<Canvas of={ButtonStories.Types} />
+
+| Variant | Use for |
+|---|---|
+| Primary | The single loudest call to action on the screen, e.g. "Book a bay". Only one per screen. |
+| Secondary | A supporting action next to a Primary, e.g. "View venue" beside "Book a bay". |
+| Tertiary | A lower-emphasis, outlined action, e.g. "Change party size" inside a form. |
+| Ghost | The lowest-emphasis action, no border at all, e.g. an inline "Skip this step". |
+| Success | Confirms a positive outcome, e.g. "Confirm booking". |
+| Error | A destructive or negative action, e.g. "Cancel reservation". |
+| Warning | An action that needs caution, e.g. "Release held tee time". |
+| Info | A neutral informational action, e.g. "Learn about membership". |
+
+---
+
+## Sizes
+
+<Canvas of={ButtonStories.Sizes} />
+
+`default` is the only size for web and mobile. `large` is a Kiosk-only touch target
+(326×104px in the source Figma file) — never use it in a web or mobile layout.
+
+---
+
+## Icons
+
+<Canvas of={ButtonStories.Icons} />
+
+`leadingIcon` and `trailingIcon` are instance-swap slots that sit before or after the
+label; icons should inherit their color from the button rather than carrying a hardcoded
+fill. `onlyIcon` visually hides the label but keeps it in the DOM as screen-reader-only
+text, so always pass a real, descriptive `children` string even in icon-only buttons.
+
+---
+
+## States
+
+<Canvas of={ButtonStories.States} />
+
+Real states come from real CSS: `:hover`, `:focus-visible` and `:active`, plus the native
+`disabled` attribute. `forceState` pins one of these open so this page can show every
+state at once in a static screenshot — it must never be used in application code.
+
+---
+
+## Tokens consumed
+
+| Token | Used for |
+|---|---|
+| `--pk-ref-radius-full` | Pill-shaped corner radius, every variant and size. |
+| `--pk-ref-border-thin` | Default 1px button border (transparent unless Tertiary/Secondary hover/pressed). |
+| `--pk-ref-border-medium` | Focus ring width. |
+| `--pk-ref-space-2` | Focus ring offset. |
+| `--pk-sys-border-focus` | Focus ring color (`:focus-visible` and `forceState="focus"`). |
+| `--pk-sys-button-default-h` / `-v` / `-gap` | Horizontal padding, vertical padding and icon/label gap at `size="default"`. |
+| `--pk-sys-button-large-h` / `-v` / `-gap` | Horizontal padding, vertical padding and icon/label gap at `size="large"` (Kiosk). |
+| `--pk-sys-icon-s` | Icon slot width/height at `size="default"`. |
+| `--pk-sys-icon-xl` | Icon slot width/height at `size="large"`. |
+| `--pk-sys-primary-enabled` / `-hover` / `-pressed` | Primary fill background per state. |
+| `--pk-sys-primary-text` / `-hover-text` | Primary label color (enabled vs. hover/pressed). |
+| `--pk-sys-secondary-enabled` / `-hover` / `-pressed` | Secondary fill background per state. |
+| `--pk-sys-secondary-text` / `-hover-text` | Secondary label color (enabled vs. hover/pressed). |
+| `--pk-sys-secondary-border` | Secondary border, shown only on hover/pressed. |
+| `--pk-sys-tertiary-text` | Tertiary and Ghost label color. |
+| `--pk-sys-tertiary-border` | Tertiary border color. |
+| `--pk-sys-tertiary-hover` / `-pressed` | Tertiary and Ghost tinted background on hover/pressed (mixed to 16%/24% opacity). |
+| `--pk-sys-success-border` / `-hover` / `-pressed` | Success fill background per state (the saturated 500-step token, not the pale `-bg` tint). |
+| `--pk-sys-error-border` / `-hover` / `-pressed` | Error fill background per state. |
+| `--pk-sys-warning-border` / `-hover` / `-pressed` | Warning fill background per state. |
+| `--pk-sys-info-border` / `-hover` / `-pressed` | Info fill background per state. |
+| `--pk-sys-text-white` | Label color for Success, Error, Warning and Info. |
+| `--pk-sys-disabled-cta-bg` | Background for every disabled variant. |
+| `--pk-sys-disabled-text` | Label color for every disabled variant. |
+| `--pk-sys-disabled-border` | Border color for disabled Tertiary and Feedback variants. |
+| `--pk-sys-text-inverse` | Tertiary/Ghost label (and Tertiary border) color when `inverse` is true. |
+
+---
+
+## Do / Don't
+
+**Do**
+- Use a verb phrase label, e.g. "Book a bay" rather than "Bay".
+- Keep one Primary button per screen — it's the single loudest call to action.
+- Let icons inherit color rather than hardcoding an icon fill.
+
+**Don't**
+- Use `forceState` in application code — it exists only for documentation screenshots.
+- Disable a button without explaining why nearby, e.g. helper text or a tooltip.
+
+---
+
+## Accessibility
+
+Button renders a real `<button type={htmlType}>`, so Enter/Space activation, tab focus
+order and the `disabled` attribute all come from the browser for free. Focus is always
+visible via `:focus-visible` (or `forceState="focus"` for documentation), which draws a
+`--pk-sys-border-focus` outline offset from the pill edge. When `onlyIcon` is set, the
+label text is not removed from the DOM — it's kept as visually-hidden text
+(`.pk-button__label--sr-only`) so screen readers still announce a real label, which is
+why `children` should always be a descriptive string even on icon-only buttons.
+
+---
+
+## Figma parity
+
+Source: file `x40IO8pltwoAFiVkBZEUzT`, node `10408:4635` (component set `10443:108219`,
+96 variants).
+
+Disabled only has a distinct Figma treatment for Primary, Secondary and Tertiary,
+so Success/Error/Warning/Info/Ghost fall back to Tertiary's disabled styling rather than
+inventing a new one. Similarly, `inverse` only overrides Tertiary and Ghost — their
+default Midnight Purple text and border would disappear on a dark surface — while
+Primary, Secondary and the Feedback types already use white/brand fills that read
+correctly on any surface, so they're left untouched.

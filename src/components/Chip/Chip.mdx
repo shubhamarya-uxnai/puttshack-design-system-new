@@ -1,0 +1,97 @@
+import { Meta, Canvas, Controls } from '@storybook/addon-docs/blocks'
+import * as ChipStories from './Chip.stories'
+
+<Meta of={ChipStories} />
+
+# Chip
+
+A small pill-shaped label for tagging and filtering content — filter tags, status labels, category tags. Comes in three variants: a dark neutral pill, a brand-tinted promo pill, and an avatar chip that pairs a person's photo or initials with a removable label.
+
+<Canvas of={ChipStories.Playground} />
+<Controls of={ChipStories.Playground} />
+
+---
+
+## Variants / Types
+
+<Canvas of={ChipStories.Types} />
+
+| Variant | Use for |
+|---|---|
+| `default` | Neutral filter tags and category labels — the workhorse variant |
+| `promo` | Brand-tinted highlight for a promotional label (e.g. "Happy Hour"). Renders sparingly — 1-2 per viewport |
+| `avatar` | Tagging content to a person — pairs a leading avatar (`avatarSrc` or `avatarInitials`) with the label, plus an optional remove control |
+
+---
+
+## States
+
+<Canvas of={ChipStories.States} />
+
+The chip body itself is non-interactive and has no states. The avatar variant's remove button, when rendered, has real `:hover`, `:focus-visible` and `:active` CSS — `forceState` exists only so this page can show all four side by side in one static screenshot, and must never be used in application code.
+
+---
+
+## Avatar image vs. initials fallback
+
+<Canvas of={ChipStories.AvatarSource} />
+
+Pass `avatarSrc` for a real photo. Without it, the avatar circle falls back to `avatarInitials` on a translucent tint — useful while a photo is loading or when one was never uploaded.
+
+---
+
+## Removable avatar chip
+
+<Canvas of={ChipStories.Removable} />
+
+The trailing × button only renders on the avatar variant, and only when `onRemove` is passed. Chips don't assume a remove handler always exists — a read-only avatar tag (e.g. "assigned to") and a removable one (e.g. a filter you can clear) use the exact same component.
+
+---
+
+## Tokens consumed
+
+| Token | Used for |
+|---|---|
+| `--pk-sys-bg-inverse` | Background of the default and avatar chip (dark pill) |
+| `--pk-sys-text-inverse` | Label and avatar-initials color on the default and avatar chip |
+| `--pk-ref-orange-100` | Background of the promo chip — Colors-Semantic has no literal "Yellow" token, so this is the closest brand-yellow-adjacent hue, matching the Yellow variant's own bound Figma value (#FFC629) |
+| `--pk-sys-text-primary` | Label color on the promo chip |
+| `--pk-ref-radius-full` | Pill shape of the chip body, the avatar circle, and the remove button |
+| `--pk-ref-space-12` | Horizontal padding on the default and promo chip |
+| `--pk-ref-space-2` | Outer padding on the avatar chip |
+| `--pk-ref-space-4` | Gap between avatar, label and remove button on the avatar chip |
+| `--pk-sys-icon-m` | Avatar circle diameter (20px) |
+| `--pk-ref-white-24` | Avatar fallback tint (no image, initials only) and the remove button's pressed/active background |
+| `--pk-ref-white-16` | Remove button's hover background |
+| `--pk-ref-border-medium` | Remove button's focus outline width |
+| `--pk-sys-border-focus` | Remove button's focus outline color |
+| `--pk-ref-border-thin` | Remove button's focus outline offset |
+| `--pk-comp-chip-label-v-padding` (component-local, 3px) | Label vertical padding on the default/promo chip — hand-tuned against the real `.pk-text-label-medium` line-height so the pill lands at the Figma-measured 22px tall |
+| `--pk-comp-chip-remove-size` (component-local, 16px) | Remove button's tappable box |
+| `--pk-comp-chip-remove-icon-size` (component-local, 12px) | Remove icon's glyph size |
+
+---
+
+## Do / Don't
+
+**Do**
+- Use for filter tags, status labels, category tags
+- Reach for the avatar variant when a tag needs to be traced to a specific person (a party member, a staff assignment)
+
+**Don't**
+- Use chips as primary navigation — use Tabs instead
+- Overuse the promo variant — it's a highlight, not a default state
+
+---
+
+## Accessibility
+
+The chip body renders as a plain `<div>` — it's a styled label, not an interactive widget, so it carries no role or tabindex. The only interactive part is the avatar variant's remove control, which is a native `<button type="button">` with focus handled natively by the browser and a real `:focus-visible` outline. Its `aria-label` reads "Remove {label}" when the label is a plain string, falling back to "Remove" otherwise, and the × glyph itself is `aria-hidden` so screen readers announce only the button's label.
+
+---
+
+## Figma parity
+
+Source: file `x40IO8pltwoAFiVkBZEUzT`, node `712:74568` (component set "_Chip", `1948:162667`).
+
+The Figma property is named `Size`, but its three values (Small, Yellow, AVATAR) describe visual style, not dimension — this is renamed to `variant` in code (`default` / `promo` / `avatar`) to avoid implying a size axis that doesn't exist. The underscore prefix on the component set's own name ("_Chip") is a Figma-internal naming quirk and carries no meaning.

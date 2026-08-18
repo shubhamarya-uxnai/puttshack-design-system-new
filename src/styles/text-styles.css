@@ -1,0 +1,192 @@
+/* ============================================================================
+   PUTTSHACK TEXT STYLES
+   The 17 named Text Styles from the Figma file, as utility classes.
+
+   These are STYLES, not tokens — apply the class, don't hand-compose
+   font-size/weight/line-height from the ref tier. See puttshack-tokens.json
+   for the size/weight/case/leading/tracking table these were built from.
+
+   Two font groups:
+     Display   → Gyst Variable    — brand expression only, never UI chrome
+     everything else → Ringside Regular (Book or Bold)
+
+   Percentage/AUTO line-heights and letter-spacing are baked into each style
+   on purpose (this mirrors the Figma styles, which can't bind % to a
+   variable) — don't "fix" these into unitless values.
+   ========================================================================== */
+
+/* --- Display (Gyst Variable — brand expression only) ---------------------- */
+
+.pk-text-display-large {
+  font-family: var(--pk-sys-font-display);
+  font-weight: 700;
+  font-size: 64px;
+  line-height: 72px;
+  letter-spacing: -2px;
+  text-transform: uppercase;
+}
+
+.pk-text-display-medium {
+  font-family: var(--pk-sys-font-display);
+  font-weight: 700;
+  font-size: 48px;
+  line-height: 54px;
+  letter-spacing: -2px;
+  text-transform: capitalize;
+}
+
+.pk-text-display-small {
+  font-family: var(--pk-sys-font-display);
+  font-weight: 700;
+  font-style: italic;
+  font-size: 32px;
+  line-height: 46px;
+}
+
+.pk-text-display-headline-large {
+  font-family: var(--pk-sys-font-display);
+  font-weight: 700;
+  font-style: italic;
+  font-size: 36px;
+  line-height: 40px;
+  text-transform: lowercase;
+}
+
+.pk-text-display-headline-medium {
+  font-family: var(--pk-sys-font-display);
+  font-weight: 700;
+  font-style: italic;
+  font-size: 28px;
+  line-height: 32px;
+  text-transform: lowercase;
+}
+
+.pk-text-display-headline-small {
+  font-family: var(--pk-sys-font-display);
+  font-weight: 700;
+  font-style: italic;
+  font-size: 24px;
+  line-height: 28px;
+  text-transform: lowercase;
+}
+
+/* --- Headline (Ringside Bold — structural, page/section chrome) ----------- */
+
+.pk-text-headline-large {
+  font-family: var(--pk-sys-font-ui-bold);
+  font-weight: 700;
+  font-size: 36px;
+  line-height: 40px;
+  text-transform: uppercase;
+}
+
+.pk-text-headline-medium {
+  font-family: var(--pk-sys-font-ui-bold);
+  font-weight: 700;
+  font-size: 28px;
+  line-height: 32px;
+  text-transform: uppercase;
+}
+
+.pk-text-headline-small {
+  font-family: var(--pk-sys-font-ui-bold);
+  font-weight: 700;
+  font-size: 24px;
+  line-height: 28px;
+}
+
+/* --- Title (Bold+ORIGINAL names a thing · Book+UPPER classifies a thing) -- */
+
+.pk-text-title-large {
+  font-family: var(--pk-sys-font-ui-bold);
+  font-weight: 700;
+  font-size: 18px;
+  line-height: 24px;
+}
+
+.pk-text-title-large-capital {
+  font-family: var(--pk-sys-font-ui);
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 24px;
+  text-transform: uppercase;
+}
+
+.pk-text-title-medium {
+  font-family: var(--pk-sys-font-ui-bold);
+  font-weight: 700;
+  font-size: 16px;
+  line-height: 22px;
+}
+
+.pk-text-title-small {
+  font-family: var(--pk-sys-font-ui-bold);
+  font-weight: 700;
+  font-size: 14px;
+  line-height: 20px;
+}
+
+.pk-text-title-small-capital {
+  font-family: var(--pk-sys-font-ui);
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 24px;
+  text-transform: uppercase;
+}
+
+/* --- Body (Ringside Book — reading text, never bold) ----------------------- */
+
+.pk-text-body-large {
+  font-family: var(--pk-sys-font-ui);
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 24px;
+}
+
+.pk-text-body-medium {
+  font-family: var(--pk-sys-font-ui);
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 22px;
+}
+
+.pk-text-body-small {
+  font-family: var(--pk-sys-font-ui);
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 20px;
+}
+
+/* --- Label (Ringside Book — the smallest text, UI micro-copy) -------------- */
+
+.pk-text-label-large {
+  font-family: var(--pk-sys-font-ui);
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 16px;
+  letter-spacing: 4%;
+  text-transform: uppercase;
+}
+
+.pk-text-label-medium {
+  font-family: var(--pk-sys-font-ui);
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 16px;
+  text-transform: uppercase;
+}
+
+.pk-text-label-small {
+  font-family: var(--pk-sys-font-ui);
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 16px;
+}
+
+.pk-text-label-x-small {
+  font-family: var(--pk-sys-font-ui);
+  font-weight: 400;
+  font-size: 11px;
+  line-height: 14px;
+  text-transform: uppercase;
+}

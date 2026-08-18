@@ -1,0 +1,110 @@
+import { Meta, Canvas, Controls } from '@storybook/addon-docs/blocks'
+import * as BadgeStories from './Badge.stories'
+
+<Meta of={BadgeStories} />
+
+# Badge
+
+A small, non-interactive status indicator — a dot, circle, or pill attached to
+another element (a row, a card, a nav item) to flag its state at a glance.
+Reach for it whenever you need to surface a status without adding a control.
+
+<Canvas of={BadgeStories.Playground} />
+<Controls of={BadgeStories.Playground} />
+
+---
+
+## Types
+
+<Canvas of={BadgeStories.Types} />
+
+| Type | Content | Use for |
+|---|---|---|
+| `dot` | none | A presence/notification marker with no room for a label — e.g. an unread indicator. |
+| `small` | very short text | A 24px circle that can hold a digit or two — a count, not a word. |
+| `icon-only` | `icon` slot | A 24px circle showing a single icon, no label. |
+| `text-filled` | label | The default pill — an icon-free status label. |
+| `icon-text` | `icon` + label | A pill with a leading icon before the label. |
+
+`children` is required for `small`, `text-filled`, and `icon-text` — it's
+ignored for `dot`. `icon` is only rendered for `icon-only` and `icon-text`.
+
+---
+
+## Statuses
+
+<Canvas of={BadgeStories.Statuses} />
+
+Status is a meaning choice, not a color choice — pick it to match what the
+label says, not to match a mood on screen.
+
+| Status | Meaning | Example label | Pattern |
+|---|---|---|---|
+| `linked` | Neutral / pending | "Invited" | Solid brand fill, white text |
+| `linked-secondary` | Neutral / pending (secondary) | "Pending" | Solid inverse fill, white text |
+| `warning` | Caution | "3 spots left" | Pale background, dark text (Feedback pattern) |
+| `success` | Positive / complete | "Joined" | Pale background, dark text (Feedback pattern) |
+| `disabled` | Inactive | "Closed" | Muted grey |
+
+`linked` and `linked-secondary` are solid brand fills with white text — a
+different pattern from `warning` and `success`, which use the standard pale
+100-background / 700-text Feedback pairing. `disabled` is muted grey and
+implies the badge itself, not just what it labels, is inactive.
+
+---
+
+## Tokens consumed
+
+| Token | Used for |
+|---|---|
+| `--pk-ref-magenta-200` | `linked` background fill (component-level; no `--pk-sys-*` name maps to this brand fill) |
+| `--pk-ref-radius-full` | Corner radius on every type — `dot`, `small`/`icon-only` circles, and `text-filled`/`icon-text` pills |
+| `--pk-sys-gap-sm` | Vertical padding on `text-filled`/`icon-text` pills |
+| `--pk-sys-level3-horizontal` | Horizontal padding on `text-filled`/`icon-text` pills |
+| `--pk-sys-gap-xs` | Gap between icon and label in `icon-text` |
+| `--pk-sys-icon-s` | Icon slot size (16px) |
+| `--pk-sys-font-ui-bold` | Label typeface (Ringside Bold) |
+| `--pk-sys-text-white` | Label/icon color on `linked` and `linked-secondary` |
+| `--pk-sys-bg-inverse` | `linked-secondary` background fill |
+| `--pk-sys-warning-bg` / `--pk-sys-warning-text` | `warning` background / text |
+| `--pk-sys-success-bg` / `--pk-sys-success-text` | `success` background / text |
+| `--pk-sys-surface-disabled` / `--pk-sys-text-disabled` | `disabled` background / text |
+
+The circle diameters (24px for `small`/`icon-only`, 12px for `dot`) are
+component-level values with no matching `--pk-sys-*` size token — defined
+locally in Badge.css as `--pk-comp-badge-circle-size` and
+`--pk-comp-badge-dot-size`.
+
+---
+
+## Do / Don't
+
+**Do**
+- Pick `status` to match the label's meaning: `success` for positive/complete states (e.g. "Joined"), `warning` for caution, `disabled` for inactive, `linked`/`linked-secondary` for neutral or pending states (e.g. "Invited").
+- Use `small` or `dot` only when space is genuinely tight — a count or a presence marker, not a sentence.
+
+**Don't**
+- Don't pick a status by eye to match a color you want — it must match what the label actually communicates.
+- Don't put a full sentence into `small` — it's a 24px circle, not a pill.
+
+---
+
+## Accessibility
+
+Badge renders a plain, non-interactive `<span>` — it carries no keyboard
+semantics, focus handling, or ARIA role, because it isn't a control. It's
+purely a visual status label attached to other content; make sure the
+surrounding context (or the label text itself) conveys the same status
+information to screen reader users, since the badge's color alone doesn't.
+
+---
+
+## Figma parity
+
+Source: file `x40IO8pltwoAFiVkBZEUzT`, node `188:10724` (component set
+"Badge", `305:18717`).
+
+`linked` and `linked-secondary` were implemented as solid brand fills
+because that's a genuinely different visual pattern from `warning`/`success`,
+which reuse the standard pale-background/dark-text Feedback pairing —
+they are not variations of one shared "status color" formula.

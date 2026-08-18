@@ -1,0 +1,121 @@
+import { Meta, Canvas, Controls } from '@storybook/addon-docs/blocks'
+import * as ToggleStories from './Toggle.stories'
+
+<Meta of={ToggleStories} />
+
+# Toggle
+
+A standalone binary on/off switch for a setting that takes effect immediately,
+like turning on tee time reminders — not for choices inside a form that still
+needs a submit step.
+
+<Canvas of={ToggleStories.Playground} />
+<Controls of={ToggleStories.Playground} />
+
+---
+
+## Sizes
+
+<Canvas of={ToggleStories.Sizes} />
+
+Two track sizes: `default` (40×24px) for standalone settings rows, and
+`small` (32×20px) for dense contexts like table cells or filter panels.
+
+---
+
+## Types
+
+<Canvas of={ToggleStories.Types} />
+
+Off renders an outlined, transparent track with the knob on the left. On
+renders a solid magenta track with the knob on the right. Use Toggle — not two
+Radio buttons, not a single Checkbox — whenever the choice is a single binary
+setting that applies immediately.
+
+---
+
+## States
+
+<Canvas of={ToggleStories.States} />
+
+Real states come from real CSS: `:hover` adds a magenta outline ring around
+the track, `:focus-visible` draws the focus outline, and the `disabled`
+attribute desaturates both On and Off to grey. `forceState` exists only so
+this page can show hover and focus open at once for a static screenshot — it
+must never be used in application code.
+
+---
+
+## With tooltip icon
+
+<Canvas of={ToggleStories.WithTooltipIcon} />
+
+The tooltip icon only renders when a `label` is also set — it has no
+standalone affordance. Use it to attach a short clarification to the setting
+without lengthening the label itself.
+
+---
+
+## Tokens consumed
+
+| Token | Used for |
+|---|---|
+| `--pk-ref-magenta-200` | On-track fill and border (`--pk-comp-toggle-color-on`, local to Toggle — no `--pk-sys-*` token names this exact "toggle on-fill") |
+| `--pk-sys-gap-sm` | Gap between the track and the label/tooltip icon |
+| `--pk-ref-radius-full` | Fully-rounded track and knob corners |
+| `--pk-sys-border-strong` | Off-track border color |
+| `--pk-ref-border-medium` | Off-track border width and focus outline width |
+| `--pk-sys-surface-default` | Knob fill color |
+| `--pk-sys-border-focus` | Focus-visible outline color |
+| `--pk-ref-space-2` | Focus-visible outline offset |
+| `--pk-sys-surface-disabled` | Disabled track fill (both On and Off) |
+| `--pk-sys-disabled-border` | Disabled track border color |
+| `--pk-sys-text-disabled` | Disabled knob fill and disabled label color |
+| `--pk-sys-text-primary` | Label text color |
+| `--pk-sys-icon-s` | Tooltip icon width/height |
+| `--pk-ref-border-thin` | Tooltip icon border width |
+| `--pk-sys-border-default` | Tooltip icon border color |
+| `--pk-sys-text-secondary` | Tooltip icon glyph color |
+
+---
+
+## Do / Don't
+
+**Do**
+- Use Toggle for a single setting that takes effect immediately, like enabling
+  tee time reminders or lane availability alerts.
+- Pair a Toggle with a label whenever the setting isn't self-evident from
+  surrounding context.
+- Use the `small` size in dense layouts like table rows or filter panels.
+
+**Don't**
+- Don't use Toggle inside a form that requires a separate submit action — use
+  a Checkbox instead.
+- Don't use two Radio buttons to represent a single on/off setting — that's
+  what Toggle is for.
+- Don't show the tooltip icon without a label; it has no meaning on its own
+  and the component won't render it in that case.
+
+---
+
+## Accessibility
+
+Toggle wraps a native `<input type="checkbox" role="switch">` inside the
+visible `<label>`, so clicking anywhere in the control — track, knob, or
+label text — toggles it, and it's reachable and operable via keyboard (Tab to
+focus, Space to flip) without any extra handling. `aria-checked` mirrors the
+`checked` prop so assistive technology announces On/Off state directly, and
+the styled track/knob `<span>` elements are `aria-hidden` since the real
+input already carries the semantics.
+
+---
+
+## Figma parity
+
+Source: file `x40IO8pltwoAFiVkBZEUzT`, node `33:69109` (component set
+`33:69225`).
+
+The 40×24px / 32×20px track sizes and the magenta on-fill don't map to any
+existing `--pk-sys-*` token, so both are declared as component-local
+`--pk-comp-toggle-*` variables in Toggle.css rather than forced onto an
+ill-fitting system token.

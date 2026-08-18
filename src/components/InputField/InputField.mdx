@@ -1,0 +1,126 @@
+import { Meta, Canvas, Controls } from '@storybook/addon-docs/blocks'
+import * as InputFieldStories from './InputField.stories'
+
+<Meta of={InputFieldStories} />
+
+# Input Field
+
+A labeled text input for forms and booking flows — guest details, tee times, promo codes, venue
+search. Reach for it any time a user needs to type a value, rather than pick from a fixed set
+(that's Chip or Radio Button territory).
+
+<Canvas of={InputFieldStories.Playground} />
+<Controls of={InputFieldStories.Playground} />
+
+---
+
+## Variants
+
+<Canvas of={InputFieldStories.Variants} />
+
+The `State` variant covers the field's full lifecycle:
+
+| State | When to use it |
+|---|---|
+| `default` | Empty or resting, no interaction yet. |
+| `typing` | The user has focus in the field right now. In the app this is driven by real `:focus-within`, not something you set by hand — the prop exists mainly for documentation and for building state directly into a design handoff. |
+| `typed` | Field has a value and has lost focus. Same border treatment as `default`; the difference is the content. |
+| `disabled` | Not editable — pair with a `defaultValue`/`value` when it's showing a locked-in answer rather than an empty field. |
+| `error` | Validation failed. Always pair with a `helperText` message explaining what to fix — never rely on the red border alone. |
+
+---
+
+## States
+
+<Canvas of={InputFieldStories.States} />
+
+Real states are real CSS (`:focus-within` drives the `typing` look automatically) plus the native
+`disabled` attribute. `forceState` exists only so this page can pin the real focus ring open for a
+static screenshot — it must never be used in application code.
+
+---
+
+## Inverse
+
+<Canvas of={InputFieldStories.Inverse} />
+
+`inverse` swaps the field onto a dark surface for use on branded/dark backgrounds. It's an
+independent axis from `State` — every state has an inverse counterpart in the source Figma
+component set.
+
+---
+
+## With icons
+
+<Canvas of={InputFieldStories.WithIcons} />
+
+`leadingIcon` and `trailingIcon` each accept any `ReactNode` and are independently optional — pass
+one, both, or neither. Icons are decorative only (rendered with `aria-hidden`); if an icon is
+interactive (like a clear or reveal-password button), it needs its own accessible control, which
+this component doesn't provide out of the box.
+
+---
+
+## Tokens consumed
+
+| Token | Used for |
+|---|---|
+| `--pk-sys-text-secondary` | Label text, leading/trailing icon color, helper text color |
+| `--pk-sys-error-text` | Required asterisk color; error-state helper icon/text color |
+| `--pk-sys-gap-xs` | Vertical gap between label row / input row / helper row; gap within the label row and helper row |
+| `--pk-sys-level3-gap` | Gap between icon slots and the input inside the bordered row |
+| `--pk-sys-level3-vertical` | Input row vertical padding |
+| `--pk-sys-level3-horizontal` | Input row horizontal padding |
+| `--pk-sys-surface-default` | Input row background |
+| `--pk-ref-border-medium` | Input row border width |
+| `--pk-sys-border-strong` | Input row border color, default state |
+| `--pk-ref-radius-sm` | Input row corner radius |
+| `--pk-sys-icon-m` | Leading/trailing icon size |
+| `--pk-sys-text-primary` | Typed input text color |
+| `--pk-sys-text-tertiary` | Placeholder text color |
+| `--pk-sys-text-disabled` | Label/icon/input/helper text color, disabled state |
+| `--pk-sys-icon-s` | Helper row status icon size |
+| `--pk-sys-border-focus` | Input row border color, typing/focus |
+| `--pk-sys-error-border` | Input row border color, error state |
+| `--pk-sys-surface-disabled` | Input row background, disabled state |
+| `--pk-sys-disabled-border` | Input row border color, disabled state |
+| `--pk-sys-text-inverse` | Label/icon/input text color, inverse |
+| `--pk-sys-text-inverse-subtle` | Placeholder + helper text color, inverse |
+| `--pk-sys-bg-inverse` | Input row background, inverse |
+| `--pk-sys-border-inverse` | Input row border color, inverse default state |
+
+---
+
+## Do / Don't
+
+**Do**
+- Always show a visible label, unless the field is inside a compact search bar.
+- Use `required` to mark mandatory fields — never color alone.
+- Put format hints or error messages in `helperText` — not both at once; pick whichever is more
+  useful for the current state.
+
+**Don't**
+- Nest an Input Field inside another Input Field.
+
+---
+
+## Accessibility
+
+The label renders as a native `<label htmlFor>` bound to the input's `id` (auto-generated via
+`useId` when you don't pass one), so clicking the label focuses the field. When `state="error"`,
+the input gets `aria-invalid`. Whenever `helperText` is present, the input's `aria-describedby`
+points at the helper row, so assistive tech announces the hint or error message alongside the
+field's value. `required` sets the native HTML `required` attribute in addition to rendering the
+"*" marker.
+
+---
+
+## Figma parity
+
+Source: file `x40IO8pltwoAFiVkBZEUzT`, node `10554:17948` (component set "Input Field",
+`10559:11972`, 10 variants: 5 `State` values × `Inverse`).
+
+Two deliberate departures from the Figma spec: the canonical Figma frame is a fixed 374px wide,
+but this implementation is `width: 100%` so it drops into a real responsive layout instead of
+always measuring exactly 374px. And the source file's own instance-swap property is spelled
+"Tailing Icon" (a typo for "Trailing") — the prop is named correctly here as `trailingIcon`.

@@ -1,0 +1,163 @@
+.pk-radio {
+  /* Figma confirms only 3 discrete circle sizes (20/24/32px), not a scale that
+     maps to any --pk-sys-* token, so it lives as a component token driven by
+     [data-screen] the same way tokens.css documents for this component. */
+  --pk-comp-radio-size: 24px;
+  /* Inner filled-dot / checkmark size as a fraction of the circle — Figma's
+     screenshot shows a smaller centered mark but doesn't spec an exact px,
+     so this ratio is a judgment call rather than an extracted value. */
+  --pk-comp-radio-mark-scale: 0.5;
+  /* "Selected with Tick" reuses Checkbox's checked magenta — no --pk-sys-*
+     token exists for it, so it's pinned here the same way Checkbox does. */
+  --pk-comp-radio-color-checked: var(--pk-ref-magenta-200);
+  --pk-comp-radio-tick-icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='20 6 9 17 4 12'/%3E%3C/svg%3E");
+  /* .pk-text-body-medium's 22px line-height, mirrored here so the label's
+     first line can be vertically centered against the circle — text-styles.css
+     bakes line-height as a literal per class rather than a bindable token,
+     so there is nothing in --pk-sys-* to reference instead. */
+  --pk-comp-radio-label-line-height: 22px;
+
+  position: relative;
+  box-sizing: border-box;
+  display: inline-flex;
+  align-items: flex-start;
+  gap: var(--pk-sys-gap-sm);
+  cursor: pointer;
+}
+
+.pk-radio[data-screen='mobile'] {
+  --pk-comp-radio-size: 20px;
+}
+.pk-radio[data-screen='desktop'] {
+  --pk-comp-radio-size: 24px;
+}
+.pk-radio[data-screen='kiosk'] {
+  --pk-comp-radio-size: 32px;
+}
+
+.pk-radio:has(.pk-radio__input:disabled) {
+  cursor: not-allowed;
+}
+
+.pk-radio__input {
+  /* Native input stays interactive/focusable but visually hidden; it is
+     sized and positioned to sit exactly over .pk-radio__control so clicks,
+     focus and keyboard operation land on the real form control. */
+  position: absolute;
+  top: 0;
+  left: 0;
+  box-sizing: border-box;
+  width: var(--pk-comp-radio-size);
+  height: var(--pk-comp-radio-size);
+  margin: 0;
+  opacity: 0;
+  cursor: pointer;
+}
+.pk-radio__input:disabled {
+  cursor: not-allowed;
+}
+
+.pk-radio__control {
+  position: relative;
+  flex: none;
+  box-sizing: border-box;
+  width: var(--pk-comp-radio-size);
+  height: var(--pk-comp-radio-size);
+  border-radius: var(--pk-ref-radius-full);
+  border: var(--pk-ref-border-medium) solid var(--pk-sys-border-strong);
+  background: var(--pk-sys-surface-default);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 120ms ease, border-color 120ms ease;
+}
+
+.pk-radio__control::after {
+  content: '';
+  display: block;
+  width: calc(var(--pk-comp-radio-size) * var(--pk-comp-radio-mark-scale));
+  height: calc(var(--pk-comp-radio-size) * var(--pk-comp-radio-mark-scale));
+  border-radius: var(--pk-ref-radius-full);
+  background-color: var(--pk-sys-text-primary);
+  opacity: 0;
+  transform: scale(0.6);
+  transition: opacity 120ms ease, transform 120ms ease;
+}
+
+.pk-radio__input:checked ~ .pk-radio__control::after {
+  opacity: 1;
+  transform: scale(1);
+}
+
+/* "Selected with Tick" — solid magenta circle + white checkmark mask instead
+   of the plain inner dot. Reuses the same ::after box, swapped to a masked
+   icon shape so disabled-state overrides (below) only need to touch color. */
+.pk-radio--tick .pk-radio__control::after {
+  border-radius: 0;
+  background-color: var(--pk-sys-text-inverse);
+  -webkit-mask-image: var(--pk-comp-radio-tick-icon);
+  mask-image: var(--pk-comp-radio-tick-icon);
+  -webkit-mask-size: contain;
+  mask-size: contain;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+}
+.pk-radio--tick .pk-radio__input:checked ~ .pk-radio__control {
+  background: var(--pk-comp-radio-color-checked);
+  border-color: var(--pk-comp-radio-color-checked);
+}
+
+.pk-radio:hover .pk-radio__input:not(:disabled) ~ .pk-radio__control,
+.pk-radio[data-force-state='hover'] .pk-radio__control {
+  border-color: var(--pk-sys-text-secondary);
+}
+.pk-radio--tick:hover .pk-radio__input:checked:not(:disabled) ~ .pk-radio__control,
+.pk-radio--tick[data-force-state='hover'] .pk-radio__input:checked ~ .pk-radio__control {
+  background: var(--pk-ref-magenta-300);
+  border-color: var(--pk-ref-magenta-300);
+}
+
+.pk-radio__input:focus-visible ~ .pk-radio__control {
+  outline: var(--pk-ref-border-medium) solid var(--pk-sys-border-focus);
+  outline-offset: var(--pk-ref-space-2);
+}
+
+.pk-radio__input:disabled ~ .pk-radio__control {
+  border-color: var(--pk-sys-disabled-border);
+}
+.pk-radio__input:disabled:checked ~ .pk-radio__control {
+  background: var(--pk-sys-surface-disabled);
+  border-color: var(--pk-sys-disabled-border);
+}
+.pk-radio__input:disabled:checked ~ .pk-radio__control::after {
+  /* Flattens both the plain dot (background-color) and the tick mask
+     (also driven by background-color) to one muted tone so disabled+checked
+     reads as a single flat state rather than a dimmed brand color. */
+  background-color: var(--pk-sys-text-disabled);
+}
+
+.pk-radio__text {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--pk-sys-gap-xs);
+  padding-top: calc((var(--pk-comp-radio-size) - var(--pk-comp-radio-label-line-height)) / 2);
+}
+
+.pk-radio__label {
+  color: var(--pk-sys-text-primary);
+}
+.pk-radio__input:disabled ~ .pk-radio__text .pk-radio__label {
+  color: var(--pk-sys-text-disabled);
+}
+
+.pk-radio__tooltip-icon {
+  width: var(--pk-sys-icon-s);
+  height: var(--pk-sys-icon-s);
+  flex: none;
+  color: var(--pk-sys-text-secondary);
+}
+.pk-radio__input:disabled ~ .pk-radio__text .pk-radio__tooltip-icon {
+  color: var(--pk-sys-text-disabled);
+}

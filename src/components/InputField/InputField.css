@@ -1,0 +1,178 @@
+/* Figma component set "Input Field" (10559:11972). Canonical Figma frame is
+   fixed at 374px wide — this sizes to its container instead (the only way
+   it's usable in a real responsive layout); constrain the parent if the
+   exact 374px is needed. */
+.pk-input-field {
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  gap: var(--pk-sys-gap-xs);
+}
+
+.pk-input-field__label-row {
+  display: flex;
+  align-items: center;
+  gap: var(--pk-sys-gap-xs);
+}
+
+.pk-input-field__label {
+  color: var(--pk-sys-text-secondary);
+}
+
+.pk-input-field__required {
+  color: var(--pk-sys-error-text);
+  line-height: 1;
+}
+
+.pk-input-field__row {
+  box-sizing: border-box; /* Figma strokes draw INSIDE the frame */
+  display: flex;
+  align-items: center;
+  gap: var(--pk-sys-level3-gap);
+  padding: var(--pk-sys-level3-vertical) var(--pk-sys-level3-horizontal);
+  background: var(--pk-sys-surface-default);
+  border: var(--pk-ref-border-medium) solid var(--pk-sys-border-strong);
+  border-radius: var(--pk-ref-radius-sm);
+  transition: border-color 120ms ease, background-color 120ms ease;
+}
+
+.pk-input-field__icon {
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: var(--pk-sys-icon-m);
+  height: var(--pk-sys-icon-m);
+  color: var(--pk-sys-text-secondary);
+}
+
+.pk-input-field__control {
+  box-sizing: border-box;
+  flex: 1;
+  min-width: 0;
+  padding: 0;
+  border: none;
+  outline: none; /* the row's border-color carries the focus indicator instead */
+  background: transparent;
+  color: var(--pk-sys-text-primary);
+}
+
+.pk-input-field__control::placeholder {
+  color: var(--pk-sys-text-tertiary);
+}
+
+.pk-input-field__control:disabled {
+  color: var(--pk-sys-text-disabled);
+  cursor: not-allowed;
+}
+
+.pk-input-field__control:disabled::placeholder {
+  color: var(--pk-sys-text-disabled);
+}
+
+.pk-input-field__helper-row {
+  display: flex;
+  align-items: center;
+  gap: var(--pk-sys-gap-xs);
+}
+
+.pk-input-field__helper-icon {
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: var(--pk-sys-icon-s);
+  height: var(--pk-sys-icon-s);
+  color: var(--pk-sys-text-secondary);
+}
+
+.pk-input-field__helper-text {
+  color: var(--pk-sys-text-secondary);
+}
+
+/* --- State: typing (focused) — real :focus-within drives this in normal
+   use; the State prop and forceState escape hatch both pin the same look
+   for a variant that can't otherwise be captured on a static Storybook page. */
+.pk-input-field--typing .pk-input-field__row,
+.pk-input-field__row:focus-within,
+.pk-input-field__row[data-force-state='focus'] {
+  border-color: var(--pk-sys-border-focus);
+}
+
+/* --- State: error --- */
+.pk-input-field--error .pk-input-field__row {
+  border-color: var(--pk-sys-error-border);
+}
+
+.pk-input-field--error .pk-input-field__helper-icon,
+.pk-input-field--error .pk-input-field__helper-text {
+  color: var(--pk-sys-error-text);
+}
+
+/* --- State: disabled --- */
+.pk-input-field--disabled .pk-input-field__label,
+.pk-input-field--disabled .pk-input-field__icon,
+.pk-input-field--disabled .pk-input-field__helper-icon,
+.pk-input-field--disabled .pk-input-field__helper-text {
+  color: var(--pk-sys-text-disabled);
+}
+
+.pk-input-field--disabled .pk-input-field__row {
+  cursor: not-allowed;
+  background: var(--pk-sys-surface-disabled);
+  border-color: var(--pk-sys-disabled-border);
+}
+
+/* --- Inverse (on dark backgrounds) — orthogonal to State, so every
+   combination is scoped with a compound selector to win regardless of the
+   State rule's position above. */
+.pk-input-field--inverse .pk-input-field__label,
+.pk-input-field--inverse .pk-input-field__icon,
+.pk-input-field--inverse .pk-input-field__control {
+  color: var(--pk-sys-text-inverse);
+}
+
+.pk-input-field--inverse .pk-input-field__control::placeholder {
+  color: var(--pk-sys-text-inverse-subtle);
+}
+
+.pk-input-field--inverse .pk-input-field__helper-icon,
+.pk-input-field--inverse .pk-input-field__helper-text {
+  color: var(--pk-sys-text-inverse-subtle);
+}
+
+.pk-input-field--inverse .pk-input-field__row {
+  background: var(--pk-sys-bg-inverse);
+  border-color: var(--pk-sys-border-inverse);
+}
+
+.pk-input-field--inverse.pk-input-field--typing .pk-input-field__row,
+.pk-input-field--inverse .pk-input-field__row:focus-within,
+.pk-input-field--inverse .pk-input-field__row[data-force-state='focus'] {
+  border-color: var(--pk-sys-border-focus);
+}
+
+.pk-input-field--inverse.pk-input-field--error .pk-input-field__row {
+  border-color: var(--pk-sys-error-border);
+}
+
+.pk-input-field--inverse.pk-input-field--error .pk-input-field__helper-icon,
+.pk-input-field--inverse.pk-input-field--error .pk-input-field__helper-text {
+  color: var(--pk-sys-error-text);
+}
+
+.pk-input-field--inverse.pk-input-field--disabled .pk-input-field__row {
+  background: transparent;
+  border-color: var(--pk-sys-disabled-border);
+}
+
+.pk-input-field--inverse.pk-input-field--disabled .pk-input-field__label,
+.pk-input-field--inverse.pk-input-field--disabled .pk-input-field__icon,
+.pk-input-field--inverse.pk-input-field--disabled .pk-input-field__control,
+.pk-input-field--inverse.pk-input-field--disabled .pk-input-field__helper-icon,
+.pk-input-field--inverse.pk-input-field--disabled .pk-input-field__helper-text {
+  color: var(--pk-sys-text-inverse-subtle);
+}

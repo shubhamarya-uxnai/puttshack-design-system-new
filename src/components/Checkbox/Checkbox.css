@@ -1,0 +1,124 @@
+.pk-checkbox {
+  /* --pk-comp-checkbox-color-checked: none of the --pk-sys-* semantic names map to "checkbox
+     fill" specifically, so this is a component-tier token pointing at the confirmed Figma value. */
+  --pk-comp-checkbox-color-checked: var(--pk-ref-magenta-200);
+  --pk-comp-checkbox-size: 24px; /* Desktop default, overridden per data-screen below */
+
+  box-sizing: border-box;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--pk-sys-gap-sm);
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.pk-checkbox[data-screen='mobile'] {
+  --pk-comp-checkbox-size: 20px;
+}
+.pk-checkbox[data-screen='kiosk'] {
+  --pk-comp-checkbox-size: 32px;
+}
+
+.pk-checkbox--disabled {
+  cursor: not-allowed;
+}
+
+/* The real control is a 44×44 hit area regardless of the visual box's size — the native input
+   is stretched to fill it, so a tap anywhere in that region toggles the checkbox. */
+.pk-checkbox__hit-area {
+  box-sizing: border-box;
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 44px;
+  min-height: 44px;
+  flex-shrink: 0;
+  border-radius: var(--pk-ref-radius-full);
+  transition: background-color 150ms ease;
+}
+
+.pk-checkbox:hover:not(.pk-checkbox--disabled) .pk-checkbox__hit-area,
+.pk-checkbox[data-force-state='hover'] .pk-checkbox__hit-area {
+  background: var(--pk-sys-surface-hover);
+}
+
+.pk-checkbox:focus-within .pk-checkbox__box,
+.pk-checkbox[data-force-state='focus'] .pk-checkbox__box {
+  box-shadow: 0 0 0 var(--pk-ref-border-medium) var(--pk-sys-border-focus);
+}
+
+.pk-checkbox__input {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  opacity: 0;
+  cursor: pointer;
+}
+.pk-checkbox--disabled .pk-checkbox__input {
+  cursor: not-allowed;
+}
+
+/* box-sizing: border-box — Figma strokes draw INSIDE the frame, so the border must be included
+   in the box's own width/height or the rendered size drifts from the Figma spec. */
+.pk-checkbox__box {
+  box-sizing: border-box;
+  width: var(--pk-comp-checkbox-size);
+  height: var(--pk-comp-checkbox-size);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--pk-ref-radius-xs);
+  border: var(--pk-ref-border-medium) solid var(--pk-sys-border-strong);
+  background: var(--pk-sys-bg-default);
+  transition: background-color 150ms ease, border-color 150ms ease, box-shadow 150ms ease;
+}
+
+.pk-checkbox__box--checked {
+  background: var(--pk-comp-checkbox-color-checked);
+  border-color: var(--pk-comp-checkbox-color-checked);
+}
+
+.pk-checkbox--error .pk-checkbox__box {
+  border-color: var(--pk-sys-error-border);
+}
+
+.pk-checkbox__icon {
+  width: 70%;
+  height: 70%;
+  color: var(--pk-sys-text-inverse);
+}
+
+.pk-checkbox--disabled .pk-checkbox__box {
+  background: var(--pk-sys-surface-disabled);
+  border-color: var(--pk-sys-disabled-border);
+}
+.pk-checkbox--disabled .pk-checkbox__icon {
+  color: var(--pk-sys-text-disabled);
+}
+
+.pk-checkbox__label {
+  color: var(--pk-sys-text-primary);
+}
+.pk-checkbox--disabled .pk-checkbox__label {
+  color: var(--pk-sys-text-disabled);
+}
+
+.pk-checkbox__tooltip-icon {
+  box-sizing: border-box;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--pk-sys-icon-s);
+  height: var(--pk-sys-icon-s);
+  flex-shrink: 0;
+  border-radius: var(--pk-ref-radius-full);
+  border: var(--pk-ref-border-thin) solid var(--pk-sys-border-default);
+  color: var(--pk-sys-text-secondary);
+}
+.pk-checkbox--disabled .pk-checkbox__tooltip-icon {
+  color: var(--pk-sys-text-disabled);
+  border-color: var(--pk-sys-disabled-border);
+}

@@ -1,0 +1,300 @@
+/* ============================================================================
+   PUTTSHACK DESIGN SYSTEM 2026 — DESIGN TOKENS
+   Generated from Figma file x40IO8pltwoAFiVkBZEUzT · 18 August 2026
+
+   TIERS
+     --pk-ref-*     reference / primitive   — NEVER use in application code
+     --pk-sys-*     system / semantic       — use these
+     --pk-comp-*    component               — defined inside each component's own CSS
+
+   COLOR MODE
+     Light only. The Semantic collection's other mode is named
+     "Dark (NOT TO BE USED)" in the source file — there is no dark theme here,
+     by design, not by omission.
+
+   DEVICE MODE
+     [data-screen="mobile|desktop|kiosk"] — implemented at the component tier
+     for the three atoms with confirmed per-mode values (Checkbox, Radio,
+     Input OTP). Everything else in this file is a single Desktop-equivalent
+     value. See src/lib/puttshack-tokens.json for the full source-of-truth
+     table and what is/isn't per-mode yet.
+   ========================================================================== */
+
+
+/* ==========================================================================
+   TIER 1 — REFERENCE / PRIMITIVES
+   Figma: "Colors - Primative" + Spacing/Corner Radius/Border Width/Opacity
+   Mode-invariant. Do not consume directly.
+   ========================================================================== */
+
+:root {
+
+  /* --- Brand color ramps -------------------------------------------------- */
+  --pk-ref-orange-100: #FFC629;
+  --pk-ref-orange-200: #FF9E18;
+  --pk-ref-orange-300: #FF7F30;
+  --pk-ref-orange-400: #FF671D; /* Primary */
+  --pk-ref-orange-500: #E64338;
+
+  --pk-ref-magenta-100: #E96BB0;
+  --pk-ref-magenta-200: #F45197;
+  --pk-ref-magenta-300: #93358D;
+  --pk-ref-magenta-400: #863399; /* Primary */
+  --pk-ref-magenta-500: #592C82;
+
+  --pk-ref-blue-100: #00C1DE; /* "Cool Blue" — distinct from Feedback/Info blue */
+  --pk-ref-blue-200: #0091B3;
+  --pk-ref-blue-300: #194F90;
+  --pk-ref-blue-400: #1A428A;
+  --pk-ref-blue-500: #1C355E;
+
+  --pk-ref-purple-midnight: #0E0115;
+  --pk-ref-white: #FFFFFF;
+  --pk-ref-black: #000000;
+
+  /* --- White / black ramps (alpha steps) ----------------------------------
+     Mirrors the Opacity scale — used wherever the DS resolves a semantic
+     token to "white/NN" or "black/NN" rather than a hue.                    */
+  --pk-ref-white-02: rgb(255 255 255 / 0.02);
+  --pk-ref-white-06: rgb(255 255 255 / 0.06);
+  --pk-ref-white-12: rgb(255 255 255 / 0.12);
+  --pk-ref-white-16: rgb(255 255 255 / 0.16);
+  --pk-ref-white-24: rgb(255 255 255 / 0.24);
+  --pk-ref-white-32: rgb(255 255 255 / 0.32);
+  --pk-ref-white-64: rgb(255 255 255 / 0.64);
+  --pk-ref-white-88: rgb(255 255 255 / 0.88);
+
+  --pk-ref-black-02: rgb(0 0 0 / 0.02);
+  --pk-ref-black-06: rgb(0 0 0 / 0.06);
+  --pk-ref-black-12: rgb(0 0 0 / 0.12);
+  --pk-ref-black-16: rgb(0 0 0 / 0.16);
+  --pk-ref-black-24: rgb(0 0 0 / 0.24);
+  --pk-ref-black-32: rgb(0 0 0 / 0.32);
+  --pk-ref-black-48: rgb(0 0 0 / 0.48);
+  --pk-ref-black-64: rgb(0 0 0 / 0.64);
+  --pk-ref-black-88: rgb(0 0 0 / 0.88);
+
+  /* --- Feedback ramps (100 / 300 / 500 / 700) ----------------------------- */
+  --pk-ref-red-100: #FEE4E2;
+  --pk-ref-red-300: #FDA29B;
+  --pk-ref-red-500: #D92D20;
+  --pk-ref-red-700: #B42318;
+
+  --pk-ref-green-100: #DCFAE6;
+  --pk-ref-green-300: #75E0A7;
+  --pk-ref-green-500: #17B26A;
+  --pk-ref-green-700: #067647;
+
+  --pk-ref-yellow-100: #FEF0C7;
+  --pk-ref-yellow-300: #FEC84B;
+  --pk-ref-yellow-500: #F79009;
+  --pk-ref-yellow-700: #B54708;
+
+  --pk-ref-info-blue-100: #D1E9FF;
+  --pk-ref-info-blue-300: #84CAFF;
+  --pk-ref-info-blue-500: #2E90FA;
+  --pk-ref-info-blue-700: #175CD3;
+
+  /* --- Spacing scale · 4pt grid (2 is the only half-step) ----------------- */
+  --pk-ref-space-2:   2px;
+  --pk-ref-space-4:   4px;
+  --pk-ref-space-8:   8px;
+  --pk-ref-space-12:  12px;
+  --pk-ref-space-16:  16px;
+  --pk-ref-space-20:  20px;
+  --pk-ref-space-24:  24px;
+  --pk-ref-space-32:  32px;
+  --pk-ref-space-40:  40px;
+  --pk-ref-space-48:  48px;
+  --pk-ref-space-64:  64px;
+  --pk-ref-space-72:  72px;
+  --pk-ref-space-80:  80px;
+  --pk-ref-space-96:  96px;
+  --pk-ref-space-128: 128px;
+  --pk-ref-space-160: 160px;
+
+  /* --- Border width — semantic, not numeric -------------------------------- */
+  --pk-ref-border-none:     0px;
+  --pk-ref-border-hairline: 0.5px;
+  --pk-ref-border-thin:     1px;   /* default */
+  --pk-ref-border-medium:   2px;
+  --pk-ref-border-thick:    4px;
+
+  /* --- Corner radius — t-shirt sizing --------------------------------------- */
+  --pk-ref-radius-none: 0px;
+  --pk-ref-radius-xs:   4px;    /* chips, tags, checkboxes, small inputs */
+  --pk-ref-radius-sm:   8px;    /* buttons, inputs, small cards */
+  --pk-ref-radius-md:   12px;   /* standard cards, containers, modals */
+  --pk-ref-radius-lg:   16px;   /* large cards, sheets */
+  --pk-ref-radius-xl:   24px;   /* hero cards, large surfaces */
+  --pk-ref-radius-full: 9999px; /* pills, avatars, toggles */
+
+  /* --- Opacity scale --------------------------------------------------------- */
+  --pk-ref-opacity-0:   0;
+  --pk-ref-opacity-02:  0.02;
+  --pk-ref-opacity-04:  0.04;
+  --pk-ref-opacity-06:  0.06;
+  --pk-ref-opacity-08:  0.08;
+  --pk-ref-opacity-12:  0.12;
+  --pk-ref-opacity-16:  0.16;
+  --pk-ref-opacity-24:  0.24;
+  --pk-ref-opacity-32:  0.32;
+  --pk-ref-opacity-48:  0.48;
+  --pk-ref-opacity-64:  0.64;
+  --pk-ref-opacity-80:  0.80;
+  --pk-ref-opacity-100: 1;
+
+  /* --- Shadows / elevation (light-surface set — this system has no dark
+         theme, so the paired dark/* effect styles are not implemented) ----- */
+  --pk-ref-shadow-1: 0 2px 8px rgb(14 1 21 / 0.24);   /* low — resting cards, raised buttons */
+  --pk-ref-shadow-2: 0 4px 24px rgb(14 1 21 / 0.20);  /* medium — dropdowns, popovers, menus */
+  --pk-ref-shadow-3: 0 16px 48px rgb(14 1 21 / 0.16); /* high — modals, dialogs, sheets */
+  --pk-ref-shadow-z2: 0 4px 24px rgb(0 0 0 / 0.24);
+  --pk-ref-shadow-branded-glow: 0 0 16px 0 rgb(244 81 151 / 0.48);
+  --pk-ref-shadow-selected:
+    inset 0 0 0 3px #592C82,
+    inset 0 0 0 5px #93358D,
+    inset 0 0 0 6px #E96BB0;
+}
+
+
+/* ==========================================================================
+   TIER 2 — SYSTEM / SEMANTIC
+   Figma: "Colors - Semantic" (Light) + "Spacing- Semantic"
+   Bind these. Never bind Tier 1 from application/component code.
+   ========================================================================== */
+
+:root {
+
+  /* --- Text + Icon (the ONLY group allowed to color text) ----------------- */
+  --pk-sys-text-primary:         var(--pk-ref-purple-midnight);
+  --pk-sys-text-secondary:       var(--pk-ref-black-64);
+  --pk-sys-text-tertiary:        var(--pk-ref-black-32);
+  --pk-sys-text-disabled:        var(--pk-ref-black-24);
+  --pk-sys-text-inverse:         var(--pk-ref-white);
+  --pk-sys-text-inverse-subtle:  var(--pk-ref-white-64);
+  --pk-sys-text-white:           var(--pk-ref-white);
+  --pk-sys-text-black:           var(--pk-ref-black);
+  --pk-sys-text-orange:          var(--pk-ref-orange-100);
+  --pk-sys-text-magenta:         var(--pk-ref-magenta-200);
+  --pk-sys-text-blue:            var(--pk-ref-blue-200);
+
+  /* --- Background (screen-level) ------------------------------------------- */
+  --pk-sys-bg-background:    var(--pk-ref-magenta-300); /* the branded screen backdrop — NOT white */
+  --pk-sys-bg-default:       var(--pk-ref-white);        /* white card/surface */
+  --pk-sys-bg-inverse:       var(--pk-ref-purple-midnight);
+  --pk-sys-bg-overlay:       var(--pk-ref-black-12);
+  --pk-sys-bg-blue:          var(--pk-ref-blue-200);
+  --pk-sys-bg-orange:        var(--pk-ref-orange-300);
+  --pk-sys-bg-magenta-light: var(--pk-ref-magenta-100);
+  --pk-sys-bg-magenta-dark:  var(--pk-ref-magenta-500);
+
+  /* --- Surface (cards, inputs, rows) ---------------------------------------- */
+  --pk-sys-surface-default:      var(--pk-ref-white);
+  --pk-sys-surface-subtle:       var(--pk-ref-black-02);
+  --pk-sys-surface-hover:        var(--pk-ref-black-06);
+  --pk-sys-surface-pressed:      var(--pk-ref-black-12);
+  --pk-sys-surface-selected:     var(--pk-ref-orange-100);
+  --pk-sys-surface-disabled:     var(--pk-ref-black-06);
+  --pk-sys-surface-inverse:      var(--pk-ref-white-02);
+  --pk-sys-surface-modal-overlay: var(--pk-ref-black-48);
+
+  /* --- Border ---------------------------------------------------------------- */
+  --pk-sys-border-default:     var(--pk-ref-black-12);
+  --pk-sys-border-subtle:      var(--pk-ref-black-06);
+  --pk-sys-border-strong:      var(--pk-ref-black-24);
+  --pk-sys-border-selected:    var(--pk-ref-orange-300);
+  --pk-sys-border-focus:       var(--pk-ref-blue-100);
+  --pk-sys-border-inverse:     var(--pk-ref-white-24);
+  --pk-sys-border-magenta:     var(--pk-ref-magenta-200);
+  --pk-sys-border-magenta-dark: var(--pk-ref-magenta-500);
+
+  /* --- Interactive: Primary (Cool-Blue button) ------------------------------- */
+  --pk-sys-primary-enabled:    var(--pk-ref-blue-100);
+  --pk-sys-primary-text:       var(--pk-ref-purple-midnight);
+  --pk-sys-primary-hover:      var(--pk-ref-magenta-200);
+  --pk-sys-primary-hover-text: var(--pk-ref-purple-midnight);
+  --pk-sys-primary-pressed:    var(--pk-ref-magenta-300);
+  --pk-sys-primary-border:     var(--pk-ref-purple-midnight);
+
+  /* --- Interactive: Secondary (Midnight-Purple button) ------------------------ */
+  --pk-sys-secondary-enabled:    var(--pk-ref-purple-midnight);
+  --pk-sys-secondary-text:       var(--pk-ref-white);
+  --pk-sys-secondary-hover:      var(--pk-ref-magenta-200);
+  --pk-sys-secondary-hover-text: var(--pk-ref-purple-midnight);
+  --pk-sys-secondary-pressed:    var(--pk-ref-magenta-300);
+  --pk-sys-secondary-border:     var(--pk-ref-blue-100);
+
+  /* --- Interactive: Tertiary / Ghost ------------------------------------------- */
+  --pk-sys-tertiary-text:    var(--pk-ref-purple-midnight);
+  --pk-sys-tertiary-hover:   var(--pk-ref-magenta-200);
+  --pk-sys-tertiary-border:  var(--pk-ref-purple-midnight);
+  --pk-sys-tertiary-pressed: var(--pk-ref-magenta-300);
+
+  /* --- Interactive: Link -------------------------------------------------------- */
+  --pk-sys-link-text:       var(--pk-ref-blue-300);
+  --pk-sys-link-text-hover: var(--pk-ref-blue-400);
+  --pk-sys-link-pressed:    var(--pk-ref-blue-500);
+
+  /* --- Interactive: Disabled ----------------------------------------------------- */
+  --pk-sys-disabled-cta-bg:  var(--pk-ref-black-12);
+  --pk-sys-disabled-text:    var(--pk-ref-black-32);
+  --pk-sys-disabled-border:  var(--pk-ref-black-16);
+
+  /* --- Feedback: Success / Error / Warning / Info --------------------------------- */
+  --pk-sys-success-bg:      var(--pk-ref-green-100);
+  --pk-sys-success-border:  var(--pk-ref-green-500);
+  --pk-sys-success-text:    var(--pk-ref-green-700);
+  --pk-sys-success-hover:   var(--pk-ref-green-300);
+  --pk-sys-success-pressed: var(--pk-ref-green-500);
+
+  --pk-sys-error-bg:      var(--pk-ref-red-100);
+  --pk-sys-error-border:  var(--pk-ref-red-500);
+  --pk-sys-error-text:    var(--pk-ref-red-700);
+  --pk-sys-error-hover:   var(--pk-ref-red-300);
+  --pk-sys-error-pressed: var(--pk-ref-red-500);
+
+  --pk-sys-warning-bg:      var(--pk-ref-yellow-100);
+  --pk-sys-warning-border:  var(--pk-ref-yellow-500);
+  --pk-sys-warning-text:    var(--pk-ref-yellow-700);
+  --pk-sys-warning-hover:   var(--pk-ref-yellow-300);
+  --pk-sys-warning-pressed: var(--pk-ref-yellow-500);
+
+  --pk-sys-info-bg:      var(--pk-ref-info-blue-100);
+  --pk-sys-info-border:  var(--pk-ref-info-blue-500);
+  --pk-sys-info-text:    var(--pk-ref-info-blue-700);
+  --pk-sys-info-hover:   var(--pk-ref-info-blue-300);
+  --pk-sys-info-pressed: var(--pk-ref-info-blue-500);
+
+  /* --- Spacing- Semantic (Desktop-equivalent; see file header) ---------------------- */
+  --pk-sys-container-horizontal:   var(--pk-ref-space-24);
+  --pk-sys-container-top:          var(--pk-ref-space-24);
+  --pk-sys-container-bottom:       var(--pk-ref-space-32);
+  --pk-sys-container-gap:          var(--pk-ref-space-16);
+
+  --pk-sys-level2-horizontal: var(--pk-ref-space-20);
+  --pk-sys-level2-vertical:   var(--pk-ref-space-16);
+  --pk-sys-level2-gap:        var(--pk-ref-space-12);
+
+  --pk-sys-level3-horizontal: var(--pk-ref-space-16);
+  --pk-sys-level3-vertical:   var(--pk-ref-space-12);
+  --pk-sys-level3-gap:        var(--pk-ref-space-8);
+
+  --pk-sys-gap-xs: var(--pk-ref-space-4);
+  --pk-sys-gap-sm: var(--pk-ref-space-8);
+  --pk-sys-gap-md: var(--pk-ref-space-16);
+  --pk-sys-gap-lg: var(--pk-ref-space-24);
+  --pk-sys-gap-xl: var(--pk-ref-space-32);
+
+  --pk-sys-icon-s:  16px;
+  --pk-sys-icon-m:  20px;
+  --pk-sys-icon-l:  24px;
+  --pk-sys-icon-xl: 32px;
+
+  --pk-sys-button-default-h:   var(--pk-ref-space-16);
+  --pk-sys-button-default-v:   10px;
+  --pk-sys-button-default-gap: var(--pk-ref-space-8);
+  --pk-sys-button-large-h:     var(--pk-ref-space-32); /* Kiosk-only size */
+  --pk-sys-button-large-v:     var(--pk-ref-space-24);
+  --pk-sys-button-large-gap:   var(--pk-ref-space-12);
+}
