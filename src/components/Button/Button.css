@@ -61,6 +61,12 @@
   width: var(--pk-sys-icon-s);
   height: var(--pk-sys-icon-s);
 }
+/* Icon components (e.g. lucide-react) render a fixed 24x24 svg by default —
+   force it to fill the wrapper's token-driven size instead. */
+.pk-button__icon svg {
+  width: 100%;
+  height: 100%;
+}
 
 .pk-button--large .pk-button__icon {
   width: var(--pk-sys-icon-xl);

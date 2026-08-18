@@ -1,5 +1,6 @@
 import React from 'react'
 import { cx } from '../../lib/cx'
+import { CircleHelp } from '../../icons'
 import './RadioButton.css'
 
 /** Figma variant property `Size` — circle diameter (Mobile 20px, Desktop 24px, Kiosk 32px). */
@@ -66,22 +67,7 @@ export function RadioButton({
       {(label || tooltipIcon) && (
         <span className="pk-radio__text">
           {label && <span className={cx('pk-radio__label', 'pk-text-body-medium')}>{label}</span>}
-          {tooltipIcon && (
-            <svg
-              className="pk-radio__tooltip-icon"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              aria-hidden="true"
-            >
-              <circle cx="12" cy="12" r="10" />
-              <path d="M12 16v-4" />
-              <path d="M12 8h.01" />
-            </svg>
-          )}
+          {tooltipIcon && <CircleHelp className="pk-radio__tooltip-icon" aria-hidden="true" />}
         </span>
       )}
     </label>

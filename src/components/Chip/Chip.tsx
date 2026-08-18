@@ -1,5 +1,6 @@
 import React from 'react'
 import { cx } from '../../lib/cx'
+import { X } from '../../icons'
 import './Chip.css'
 
 /**
@@ -61,9 +62,7 @@ export function Chip({
           aria-label={typeof children === 'string' ? `Remove ${children}` : 'Remove'}
           data-force-state={forceState}
         >
-          <svg viewBox="0 0 12 12" aria-hidden="true" focusable="false">
-            <path d="M1.5 1.5L10.5 10.5M10.5 1.5L1.5 10.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
-          </svg>
+          <X aria-hidden="true" />
         </button>
       )}
     </div>

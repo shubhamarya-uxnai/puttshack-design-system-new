@@ -1,5 +1,6 @@
 import React from 'react'
 import { cx } from '../../lib/cx'
+import { AlertCircle, Info } from '../../icons'
 import './InputField.css'
 
 /** Figma variant property `State`. */
@@ -92,32 +93,11 @@ export function InputField({
       {helperText && (
         <div className="pk-input-field__helper-row" id={helperId}>
           <span className="pk-input-field__helper-icon" aria-hidden="true">
-            {isError ? <InputFieldErrorIcon /> : <InputFieldInfoIcon />}
+            {isError ? <AlertCircle /> : <Info />}
           </span>
           <span className="pk-input-field__helper-text pk-text-body-small">{helperText}</span>
         </div>
       )}
     </div>
-  )
-}
-
-/** Presentational only — Figma's helper row shows a status icon but exposes no icon prop for it. */
-function InputFieldInfoIcon() {
-  return (
-    <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <circle cx="8" cy="8" r="6.5" stroke="currentColor" strokeWidth="1.3" />
-      <path d="M8 7.25V11.25" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" />
-      <circle cx="8" cy="5.1" r="0.85" fill="currentColor" />
-    </svg>
-  )
-}
-
-function InputFieldErrorIcon() {
-  return (
-    <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <circle cx="8" cy="8" r="6.5" stroke="currentColor" strokeWidth="1.3" />
-      <path d="M8 4.75V8.75" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" />
-      <circle cx="8" cy="10.9" r="0.85" fill="currentColor" />
-    </svg>
   )
 }

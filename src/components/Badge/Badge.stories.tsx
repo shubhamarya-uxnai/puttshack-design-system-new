@@ -1,12 +1,9 @@
 import type { Meta, StoryObj } from '@storybook/react-vite'
+import { Check } from '../../icons'
 import { Badge } from './Badge'
 
-/** Small check-mark icon — stands in for whatever instance-swap icon Figma passes into the `icon` slot. */
-const checkIcon = (
-  <svg viewBox="0 0 16 16" aria-hidden="true" focusable="false">
-    <path d="M3 8.5L6.5 12L13 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" fill="none" />
-  </svg>
-)
+/** Fills whatever instance-swap icon Figma passes into the `icon` slot. */
+const checkIcon = <Check aria-hidden="true" />
 
 const meta = {
   title: 'Components/Badge',

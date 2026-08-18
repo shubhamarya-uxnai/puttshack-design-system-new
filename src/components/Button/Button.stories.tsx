@@ -1,19 +1,9 @@
 import type { Meta, StoryObj } from '@storybook/react-vite'
+import { ArrowRight, CalendarCheck } from '../../icons'
 import { Button } from './Button'
 
-const IconCalendarCheck = (
-  <svg width="100%" height="100%" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <rect x="2" y="3" width="12" height="11" rx="1.5" stroke="currentColor" strokeWidth="1.5" />
-    <path d="M2 6.5h12" stroke="currentColor" strokeWidth="1.5" />
-    <path d="M5.5 9.5l1.5 1.5 3-3" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-  </svg>
-)
-
-const IconArrowRight = (
-  <svg width="100%" height="100%" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-  </svg>
-)
+const IconCalendarCheck = <CalendarCheck aria-hidden="true" />
+const IconArrowRight = <ArrowRight aria-hidden="true" />
 
 const meta = {
   title: 'Components/Button',

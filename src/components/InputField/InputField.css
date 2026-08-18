@@ -37,6 +37,12 @@
   transition: border-color 120ms ease, background-color 120ms ease;
 }
 
+.pk-input-field__icon svg,
+.pk-input-field__helper-icon svg {
+  width: 100%;
+  height: 100%;
+}
+
 .pk-input-field__icon {
   box-sizing: border-box;
   display: flex;

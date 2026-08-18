@@ -106,19 +106,14 @@
   color: var(--pk-sys-text-disabled);
 }
 
+/* CircleHelp (lucide) already draws its own circle outline, so this only
+   needs to size and color it — no separate CSS-drawn border/circle. */
 .pk-checkbox__tooltip-icon {
-  box-sizing: border-box;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
   width: var(--pk-sys-icon-s);
   height: var(--pk-sys-icon-s);
   flex-shrink: 0;
-  border-radius: var(--pk-ref-radius-full);
-  border: var(--pk-ref-border-thin) solid var(--pk-sys-border-default);
   color: var(--pk-sys-text-secondary);
 }
 .pk-checkbox--disabled .pk-checkbox__tooltip-icon {
   color: var(--pk-sys-text-disabled);
-  border-color: var(--pk-sys-disabled-border);
 }

@@ -1,43 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react-vite'
+import { ChevronDown, Clock, Search, User } from '../../icons'
 import { InputField, type InputFieldState } from './InputField'
-
-/* Small inline icons for the leading/trailing icon slots — kept local to the
-   stories file since the component exposes no icon prop of its own beyond
-   accepting a ReactNode (Figma: instance-swap icon slots). */
-function ClockIcon() {
-  return (
-    <svg viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <circle cx="10" cy="10" r="7.25" stroke="currentColor" strokeWidth="1.5" />
-      <path d="M10 6V10L12.5 12" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-    </svg>
-  )
-}
-
-function PersonIcon() {
-  return (
-    <svg viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <circle cx="10" cy="7" r="3" stroke="currentColor" strokeWidth="1.5" />
-      <path d="M3.75 16.25c0-3 2.8-5 6.25-5s6.25 2 6.25 5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
-    </svg>
-  )
-}
-
-function SearchIcon() {
-  return (
-    <svg viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <circle cx="9" cy="9" r="5.5" stroke="currentColor" strokeWidth="1.5" />
-      <path d="M13.25 13.25L17 17" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
-    </svg>
-  )
-}
-
-function ChevronDownIcon() {
-  return (
-    <svg viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <path d="M5.5 8L10 12.5L14.5 8" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-    </svg>
-  )
-}
 
 const meta = {
   title: 'Components/Input Field',
@@ -90,7 +53,7 @@ const meta = {
     required: true,
     state: 'default',
     inverse: false,
-    leadingIcon: <ClockIcon />,
+    leadingIcon: <Clock />,
   },
 } satisfies Meta<typeof InputField>
 
@@ -174,19 +137,19 @@ export const WithIcons: Story = {
       </div>
       <div className="sbx-stack">
         <span className="sbx-label">leading icon</span>
-        <InputField label="Party size" placeholder="e.g. 4 guests" leadingIcon={<PersonIcon />} />
+        <InputField label="Party size" placeholder="e.g. 4 guests" leadingIcon={<User />} />
       </div>
       <div className="sbx-stack">
         <span className="sbx-label">trailing icon</span>
-        <InputField label="Venue" placeholder="Search venues" trailingIcon={<SearchIcon />} />
+        <InputField label="Venue" placeholder="Search venues" trailingIcon={<Search />} />
       </div>
       <div className="sbx-stack">
         <span className="sbx-label">both</span>
         <InputField
           label="Tee time"
           placeholder="Select a time"
-          leadingIcon={<ClockIcon />}
-          trailingIcon={<ChevronDownIcon />}
+          leadingIcon={<Clock />}
+          trailingIcon={<ChevronDown />}
         />
       </div>
     </div>

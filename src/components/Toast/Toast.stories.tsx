@@ -1,30 +1,15 @@
 import type { Meta, StoryObj } from '@storybook/react-vite'
+import { Check, Sparkles, TriangleAlert } from '../../icons'
 import { Toast } from './Toast'
 
-/** Stand-in exclamation glyph for the `warning` icon slot — Figma ships this as an instance-swap, no default asset exists in this extraction. */
-const alertIcon = (
-  <svg viewBox="0 0 20 20" aria-hidden="true" focusable="false">
-    <path d="M10 5.5v6" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" fill="none" />
-    <circle cx="10" cy="14.5" r="1" fill="currentColor" />
-  </svg>
-)
+/** Fills the `warning` icon slot — Figma ships this as an instance-swap, no default asset exists in this extraction. */
+const alertIcon = <TriangleAlert aria-hidden="true" />
 
-/** Stand-in checkmark glyph for the `success` icon slot. */
-const checkIcon = (
-  <svg viewBox="0 0 20 20" aria-hidden="true" focusable="false">
-    <path d="M4.5 10.5L8 14L15.5 6" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" fill="none" />
-  </svg>
-)
+/** Fills the `success` icon slot. */
+const checkIcon = <Check aria-hidden="true" />
 
-/** Stand-in sparkle glyph for the `promo` icon slot. */
-const sparkleIcon = (
-  <svg viewBox="0 0 20 20" aria-hidden="true" focusable="false">
-    <path
-      d="M10 3l1.4 4.6L16 9l-4.6 1.4L10 15l-1.4-4.6L4 9l4.6-1.4L10 3z"
-      fill="currentColor"
-    />
-  </svg>
-)
+/** Fills the `promo` icon slot. */
+const sparkleIcon = <Sparkles aria-hidden="true" />
 
 const meta = {
   title: 'Components/Toast',

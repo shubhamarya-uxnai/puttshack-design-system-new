@@ -41,6 +41,11 @@
   background: var(--pk-sys-success-border);
 }
 
+.pk-toast__icon svg {
+  width: var(--pk-sys-icon-m);
+  height: var(--pk-sys-icon-m);
+}
+
 .pk-toast__icon {
   box-sizing: border-box;
   width: var(--pk-comp-toast-icon-size);

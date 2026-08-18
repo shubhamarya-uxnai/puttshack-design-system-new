@@ -1,5 +1,6 @@
 import React, { useEffect, useRef } from 'react'
 import { cx } from '../../lib/cx'
+import { Check, CircleHelp, Minus } from '../../icons'
 import './Checkbox.css'
 
 /** Figma variant property `Size`. Drives the `data-screen` attribute the DS uses for per-mode sizing. */
@@ -30,28 +31,6 @@ export interface CheckboxProps
   /** Documentation only — pins `Status=Hover` or the focus ring open so Storybook can screenshot
    * it on a static page. Never use in application code. */
   forceState?: 'hover' | 'focus'
-}
-
-function CheckIcon() {
-  return (
-    <svg className="pk-checkbox__icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-      <path
-        d="M20 6 9 17l-5-5"
-        stroke="currentColor"
-        strokeWidth={3}
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-    </svg>
-  )
-}
-
-function MinusIcon() {
-  return (
-    <svg className="pk-checkbox__icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-      <path d="M5 12h14" stroke="currentColor" strokeWidth={3} strokeLinecap="round" strokeLinejoin="round" />
-    </svg>
-  )
 }
 
 /**
@@ -112,16 +91,12 @@ export function Checkbox({
           )}
           aria-hidden="true"
         >
-          {isChecked && <CheckIcon />}
-          {isIndeterminate && <MinusIcon />}
+          {isChecked && <Check className="pk-checkbox__icon" aria-hidden="true" />}
+          {isIndeterminate && <Minus className="pk-checkbox__icon" aria-hidden="true" />}
         </span>
       </span>
       {label && <span className="pk-checkbox__label pk-text-body-medium">{label}</span>}
-      {tooltipIcon && (
-        <span className="pk-checkbox__tooltip-icon pk-text-label-small" aria-hidden="true">
-          ?
-        </span>
-      )}
+      {tooltipIcon && <CircleHelp className="pk-checkbox__tooltip-icon" aria-hidden="true" />}
     </label>
   )
 }
