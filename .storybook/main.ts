@@ -6,6 +6,8 @@ const config: StorybookConfig = {
     '../src/docs/**/*.mdx',
     '../src/components/**/*.mdx',
     '../src/components/**/*.stories.@(ts|tsx)',
+    '../src/screens/**/*.mdx',
+    '../src/screens/**/*.stories.@(ts|tsx)',
   ],
   addons: [
     {

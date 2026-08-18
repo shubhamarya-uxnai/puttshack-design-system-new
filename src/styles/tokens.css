@@ -151,10 +151,13 @@
   --pk-ref-shadow-3: 0 16px 48px rgb(14 1 21 / 0.16); /* high — modals, dialogs, sheets */
   --pk-ref-shadow-z2: 0 4px 24px rgb(0 0 0 / 0.24);
   --pk-ref-shadow-branded-glow: 0 0 16px 0 rgb(244 81 151 / 0.48);
+  /* Confirmed live from a real "selected" card in the Booking & Perks Flow
+     consumption file (X5YJsGIXBKazkrUaxk0jR9) — corrects the earlier
+     estimate, which had the ring order and step widths wrong. */
   --pk-ref-shadow-selected:
-    inset 0 0 0 3px #592C82,
-    inset 0 0 0 5px #93358D,
-    inset 0 0 0 6px #E96BB0;
+    inset 0 0 0 3px #E96BB0,
+    inset 0 0 0 6px #93358D,
+    inset 0 0 0 9px #592C82;
 }
 
 

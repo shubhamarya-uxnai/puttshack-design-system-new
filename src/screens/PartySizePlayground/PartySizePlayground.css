@@ -1,0 +1,434 @@
+/* ============================================================================
+   PLAYGROUND: Party Size → Registration Outcome
+   Figma: X5YJsGIXBKazkrUaxk0jR9, node 3031:75761
+
+   Hardcoded on purpose, same rationale as BookingRegistration.css — this is
+   a one-off exploratory page, not a promoted component.
+   ========================================================================== */
+
+.pk-playground {
+  box-sizing: border-box;
+  max-width: 1160px;
+  margin: 0 auto;
+  padding: var(--pk-sys-gap-xl) var(--pk-sys-gap-lg) var(--pk-sys-gap-xl);
+  display: flex;
+  flex-direction: column;
+  gap: var(--pk-sys-gap-xl);
+  background: var(--pk-sys-bg-default);
+}
+
+.pk-playground__intro {
+  display: flex;
+  flex-direction: column;
+  gap: var(--pk-sys-gap-xs);
+  max-width: 640px;
+}
+.pk-playground__intro h1 {
+  margin: 0;
+  color: var(--pk-sys-text-primary);
+}
+.pk-playground__intro p {
+  margin: 0;
+  color: var(--pk-sys-text-secondary);
+}
+
+/* --- Step counter row (used inline on the Booking screen itself) -------------- */
+
+.pk-stepper {
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--pk-sys-gap-sm) 0;
+}
+
+.pk-stepper__label {
+  display: flex;
+  align-items: baseline;
+  gap: var(--pk-sys-gap-xs);
+  color: var(--pk-sys-text-primary);
+}
+.pk-stepper__sublabel {
+  color: var(--pk-sys-text-tertiary);
+}
+
+.pk-stepper__control {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--pk-sys-gap-sm);
+  flex-shrink: 0;
+}
+
+.pk-stepper__button {
+  box-sizing: border-box;
+  width: 36px;
+  height: 36px;
+  border-radius: var(--pk-ref-radius-full);
+  border: var(--pk-ref-border-thin) solid var(--pk-sys-border-strong);
+  background: var(--pk-sys-bg-default);
+  color: var(--pk-sys-text-primary);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background-color 120ms ease;
+}
+.pk-stepper__button:hover:not(:disabled) {
+  background: var(--pk-sys-surface-hover);
+}
+.pk-stepper__button:active:not(:disabled) {
+  background: var(--pk-sys-surface-pressed);
+}
+.pk-stepper__button:disabled {
+  cursor: not-allowed;
+  color: var(--pk-sys-text-disabled);
+  border-color: var(--pk-sys-disabled-border);
+}
+.pk-stepper__button svg {
+  width: 16px;
+  height: 16px;
+}
+
+.pk-stepper__value {
+  min-width: 20px;
+  text-align: center;
+  color: var(--pk-sys-text-primary);
+}
+
+/* --- Two screens side by side -------------------------------------------------- */
+
+.pk-playground__screens {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--pk-sys-gap-xl);
+  justify-content: center;
+}
+
+/* 390×844 — a standard modern mobile viewport (iPhone 12/13/14 logical
+   size). Fixed height, not auto — the chrome stays put and only the body
+   scrolls, same as a real device. */
+.pk-screen-frame {
+  box-sizing: border-box;
+  width: 390px;
+  max-width: 100%;
+  height: 844px;
+  display: flex;
+  flex-direction: column;
+  border-radius: var(--pk-ref-radius-lg);
+  border: var(--pk-ref-border-thin) solid var(--pk-sys-border-default);
+  overflow: hidden;
+  background: var(--pk-sys-bg-background);
+  box-shadow: var(--pk-ref-shadow-1);
+}
+
+.pk-screen-frame__chrome {
+  box-sizing: border-box;
+  flex-shrink: 0;
+  background: var(--pk-sys-bg-default);
+  border-bottom: var(--pk-ref-border-thin) solid var(--pk-sys-primary-border);
+  padding: var(--pk-sys-gap-sm) var(--pk-sys-gap-lg);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.pk-screen-frame__time {
+  color: var(--pk-sys-text-primary);
+  font-weight: 700;
+}
+.pk-screen-frame__wordmark {
+  height: 18px;
+  display: block;
+}
+
+.pk-screen-frame__label {
+  box-sizing: border-box;
+  flex-shrink: 0;
+  padding: var(--pk-sys-gap-sm) var(--pk-sys-gap-lg) 0;
+  color: var(--pk-sys-text-inverse-subtle);
+  text-transform: uppercase;
+}
+
+.pk-screen-frame__body {
+  box-sizing: border-box;
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-y: auto;
+  padding: var(--pk-sys-gap-lg);
+}
+
+/* --- Group Size card (Screen A) ------------------------------------------------ */
+
+.pk-group-size-card {
+  box-sizing: border-box;
+  background: var(--pk-sys-bg-default);
+  border-radius: var(--pk-ref-radius-lg);
+  padding: var(--pk-sys-level2-vertical) var(--pk-sys-level2-horizontal);
+  display: flex;
+  flex-direction: column;
+}
+
+.pk-group-size-card__header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  margin-bottom: var(--pk-sys-gap-md);
+}
+.pk-group-size-card__header span:first-child {
+  color: var(--pk-sys-text-primary);
+}
+.pk-group-size-card__total {
+  color: var(--pk-sys-text-secondary);
+}
+.pk-group-size-card__total strong {
+  color: var(--pk-sys-text-primary);
+  font-family: var(--pk-sys-font-ui-bold);
+}
+
+.pk-group-size-card__divider {
+  height: var(--pk-ref-border-thin);
+  background: var(--pk-sys-border-subtle);
+  margin: var(--pk-sys-gap-sm) 0;
+}
+
+.pk-group-size-card__include-me {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--pk-sys-gap-sm);
+  padding: var(--pk-sys-gap-sm) 0;
+  cursor: pointer;
+}
+.pk-group-size-card__include-me-text {
+  display: flex;
+  flex-direction: column;
+  color: var(--pk-sys-text-secondary);
+}
+.pk-group-size-card__include-me-hint {
+  color: var(--pk-sys-text-tertiary);
+}
+
+.pk-group-size-card__warning {
+  margin: var(--pk-sys-gap-sm) 0 0;
+  color: var(--pk-sys-error-text);
+}
+.pk-group-size-card__note {
+  margin: var(--pk-sys-gap-sm) 0 0;
+  color: var(--pk-sys-text-tertiary);
+}
+
+/* --- Manage Your Party card (Screen B) ----------------------------------------- */
+
+.pk-manage-party-card {
+  box-sizing: border-box;
+  background: var(--pk-sys-bg-default);
+  border-radius: var(--pk-ref-radius-lg);
+  padding: var(--pk-sys-level2-vertical) var(--pk-sys-level2-horizontal);
+  display: flex;
+  flex-direction: column;
+  gap: var(--pk-sys-gap-md);
+}
+
+.pk-manage-party-card__title-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.pk-manage-party-card__title-row span {
+  color: var(--pk-sys-text-primary);
+}
+
+.pk-manage-party-card__close {
+  box-sizing: border-box;
+  width: 28px;
+  height: 28px;
+  border-radius: var(--pk-ref-radius-full);
+  border: none;
+  background: transparent;
+  color: var(--pk-sys-text-secondary);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+.pk-manage-party-card__close:hover {
+  background: var(--pk-sys-surface-hover);
+}
+.pk-manage-party-card__close svg {
+  width: 18px;
+  height: 18px;
+}
+
+.pk-manage-party-card__intro {
+  margin: 0;
+  color: var(--pk-sys-text-secondary);
+}
+
+.pk-manage-party-card__progress {
+  box-sizing: border-box;
+  background: var(--pk-sys-bg-magenta-dark);
+  border-radius: var(--pk-ref-radius-md);
+  padding: var(--pk-sys-level3-vertical) var(--pk-sys-level3-horizontal);
+  display: flex;
+  flex-direction: column;
+  gap: var(--pk-sys-gap-sm);
+}
+
+.pk-manage-party-card__progress-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--pk-sys-gap-sm);
+}
+.pk-manage-party-card__progress-top span:first-child {
+  color: var(--pk-sys-text-inverse);
+}
+.pk-manage-party-card__progress-pct {
+  box-sizing: border-box;
+  flex-shrink: 0;
+  background: var(--pk-sys-bg-default);
+  color: var(--pk-sys-text-primary);
+  border-radius: var(--pk-ref-radius-full);
+  padding: 2px var(--pk-sys-gap-sm);
+}
+
+.pk-manage-party-card__progress-copy {
+  margin: 0;
+  color: var(--pk-sys-text-inverse-subtle);
+}
+
+.pk-manage-party-card__progress-track {
+  height: 6px;
+  border-radius: var(--pk-ref-radius-full);
+  background: var(--pk-ref-white-24);
+  overflow: hidden;
+}
+.pk-manage-party-card__progress-fill {
+  height: 100%;
+  background: var(--pk-ref-magenta-100);
+  border-radius: var(--pk-ref-radius-full);
+  transition: width 200ms ease;
+}
+
+.pk-manage-party-card__share {
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--pk-sys-gap-sm);
+  background: var(--pk-sys-bg-default);
+  border-radius: var(--pk-ref-radius-full);
+  padding: var(--pk-sys-gap-xs) var(--pk-sys-gap-xs) var(--pk-sys-gap-xs) var(--pk-sys-gap-md);
+}
+.pk-manage-party-card__share span:first-child {
+  color: var(--pk-sys-text-secondary);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.pk-manage-party-card__share-action {
+  box-sizing: border-box;
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--pk-sys-bg-inverse);
+  color: var(--pk-sys-text-inverse);
+  border-radius: var(--pk-ref-radius-full);
+  padding: var(--pk-sys-gap-xs) var(--pk-sys-gap-md);
+  text-transform: uppercase;
+}
+.pk-manage-party-card__share-action svg {
+  width: 14px;
+  height: 14px;
+}
+
+.pk-manage-party-card__roster {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--pk-sys-gap-sm);
+}
+
+.pk-player-row {
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--pk-sys-gap-sm);
+  padding: var(--pk-sys-gap-md);
+  border: var(--pk-ref-border-thin) solid var(--pk-sys-border-default);
+  border-radius: var(--pk-ref-radius-md);
+}
+
+.pk-player-row__info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+.pk-player-row__name-line {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.pk-player-row__name-line span:first-child {
+  color: var(--pk-sys-text-primary);
+}
+.pk-player-row__lock {
+  width: 12px;
+  height: 12px;
+  color: var(--pk-sys-text-tertiary);
+}
+.pk-player-row__lead-chip {
+  box-sizing: border-box;
+  color: var(--pk-sys-text-magenta);
+  border: var(--pk-ref-border-thin) solid var(--pk-sys-border-magenta);
+  border-radius: var(--pk-ref-radius-full);
+  padding: 1px var(--pk-sys-gap-sm);
+  text-transform: uppercase;
+}
+.pk-player-row__category {
+  color: var(--pk-sys-text-secondary);
+}
+
+.pk-manage-party-card__actions {
+  display: flex;
+  flex-direction: column;
+  gap: var(--pk-sys-gap-sm);
+}
+.pk-manage-party-card__add,
+.pk-manage-party-card__save {
+  width: 100%;
+}
+
+/* --- Explanation panel ---------------------------------------------------------- */
+
+.pk-playground__explanation {
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  gap: var(--pk-sys-gap-xs);
+  padding: var(--pk-sys-level2-vertical) var(--pk-sys-level2-horizontal);
+  background: var(--pk-sys-surface-subtle);
+  border-left: var(--pk-ref-border-thick) solid var(--pk-sys-border-magenta);
+  border-radius: var(--pk-ref-radius-sm);
+  max-width: 720px;
+  margin: 0 auto;
+  width: 100%;
+}
+.pk-playground__explanation span {
+  color: var(--pk-sys-text-secondary);
+}
+.pk-playground__explanation p {
+  margin: 0;
+  color: var(--pk-sys-text-primary);
+}
+.pk-playground__explanation--warning {
+  border-left-color: var(--pk-sys-warning-border);
+  background: var(--pk-sys-warning-bg);
+}
+.pk-playground__explanation--warning span,
+.pk-playground__explanation--warning p {
+  color: var(--pk-sys-warning-text);
+}
