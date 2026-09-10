@@ -1,0 +1,109 @@
+/* Page chrome only. Every visual detail inside a component (buttons, fields,
+   the OTP cells) comes from that component's own CSS — nothing here overrides
+   or reimplements DS styling. */
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+  margin: 0;
+}
+
+body {
+  font-family: 'Ringside Regular Book', system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+.app-shell {
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+}
+
+.app-shell--brand {
+  background: var(--pk-sys-bg-background);
+}
+
+.app-shell--default {
+  background: var(--pk-sys-bg-default);
+}
+
+.app-screen {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding: var(--pk-sys-container-top) var(--pk-sys-container-horizontal) var(--pk-sys-container-bottom);
+  gap: var(--pk-sys-gap-lg);
+  position: relative;
+}
+
+.app-screen__back {
+  border: none;
+  background: none;
+  padding: var(--pk-sys-gap-xs) 0;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--pk-sys-gap-xs);
+  color: var(--pk-sys-text-secondary);
+  align-self: flex-start;
+}
+
+.app-screen__back:hover {
+  color: var(--pk-sys-text-primary);
+}
+
+.app-screen__spacer {
+  flex: 1;
+}
+
+.app-screen__body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--pk-sys-gap-md);
+}
+
+.app-screen__wordmark {
+  width: 148px;
+  height: auto;
+}
+
+.app-screen__heading {
+  margin: 0;
+}
+
+.app-screen__subtext {
+  margin: 0;
+  color: var(--pk-sys-text-secondary);
+}
+
+.app-screen--brand .app-screen__subtext {
+  color: var(--pk-sys-text-inverse-subtle);
+}
+
+.app-screen__form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--pk-sys-gap-lg);
+}
+
+.app-screen__actions {
+  display: flex;
+  flex-direction: column;
+  gap: var(--pk-sys-gap-sm);
+}
+
+.app-screen__success-icon {
+  color: var(--pk-sys-success-text);
+  width: 64px;
+  height: 64px;
+}
+
+.app-screen__center {
+  align-items: center;
+  text-align: center;
+}
