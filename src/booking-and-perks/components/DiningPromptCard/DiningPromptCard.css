@@ -1,0 +1,48 @@
+/* Standalone card, not a variant of any other booking-and-perks composition — background matches
+   the Perks Card's tone (--pk-sys-bg-magenta-dark, #592C82), one step lighter than Location &
+   Player Picker / Experience Type Selector's --pk-sys-bg-card (#290E3C). */
+
+.pk-dining-prompt-card {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--pk-sys-gap-lg);
+  padding: var(--pk-sys-level2-vertical) var(--pk-sys-level2-horizontal);
+  border-radius: var(--pk-ref-radius-xl);
+  background: var(--pk-sys-bg-magenta-dark);
+}
+
+.pk-dining-prompt-card__heading {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--pk-sys-gap-md);
+}
+
+.pk-dining-prompt-card__icon {
+  flex-shrink: 0;
+  width: var(--pk-sys-icon-l);
+  height: var(--pk-sys-icon-l);
+  color: var(--pk-sys-text-magenta);
+}
+
+.pk-dining-prompt-card__text {
+  display: flex;
+  flex-direction: column;
+  gap: var(--pk-sys-gap-xs);
+}
+
+.pk-dining-prompt-card__title {
+  margin: 0;
+  color: var(--pk-sys-text-inverse);
+  text-transform: uppercase;
+}
+
+.pk-dining-prompt-card__description {
+  margin: 0;
+  color: var(--pk-sys-text-inverse-subtle);
+}
+
+.pk-dining-prompt-card__button {
+  width: 100%;
+  justify-content: center;
+}

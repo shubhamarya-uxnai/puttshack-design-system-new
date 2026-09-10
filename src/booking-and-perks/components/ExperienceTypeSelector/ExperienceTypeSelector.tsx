@@ -1,6 +1,4 @@
 import React from 'react'
-import { Utensils } from '../../../icons'
-import { Button } from '../../../components/Button/Button'
 import { SelectionCards } from '../SelectionCards/SelectionCards'
 import { ExperienceSelector, ExperienceSelectorOption } from '../ExperienceSelector/ExperienceSelector'
 import './ExperienceTypeSelector.css'
@@ -39,8 +37,6 @@ export interface ExperienceTypeSelectorOptionGroup {
 }
 
 export interface ExperienceTypeSelectorProps {
-  /** Figma: `Dining menu#940:1` boolean — shows the "View Menu" button. @default false */
-  diningMenu?: boolean
   /** The `ExperienceSelector` options (Puttcade / Mini Golf / Dining Only by default). */
   experienceOptions?: ExperienceSelectorOption[]
   /** Selected `ExperienceSelector` option key. */
@@ -59,7 +55,6 @@ export interface ExperienceTypeSelectorProps {
   optionGroups?: ExperienceTypeSelectorOptionGroup[]
   /** Forwarded to each `SelectionCards`' own `onDarkBackground` — set true when this sits on a dark/branded page background. @default false */
   onDarkBackground?: boolean
-  onViewMenu?: () => void
 }
 
 /** Real "HOW MANY ROUNDS?" data for Interactive Mini Golf — exported so a consumer can supply its
@@ -122,7 +117,6 @@ export const PUTTCADE_SETUP_OPTION_GROUPS: Omit<ExperienceTypeSelectorOptionGrou
 ]
 
 export function ExperienceTypeSelector({
-  diningMenu = false,
   experienceOptions,
   experienceValue,
   onExperienceChange,
@@ -130,7 +124,6 @@ export function ExperienceTypeSelector({
   optionsHeading = 'How many rounds?',
   optionGroups = MINI_GOLF_ROUND_OPTION_GROUPS,
   onDarkBackground = false,
-  onViewMenu,
 }: ExperienceTypeSelectorProps) {
   return (
     <div className="pk-oct-experience-selector">
@@ -168,12 +161,6 @@ export function ExperienceTypeSelector({
             </React.Fragment>
           ))}
         </div>
-      )}
-
-      {diningMenu && (
-        <Button variant="tertiary" leadingIcon={<Utensils aria-hidden="true" />} onClick={onViewMenu}>
-          View Menu
-        </Button>
       )}
     </div>
   )

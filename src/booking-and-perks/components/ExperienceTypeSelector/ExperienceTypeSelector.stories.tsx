@@ -5,7 +5,6 @@ const meta = {
   title: 'Booking & Perks/Experience Type Selector',
   component: ExperienceTypeSelector,
   parameters: { layout: 'padded' },
-  args: { diningMenu: true },
 } satisfies Meta<typeof ExperienceTypeSelector>
 
 export default meta

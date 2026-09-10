@@ -8,6 +8,7 @@ import {
   MINI_GOLF_ROUND_OPTION_GROUPS,
   PUTTCADE_SETUP_OPTION_GROUPS,
 } from '../src/booking-and-perks/components/ExperienceTypeSelector/ExperienceTypeSelector'
+import { DiningPromptCard } from '../src/booking-and-perks/components/DiningPromptCard/DiningPromptCard'
 import './Screens.css'
 
 /**
@@ -27,8 +28,10 @@ import './Screens.css'
  * component's own default `optionGroups`) and Puttcade's "CHOOSE YOUR
  * SETUP" (bay count + duration, `PUTTCADE_SETUP_OPTION_GROUPS`) reuse the
  * same `ExperienceTypeSelector`/`SelectionCards` — only the heading and
- * option data change per experience. Dining Only's own tiers aren't
- * captured yet, so nothing shows for that option.
+ * option data change per experience. Dining Only has no pricing-tier
+ * list of its own — instead a standalone `DiningPromptCard` ("Just here
+ * to eat?" + a View Menu button) appears, a distinct real card rather
+ * than another `ExperienceTypeSelector` variant.
  */
 export function ConfigureScreen({ onCheckout }: { onCheckout: () => void }) {
   const [selectedDate, setSelectedDate] = useState<string | undefined>(undefined)
@@ -72,6 +75,7 @@ export function ConfigureScreen({ onCheckout }: { onCheckout: () => void }) {
             ]}
           />
         )}
+        {selectedDate && selectedExperience === 'dining' && <DiningPromptCard />}
       </div>
 
       <BookingFooter variant="checkout" location="Chicago, IL" price="$0.00" checkoutDisabled onCheckout={onCheckout} />
