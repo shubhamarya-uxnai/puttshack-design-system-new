@@ -3,7 +3,7 @@ import { AppHeader } from '../src/booking-and-perks/components/AppHeader/AppHead
 import { BookingFooter } from '../src/booking-and-perks/components/BookingFooter/BookingFooter'
 import { PerksCard } from '../src/booking-and-perks/components/PerksCard/PerksCard'
 import { LocationPlayerPicker } from '../src/booking-and-perks/components/LocationPlayerPicker/LocationPlayerPicker'
-import { ExperienceSelector } from '../src/booking-and-perks/components/ExperienceSelector/ExperienceSelector'
+import { ExperienceTypeSelector } from '../src/booking-and-perks/components/ExperienceTypeSelector/ExperienceTypeSelector'
 import './Screens.css'
 
 /**
@@ -15,14 +15,19 @@ import './Screens.css'
  * hidden). Content and copy below are read directly from that node via
  * Figma's design-context API, not guessed from a screenshot.
  *
- * "Experience selector" (node 4904:143453) is a real next step in this
- * flow — the app reveals it once a date is picked in Location & Player
- * Picker, matching the flow's own progressive-disclosure pattern (Select
- * Date itself stays disabled until a player is added).
+ * "Experience Type Selector/October" (node 5000:149789) is a real next
+ * step in this flow — the app reveals it once a date is picked in
+ * Location & Player Picker, matching the flow's own progressive-
+ * disclosure pattern (Select Date itself stays disabled until a player
+ * is added). Its "HOW MANY ROUNDS?" pricing tiers are only real for the
+ * Interactive Mini Golf experience — Puttcade/Dining Only's own tiers
+ * aren't captured yet, so the section only shows once that option is
+ * chosen.
  */
 export function ConfigureScreen({ onCheckout }: { onCheckout: () => void }) {
   const [selectedDate, setSelectedDate] = useState<string | undefined>(undefined)
   const [selectedExperience, setSelectedExperience] = useState<string | undefined>(undefined)
+  const [selectedRound, setSelectedRound] = useState<number | undefined>(undefined)
 
   return (
     <div className="pk-proto-screen">
@@ -39,10 +44,13 @@ export function ConfigureScreen({ onCheckout }: { onCheckout: () => void }) {
         <PerksCard type="unlock" />
         <LocationPlayerPicker onDateSelect={setSelectedDate} />
         {selectedDate && (
-          <div className="pk-proto-screen__section">
-            <h3 className="pk-proto-screen__section-heading pk-text-title-medium">Choose your experience</h3>
-            <ExperienceSelector value={selectedExperience} onChange={setSelectedExperience} />
-          </div>
+          <ExperienceTypeSelector
+            experienceValue={selectedExperience}
+            onExperienceChange={setSelectedExperience}
+            showOptions={selectedExperience === 'mini-golf'}
+            selectedOptionIndex={selectedRound}
+            onOptionSelect={setSelectedRound}
+          />
         )}
       </div>
 

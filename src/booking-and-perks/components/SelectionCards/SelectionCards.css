@@ -6,20 +6,35 @@
   gap: var(--pk-sys-gap-md); /* Figma token: GAP/Medium */
   padding: var(--pk-sys-level3-vertical) var(--pk-sys-level3-horizontal); /* Figma token: Level 3/Vertical, Level 3/Horizontal */
   border-radius: 16px; /* Figma token: lg */
-  background: var(--pk-sys-surface-subtle); /* Figma token: Surface/Subtle */
+  background: var(--pk-sys-bg-default); /* Figma: "Web/Un Selected", #FFFFFF */
   border: var(--pk-ref-border-thin) solid transparent;
   cursor: pointer;
 }
 
+/* Real captures (Figma "Selection Cards", node 4435:179395): "Selection=True, Background=True"
+   (node 4361:159356) is the highlighted-selection treatment used when the card set itself sits on
+   a light/white page — the selected card gets its own dark card fill. "Selection=True,
+   Background=False" (node 4083:114475) is a translucent-on-dark treatment for when the card set
+   already sits on a dark/branded surface (`onDarkBackground`) — just the ring, no added fill. Both
+   share the same 3-layer inset "Web/Border/Selected" ring and white text. */
 .pk-oct-selection-card--selected {
-  background: var(--pk-sys-surface-selected); /* Figma token: Surface/Selected */
+  background: var(--pk-sys-bg-card); /* Figma: "Web/Card Background", #290E3C */
   border-color: transparent;
-  /* Same "Web/Border/Selected" effect confirmed on Date Picker Card and Experience Selector — a
-     3-layer inset shadow, not a plain border. */
   box-shadow:
     inset 0 0 0 3px var(--pk-ref-magenta-100),
     inset 0 0 0 6px var(--pk-ref-magenta-300),
     inset 0 0 0 9px var(--pk-ref-magenta-500);
+}
+
+.pk-oct-selection-card--selected .pk-oct-selection-card__title,
+.pk-oct-selection-card--selected .pk-oct-selection-card__content,
+.pk-oct-selection-card--selected .pk-oct-selection-card__price-lines,
+.pk-oct-selection-card--selected .pk-oct-selection-card__total {
+  color: var(--pk-sys-text-inverse);
+}
+
+.pk-oct-selection-card--selected .pk-oct-selection-card__prices {
+  border-top-color: var(--pk-sys-border-inverse);
 }
 
 .pk-oct-selection-card--dark {
@@ -29,6 +44,10 @@
 .pk-oct-selection-card--dark .pk-oct-selection-card__title,
 .pk-oct-selection-card--dark .pk-oct-selection-card__content {
   color: var(--pk-sys-text-inverse);
+}
+
+.pk-oct-selection-card--dark.pk-oct-selection-card--selected {
+  background: var(--pk-ref-white-06);
 }
 
 .pk-oct-selection-card__top {

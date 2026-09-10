@@ -194,7 +194,7 @@
   --pk-sys-bg-overlay:       var(--pk-ref-black-12);
   --pk-sys-bg-blue:          var(--pk-ref-blue-200);
   --pk-sys-bg-orange:        var(--pk-ref-orange-300);
-  --pk-sys-bg-magenta-light: var(--pk-ref-magenta-100);
+  --pk-sys-bg-magenta-light: var(--pk-ref-magenta-200); /* confirmed #F45197 via multiple real captures (RadioButton tick, Experience Card) — was mapped to magenta-100 (#E96BB0), one ramp step off */
   --pk-sys-bg-magenta-dark:  var(--pk-ref-magenta-500);
   /* Figma paint style "Web/Card Background" (Booking and Perks Flow library) — the real fill used
      by Location & Player Picker, Promo Code Input, Bundle Upsell Section, Time Slot Picker, and

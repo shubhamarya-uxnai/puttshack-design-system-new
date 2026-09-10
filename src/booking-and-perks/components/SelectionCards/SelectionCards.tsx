@@ -73,6 +73,7 @@ export function SelectionCards({
             checked={selected}
             onChange={onSelect}
             tooltipIcon
+            tick
             className="pk-oct-selection-card__radio"
           />
         )}
