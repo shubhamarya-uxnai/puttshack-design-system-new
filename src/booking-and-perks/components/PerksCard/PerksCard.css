@@ -1,0 +1,24 @@
+/* "Perks Card" — booking-and-perks composition scaffold. */
+
+.pk-oct-perks-card {
+  display: flex;
+  align-items: center;
+  gap: var(--pk-sys-gap-md); /* Figma token: GAP/Medium */
+  padding: var(--pk-sys-level2-vertical) var(--pk-sys-level2-horizontal); /* Figma token: Level 2/Vertical, Level 2/Horizontal */
+  border-radius: 24px; /* Figma token: xl */
+  background: var(--pk-sys-bg-magenta-dark); /* Figma token: Background/Magenta Dark 2 (closest semantic match; no dedicated "Dark 2" system token exists) */
+  flex-wrap: wrap;
+}
+
+.pk-oct-perks-card__icon {
+  flex-shrink: 0;
+  width: var(--pk-sys-icon-l);
+  height: var(--pk-sys-icon-l);
+  color: var(--pk-sys-text-inverse);
+}
+
+.pk-oct-perks-card__copy {
+  flex: 1;
+  min-width: 160px;
+  color: var(--pk-sys-text-inverse); /* Figma token: Text + Icon/Primary — inverse used here since this card sits on the dark Magenta surface */
+}

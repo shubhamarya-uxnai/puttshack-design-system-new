@@ -1,0 +1,23 @@
+/* Tokens: Background/Default -> --pk-sys-bg-default, Interactive/Primary/Enabled -> --pk-sys-primary-enabled,
+   Level 2/* -> --pk-sys-level2-*, GAP/Large -> --pk-sys-gap-lg, GAP/Medium -> --pk-sys-gap-md,
+   GAP/Small -> --pk-sys-gap-sm, Text + Icon/Inverse -> --pk-sys-text-inverse. */
+
+.pk-tnc-signup {
+  display: flex;
+  flex-direction: column;
+  gap: var(--pk-sys-level2-gap);
+  padding: var(--pk-sys-level2-vertical) var(--pk-sys-level2-horizontal);
+  background: var(--pk-sys-bg-default);
+  border-radius: 16px;
+}
+
+.pk-tnc-signup__heading {
+  color: var(--pk-sys-text-primary);
+}
+
+.pk-tnc-signup__row {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--pk-sys-gap-sm);
+  cursor: pointer;
+}

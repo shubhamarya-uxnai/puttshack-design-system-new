@@ -1,0 +1,44 @@
+/* Tokens used in Figma capture: Background/Inverse, Border/Inverse,
+   Border/Magenta, Button/Default/Horizontal, Button/Default/Vertical,
+   GAP/Medium, GAP/X-Small, Interactive/Primary/Enabled, Level 2/Horizontal,
+   Level 3/Vertical, Text + Icon/Inverse, radius "full". */
+
+.pk-booking-footer {
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--pk-sys-gap-md);
+  width: 100%;
+  background: var(--pk-sys-bg-inverse);
+  border-top: 1px solid var(--pk-sys-border-inverse);
+  padding: var(--pk-sys-level3-vertical) var(--pk-sys-level2-horizontal);
+  color: var(--pk-sys-text-inverse);
+}
+
+.pk-booking-footer__badges {
+  display: flex;
+  align-items: center;
+  gap: var(--pk-sys-gap-xs);
+  flex-wrap: wrap;
+}
+
+.pk-booking-footer__separator {
+  width: 1px;
+  height: 16px;
+  background: var(--pk-sys-border-magenta);
+}
+
+.pk-booking-footer__cta {
+  border-radius: var(--pk-ref-radius-full);
+  flex-shrink: 0;
+}
+
+.pk-booking-footer__status {
+  color: var(--pk-sys-text-inverse);
+  flex-shrink: 0;
+}
+
+.pk-booking-footer--you-are-in {
+  background: var(--pk-sys-bg-inverse);
+}

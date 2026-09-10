@@ -1,0 +1,28 @@
+/* "Share Booking Link/October" — booking-and-perks composition scaffold. */
+
+.pk-oct-share-link {
+  display: flex;
+  flex-direction: column;
+  gap: var(--pk-sys-gap-sm); /* Figma token: S3 (approx) */
+  padding: var(--pk-ref-space-24) var(--pk-ref-space-16); /* Figma tokens: S8, S4 (approx) */
+  border-radius: 24px; /* Figma token: xl */
+  background: var(--pk-sys-bg-magenta-dark); /* Figma token: Background/Magenta Dark 3 */
+  color: var(--pk-sys-text-inverse); /* Figma token: Text + Icon/White */
+}
+
+.pk-oct-share-link__headline {
+  margin: 0;
+  color: var(--pk-sys-text-inverse);
+}
+
+.pk-oct-share-link__note {
+  margin: 0;
+  color: var(--pk-sys-text-magenta); /* Figma token: Text + Icon/Magenta */
+}
+
+.pk-oct-share-link__actions {
+  display: flex;
+  flex-direction: column;
+  gap: var(--pk-ref-space-12); /* Figma token: S1 (approx) */
+  margin-top: var(--pk-sys-gap-sm);
+}

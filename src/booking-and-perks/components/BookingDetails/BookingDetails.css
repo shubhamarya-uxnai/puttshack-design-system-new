@@ -1,0 +1,87 @@
+/* Composition scaffold CSS for "Booking details" (see BookingDetails.tsx
+   header comment for the Figma source). No token list was captured on this
+   record beyond what's implied by its children (Badge/Button/ModalHeadings
+   each carry their own tokens) — spacing/surface values below follow this
+   batch's established rhythm (Level 2 padding, Gap Small/Medium). */
+
+.pk-oct-booking-details {
+  display: flex;
+  flex-direction: column;
+  gap: var(--pk-sys-gap-md);
+  background: var(--pk-sys-surface-default);
+  border-radius: var(--pk-ref-radius-md);
+  padding: var(--pk-sys-level2-vertical) var(--pk-sys-level2-horizontal);
+}
+
+.pk-oct-booking-details__label {
+  color: var(--pk-sys-text-secondary);
+}
+
+.pk-oct-booking-details__banner {
+  width: 100%;
+}
+
+.pk-oct-booking-details__rows {
+  display: flex;
+  flex-direction: column;
+  gap: var(--pk-sys-gap-sm);
+  margin: 0;
+}
+
+.pk-oct-booking-details__split-row {
+  display: flex;
+  gap: var(--pk-sys-gap-md);
+}
+
+.pk-oct-detail-row {
+  display: flex;
+  align-items: center;
+  gap: var(--pk-sys-gap-sm);
+}
+
+.pk-oct-detail-row--compact {
+  flex: 1;
+}
+
+.pk-oct-detail-row__icon {
+  display: inline-flex;
+  width: var(--pk-sys-icon-m);
+  height: var(--pk-sys-icon-m);
+  color: var(--pk-sys-text-secondary);
+  flex-shrink: 0;
+}
+
+.pk-oct-detail-row__text {
+  display: flex;
+  flex-direction: column;
+}
+
+.pk-oct-detail-row__label {
+  color: var(--pk-sys-text-secondary);
+}
+
+.pk-oct-detail-row__value-line {
+  display: flex;
+  align-items: baseline;
+  gap: var(--pk-sys-gap-xs);
+}
+
+.pk-oct-detail-row__value {
+  color: var(--pk-sys-text-primary);
+}
+
+.pk-oct-detail-row__secondary {
+  color: var(--pk-sys-text-tertiary);
+}
+
+.pk-oct-booking-details__price {
+  display: flex;
+  align-items: center;
+  gap: var(--pk-sys-gap-xs);
+  width: 100%;
+}
+
+.pk-oct-booking-details__actions {
+  display: flex;
+  gap: var(--pk-sys-gap-sm);
+}

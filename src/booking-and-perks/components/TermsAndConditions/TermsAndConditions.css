@@ -1,0 +1,20 @@
+/* Tokens: Border/Inverse -> --pk-sys-border-inverse, Feedback/Warning/Background -> --pk-sys-warning-bg,
+   Surface/Subtle -> --pk-sys-surface-subtle, Text + Icon/Inverse -> --pk-sys-text-inverse,
+   Level 3/* -> --pk-sys-level3-*, GAP/Medium -> --pk-sys-gap-md, GAP/Small -> --pk-sys-gap-sm. */
+
+.pk-terms-and-conditions {
+  display: flex;
+  flex-direction: column;
+  gap: var(--pk-sys-gap-md);
+}
+
+.pk-terms-and-conditions__row {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--pk-sys-gap-sm);
+  cursor: pointer;
+}
+
+.pk-terms-and-conditions__row .pk-checkbox {
+  margin-top: 2px;
+}

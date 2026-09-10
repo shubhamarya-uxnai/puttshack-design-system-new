@@ -1,0 +1,29 @@
+/* Tokens used in Figma capture: Background/Inverse, S3, S5, Text + Icon/Inverse.
+   "S3"/"S5" are a local Figma spacing scale not present in our --pk-sys token
+   set (only S0-50..S6 style names appear in the capture, no px values) —
+   approximated below with the nearest --pk-sys-gap-* steps and flagged. */
+
+.pk-tab {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  cursor: pointer;
+  background: transparent;
+  /* approximates Figma "S3" horizontal / "S5" vertical padding */
+  padding: var(--pk-sys-gap-sm) var(--pk-sys-gap-md);
+  border-radius: var(--pk-ref-radius-sm);
+  color: var(--pk-sys-text-inverse);
+}
+
+.pk-tab--selected {
+  background: var(--pk-sys-bg-inverse);
+}
+
+.pk-tab--default {
+  opacity: 0.72;
+}
+
+.pk-tab__label {
+  white-space: nowrap;
+}

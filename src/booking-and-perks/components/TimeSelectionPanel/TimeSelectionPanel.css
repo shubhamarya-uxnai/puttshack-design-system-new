@@ -1,0 +1,18 @@
+/* Tokens: Background/Default -> --pk-sys-bg-default, Background/Magenta Dark -> --pk-sys-bg-magenta-dark,
+   Level 3/Gap -> --pk-sys-level3-gap, GAP/Large -> --pk-sys-gap-lg, GAP/X-Large -> --pk-sys-gap-xl,
+   Surface/Subtle -> --pk-sys-surface-subtle, Text + Icon/Primary -> --pk-sys-text-primary. */
+
+.pk-time-selection-panel {
+  display: flex;
+  flex-direction: column;
+  gap: var(--pk-sys-gap-md);
+  background: var(--pk-sys-bg-default);
+  padding: var(--pk-sys-gap-lg);
+  border-radius: 16px;
+}
+
+.pk-time-selection-panel__grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--pk-sys-level3-gap);
+}

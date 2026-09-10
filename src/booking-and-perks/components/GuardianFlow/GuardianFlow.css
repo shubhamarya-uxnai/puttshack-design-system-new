@@ -1,0 +1,17 @@
+/* Tokens used in Figma capture: Background/Default, Button/Default/Gap,
+   Button/Default/Horizontal, Button/Default/Vertical, GAP/Medium, GAP/Small,
+   GAP/X-Large, Interactive/Primary/Enabled, Level 2/Horizontal,
+   Level 2/Vertical, Text + Icon/Inverse, radius "full", icon size "xl". */
+
+.pk-guardian-flow {
+  display: flex;
+  flex-direction: column;
+  gap: var(--pk-sys-gap-xl);
+  background: var(--pk-sys-bg-default);
+  padding: var(--pk-sys-level2-vertical) var(--pk-sys-level2-horizontal);
+}
+
+.pk-guardian-flow__submit {
+  align-self: flex-start;
+  border-radius: var(--pk-ref-radius-full);
+}

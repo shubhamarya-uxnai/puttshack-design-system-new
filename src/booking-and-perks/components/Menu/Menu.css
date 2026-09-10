@@ -1,0 +1,26 @@
+/* ============================================================================
+   Menu — composition scaffold for Figma "Menu" (node 4199:163959).
+   Generic dark panel shell; no captured child layout to reproduce.
+   ========================================================================== */
+
+.pk-menu {
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  gap: var(--pk-sys-level2-gap);
+  padding: var(--pk-sys-level2-vertical) var(--pk-sys-level2-horizontal);
+  background: var(--pk-sys-bg-magenta-dark); /* token: Background/Magenta Dark */
+  border-radius: var(--pk-ref-radius-md);
+  color: var(--pk-sys-text-inverse);
+}
+
+.pk-menu__title {
+  color: var(--pk-sys-text-inverse);
+}
+
+.pk-menu__body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--pk-sys-gap-md);
+  color: var(--pk-sys-text-inverse-subtle);
+}

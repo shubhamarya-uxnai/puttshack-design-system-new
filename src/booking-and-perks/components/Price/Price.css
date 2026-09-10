@@ -1,0 +1,24 @@
+/* ============================================================================
+   Price — composition scaffold for Figma "Price" (node 4199:163303).
+   Layout only: flex row, no captured pixel positions for this piece.
+   ========================================================================== */
+
+.pk-price {
+  display: inline-flex;
+  align-items: baseline;
+  gap: var(--pk-sys-gap-xs);
+  color: var(--pk-sys-text-magenta); /* token: Text + Icon/Magenta */
+}
+
+.pk-price__original {
+  color: var(--pk-sys-text-secondary);
+  text-decoration: line-through;
+}
+
+.pk-price--inverse {
+  color: var(--pk-sys-text-inverse);
+}
+
+.pk-price--inverse .pk-price__original {
+  color: var(--pk-sys-text-inverse-subtle);
+}

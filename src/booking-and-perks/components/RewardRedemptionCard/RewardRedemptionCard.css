@@ -1,0 +1,38 @@
+/* "Reward Redemption Card" — booking-and-perks composition scaffold. */
+
+.pk-oct-reward-card {
+  display: flex;
+  align-items: center;
+  gap: var(--pk-sys-gap-lg); /* Figma token: GAP/Large */
+  padding: var(--pk-ref-space-4); /* Figma token: xs */
+  border: var(--pk-ref-border-thin) solid var(--pk-sys-border-default); /* Figma token: Border/Subtle */
+  border-radius: 16px; /* Figma token: lg */
+  background: var(--pk-sys-surface-subtle);
+}
+
+.pk-oct-reward-card--applied {
+  opacity: 0.72;
+}
+
+.pk-oct-reward-card__icon {
+  flex-shrink: 0;
+  width: 32px; /* Figma token: Icon size/XL */
+  height: 32px;
+  color: var(--pk-sys-text-magenta); /* Figma token: Text + Icon/Magenta */
+}
+
+.pk-oct-reward-card__text {
+  display: flex;
+  flex-direction: column;
+  gap: var(--pk-sys-gap-xs);
+  flex: 1;
+  min-width: 0;
+}
+
+.pk-oct-reward-card__heading {
+  color: var(--pk-sys-text-primary);
+}
+
+.pk-oct-reward-card__subheading {
+  color: var(--pk-sys-text-secondary);
+}

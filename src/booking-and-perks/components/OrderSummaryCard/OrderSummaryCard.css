@@ -1,0 +1,57 @@
+/* Tokens used in Figma capture: Border/Default, Level 2/Horizontal,
+   Level 2/Vertical, Surface/Subtle, Text + Icon/Magenta, Text + Icon/Primary,
+   Text + Icon/Secondary, radius "md"/"sm". */
+
+.pk-order-summary-card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--pk-sys-gap-sm);
+  background: var(--pk-sys-surface-subtle);
+  border: 1px solid var(--pk-sys-border-default);
+  border-radius: var(--pk-ref-radius-md);
+  padding: var(--pk-sys-level2-vertical) var(--pk-sys-level2-horizontal);
+}
+
+.pk-order-summary-card__title {
+  color: var(--pk-sys-text-primary);
+}
+
+.pk-order-summary-card__rows {
+  display: flex;
+  flex-direction: column;
+  gap: var(--pk-sys-gap-xs);
+  margin: 0;
+}
+
+.pk-order-summary-card__row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--pk-sys-gap-sm);
+}
+
+.pk-order-summary-card__label {
+  color: var(--pk-sys-text-secondary);
+  margin: 0;
+}
+
+.pk-order-summary-card__value {
+  color: var(--pk-sys-text-secondary);
+  margin: 0;
+}
+
+.pk-order-summary-card__total-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-top: 1px solid var(--pk-sys-border-default);
+  padding-top: var(--pk-sys-gap-sm);
+}
+
+.pk-order-summary-card__total-label {
+  color: var(--pk-sys-text-primary);
+}
+
+.pk-order-summary-card__total-value {
+  color: var(--pk-sys-text-magenta);
+}

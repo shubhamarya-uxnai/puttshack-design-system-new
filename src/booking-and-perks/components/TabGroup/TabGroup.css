@@ -1,0 +1,13 @@
+/* Tokens used in Figma capture: Background/Inverse, Background/Overlay,
+   GAP/Large, Interactive/Primary/Border, S1, S3, S5, Text + Icon/Primary. */
+
+.pk-tab-group {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--pk-sys-gap-lg);
+  background: var(--pk-sys-bg-overlay);
+  border: 1px solid var(--pk-sys-primary-border);
+  border-radius: var(--pk-ref-radius-full);
+  /* approximates Figma "S1" padding */
+  padding: 4px;
+}

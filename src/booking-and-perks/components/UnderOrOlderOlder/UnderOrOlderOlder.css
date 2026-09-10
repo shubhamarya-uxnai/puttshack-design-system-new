@@ -1,0 +1,20 @@
+/* Tokens used in Figma capture: Background/Default, Border/Magenta,
+   GAP/Large, GAP/Medium, GAP/Small, GAP/X-Small, Interactive/Primary/Hover,
+   Level 3/Gap, Level 3/Horizontal, Level 3/Vertical, Surface/Selected,
+   Surface/Subtle, Text + Icon/Primary, radius "full"/"lg". */
+
+.pk-under-or-older-older {
+  display: flex;
+  flex-direction: column;
+  gap: var(--pk-sys-gap-md);
+  background: var(--pk-sys-surface-subtle);
+  border: var(--pk-ref-border-thin) solid var(--pk-sys-border-magenta);
+  border-radius: var(--pk-ref-radius-lg);
+  padding: var(--pk-sys-level3-vertical) var(--pk-sys-level3-horizontal);
+}
+
+.pk-under-or-older-older__header {
+  display: flex;
+  align-items: center;
+  gap: var(--pk-sys-gap-sm);
+}

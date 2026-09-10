@@ -1,0 +1,45 @@
+/* Tokens: Surface/Selected -> --pk-sys-surface-selected, Border/Strong -> --pk-sys-border-strong,
+   Border/Magenta -> --pk-sys-border-magenta, Interactive/Primary/Border -> --pk-sys-primary-border,
+   Text + Icon/Inverse -> --pk-sys-text-inverse, GAP/Small -> --pk-sys-gap-sm.
+   "full" corner radius has no --pk-sys-radius-* token in tokens.css (only --pk-ref-radius-full
+   exists at the reference tier) — used the ref token here since no semantic equivalent exists. */
+
+.pk-time-slot-chip {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--pk-sys-gap-xs);
+  position: relative;
+  min-width: 84px;
+  padding: var(--pk-sys-gap-sm) var(--pk-sys-gap-md);
+  border-radius: var(--pk-ref-radius-full);
+  border: 1px solid var(--pk-sys-border-strong);
+  background: var(--pk-sys-surface-default, var(--pk-sys-bg-default));
+  color: var(--pk-sys-text-primary);
+  cursor: pointer;
+}
+
+.pk-time-slot-chip--selected {
+  border-color: var(--pk-sys-primary-border);
+  background: var(--pk-sys-surface-selected);
+}
+
+.pk-time-slot-chip--disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+.pk-time-slot-chip__promo {
+  position: absolute;
+  top: -10px;
+  right: -6px;
+}
+
+.pk-time-slot-chip__time {
+  white-space: nowrap;
+}
+
+.pk-time-slot-chip__age-badge {
+  margin-top: var(--pk-sys-gap-xs);
+}

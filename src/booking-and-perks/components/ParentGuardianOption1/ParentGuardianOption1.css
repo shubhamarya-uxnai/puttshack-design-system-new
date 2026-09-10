@@ -1,0 +1,42 @@
+/* Tokens used in Figma capture: Background/Default, Background/Magenta Dark 3,
+   Border/Magenta, GAP/Large, GAP/Medium, GAP/Small, GAP/X-Small,
+   Interactive/Primary/Hover, Level 3/Gap, Level 3/Horizontal, Level 3/Vertical,
+   Surface/Selected, Text + Icon/Inverse, Text + Icon/Inverse-Subtle,
+   Text + Icon/White, radius "full"/"lg". */
+
+.pk-parent-guardian-option {
+  display: flex;
+  flex-direction: column;
+  gap: var(--pk-sys-gap-md);
+  background: var(--pk-sys-bg-magenta-dark);
+  border: 1px solid var(--pk-sys-border-magenta);
+  border-radius: var(--pk-ref-radius-lg);
+  padding: var(--pk-sys-level3-vertical) var(--pk-sys-level3-horizontal);
+}
+
+.pk-parent-guardian-option__header {
+  display: flex;
+  align-items: center;
+  gap: var(--pk-sys-gap-sm);
+}
+
+.pk-parent-guardian-option__help-icon {
+  width: var(--pk-sys-icon-s);
+  height: var(--pk-sys-icon-s);
+  color: var(--pk-sys-text-inverse-subtle);
+}
+
+.pk-parent-guardian-option__chips {
+  display: flex;
+  gap: var(--pk-sys-gap-xs);
+}
+
+.pk-parent-guardian-option__fields {
+  display: flex;
+  flex-direction: column;
+  gap: var(--pk-sys-gap-sm);
+}
+
+.pk-parent-guardian-option__fields-title {
+  color: var(--pk-sys-text-inverse);
+}

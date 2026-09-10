@@ -1,0 +1,48 @@
+/* ============================================================================
+   Registration/Bundle - more details — composition scaffold for Figma
+   node 940:27909.
+   ========================================================================== */
+
+.pk-registration-bundle-more-details {
+  box-sizing: border-box;
+  display: flex;
+  align-items: flex-start;
+  gap: var(--pk-sys-gap-md);
+  padding: var(--pk-sys-level2-vertical) var(--pk-sys-level2-horizontal);
+  background: var(--pk-sys-surface-selected); /* token: Surface/Selected */
+  border: var(--pk-ref-border-thin) solid var(--pk-sys-border-subtle);
+  border-radius: var(--pk-ref-radius-lg);
+}
+
+.pk-registration-bundle-more-details__sparkle {
+  display: inline-flex;
+  color: var(--pk-sys-warning-text); /* token: Feedback/Warning/Text */
+  flex-shrink: 0;
+}
+
+.pk-registration-bundle-more-details__text {
+  display: flex;
+  flex-direction: column;
+  gap: var(--pk-sys-gap-xs);
+  flex: 1;
+  color: var(--pk-sys-text-primary);
+}
+
+.pk-registration-bundle-more-details__eyebrow-row {
+  display: flex;
+  align-items: center;
+  gap: var(--pk-sys-gap-sm);
+}
+
+.pk-registration-bundle-more-details__eyebrow {
+  color: var(--pk-sys-text-secondary);
+}
+
+.pk-registration-bundle-more-details__description {
+  margin: 0;
+  color: var(--pk-sys-text-secondary);
+}
+
+.pk-registration-bundle-more-details__actions {
+  flex-shrink: 0;
+}

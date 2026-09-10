@@ -1,0 +1,54 @@
+/* Composition scaffold CSS for "Registration" (see Registration.tsx header
+   comment for the Figma source and per-variant reasoning). No pixel layout
+   is assumed — spacing follows this batch's established rhythm. */
+
+.pk-registration {
+  display: flex;
+  flex-direction: column;
+  gap: var(--pk-sys-gap-lg);
+  background: var(--pk-sys-bg-inverse);
+  border-radius: var(--pk-ref-radius-md);
+  padding: var(--pk-sys-level2-vertical) var(--pk-sys-level2-horizontal);
+}
+
+.pk-registration__header {
+  display: flex;
+  align-items: center;
+  gap: var(--pk-sys-gap-md);
+}
+
+.pk-registration__back {
+  flex-shrink: 0;
+}
+
+.pk-registration__heading {
+  display: flex;
+  align-items: center;
+  gap: var(--pk-sys-gap-sm);
+}
+
+.pk-registration__success-icon {
+  display: inline-flex;
+  width: var(--pk-sys-icon-m);
+  height: var(--pk-sys-icon-m);
+  color: var(--pk-sys-success-text);
+}
+
+.pk-registration__title {
+  color: var(--pk-sys-text-inverse);
+}
+
+.pk-registration__message {
+  color: var(--pk-sys-text-inverse-subtle);
+}
+
+.pk-registration__form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--pk-sys-gap-sm);
+}
+
+.pk-registration__actions {
+  display: flex;
+  gap: var(--pk-sys-gap-sm);
+}

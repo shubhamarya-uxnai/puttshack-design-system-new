@@ -1,0 +1,28 @@
+/* "T&C" — booking-and-perks composition scaffold. Dark legal-copy panel. */
+
+.pk-oct-tandc {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--pk-sys-gap-sm); /* Figma token: GAP/Small */
+  padding: var(--pk-ref-space-12); /* Figma token: S0-50 (approx) — flag: no exact spacing token captured */
+  background: var(--pk-sys-bg-inverse); /* Figma token: Surface/Inverse */
+  border: var(--pk-ref-border-thin) solid var(--pk-sys-border-inverse); /* Figma token: Border/Inverse */
+  border-radius: 4px; /* Figma token: border-radius/x-small */
+}
+
+.pk-oct-tandc__icon {
+  flex-shrink: 0;
+  width: var(--pk-sys-icon-m);
+  height: var(--pk-sys-icon-m);
+  color: var(--pk-sys-text-inverse); /* Figma token: Text + Icon/Inverse */
+}
+
+.pk-oct-tandc__scroll {
+  flex: 1;
+  min-width: 0;
+}
+
+.pk-oct-tandc__body {
+  color: var(--pk-sys-text-inverse); /* Figma token: Text + Icon/Inverse */
+  padding-right: var(--pk-sys-gap-sm); /* Figma token: GAP/Large approximated down for the scroll gutter */
+}

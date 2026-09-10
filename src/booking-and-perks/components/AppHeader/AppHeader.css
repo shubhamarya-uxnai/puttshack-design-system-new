@@ -1,0 +1,21 @@
+/* Tokens used in Figma capture: Background/Default, Interactive/Primary/Border,
+   S3, S6, Text + Icon/Black. */
+
+.pk-app-header {
+  display: flex;
+  flex-direction: column;
+  background: var(--pk-sys-bg-default);
+  border-bottom: 1px solid var(--pk-sys-primary-border);
+  color: var(--pk-sys-text-black);
+}
+
+.pk-app-header__status-bar {
+  width: 100%;
+}
+
+.pk-app-header__content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-block: var(--pk-sys-gap-sm);
+}

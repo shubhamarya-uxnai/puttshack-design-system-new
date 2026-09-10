@@ -1,0 +1,26 @@
+/* Tokens: Background/Magenta Dark 3 -> --pk-sys-bg-magenta-dark (no numbered "Dark 3" tier exists in
+   tokens.css, using the closest semantic match), Border/Subtle -> --pk-sys-border-subtle,
+   Level 2/* -> --pk-sys-level2-gap/horizontal/vertical, Level 3/Gap -> --pk-sys-level3-gap. */
+
+.pk-time-slot-picker {
+  display: flex;
+  flex-direction: column;
+  gap: var(--pk-sys-level2-gap);
+  padding: var(--pk-sys-level2-vertical) var(--pk-sys-level2-horizontal);
+  background: var(--pk-sys-bg-magenta-dark);
+  border: 1px solid var(--pk-sys-border-subtle);
+  border-radius: 16px;
+  color: var(--pk-sys-text-inverse);
+}
+
+.pk-time-slot-picker__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.pk-time-slot-picker__round-2 {
+  display: flex;
+  flex-direction: column;
+  gap: var(--pk-sys-level3-gap);
+}

@@ -1,0 +1,17 @@
+/* Tokens: Background/Default -> --pk-sys-bg-default, Background/Magenta Dark 3 -> --pk-sys-bg-magenta-dark
+   (no numbered "Dark 3" tier exists — closest semantic match), Level 2/* -> --pk-sys-level2-*,
+   GAP/Medium -> --pk-sys-gap-md, GAP/Small -> --pk-sys-gap-sm, GAP/X-Large -> --pk-sys-gap-xl,
+   Text + Icon/Primary -> --pk-sys-text-primary. */
+
+.pk-contact-info-form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--pk-sys-level2-gap);
+  padding: var(--pk-sys-level2-vertical) var(--pk-sys-level2-horizontal);
+  background: var(--pk-sys-bg-default);
+  border-radius: 16px;
+}
+
+.pk-contact-info-form__heading {
+  color: var(--pk-sys-text-primary);
+}

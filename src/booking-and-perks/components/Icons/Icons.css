@@ -1,0 +1,50 @@
+/* "Icons" — booking-and-perks composition scaffold.
+   Token "Feedback/Error/Hover" (the only status ramp actually captured) maps
+   to --pk-sys-error-hover; the other four statuses are inferred from the
+   matching --pk-sys-{success,warning,info}-* and --pk-sys-secondary-* groups
+   since no token capture exists for them individually. Flag if wrong. */
+
+.pk-oct-icons {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--pk-ref-radius-full); /* Figma token: full */
+  width: var(--pk-sys-icon-xl); /* Figma token: Icon size/XL */
+  height: var(--pk-sys-icon-xl);
+  flex-shrink: 0;
+}
+
+.pk-oct-icons svg {
+  width: 60%;
+  height: 60%;
+}
+
+.pk-oct-icons--negative {
+  background: var(--pk-sys-error-hover); /* Figma token: Feedback/Error/Hover */
+  color: var(--pk-sys-error-text);
+}
+
+.pk-oct-icons--positive {
+  background: var(--pk-sys-success-hover);
+  color: var(--pk-sys-success-text);
+}
+
+.pk-oct-icons--warning {
+  background: var(--pk-sys-warning-hover);
+  color: var(--pk-sys-warning-text);
+}
+
+.pk-oct-icons--informative {
+  background: var(--pk-sys-info-hover);
+  color: var(--pk-sys-info-text);
+}
+
+.pk-oct-icons--brand {
+  background: var(--pk-sys-bg-magenta-light);
+  color: var(--pk-sys-text-inverse);
+}
+
+.pk-oct-icons--special {
+  width: calc(var(--pk-sys-icon-xl) * 1.5);
+  height: calc(var(--pk-sys-icon-xl) * 1.5);
+}

@@ -1,0 +1,56 @@
+/* Tokens: Background/Default -> --pk-sys-bg-default, Background/Inverse -> --pk-sys-bg-inverse,
+   Background/Overlay -> --pk-sys-bg-overlay, Border/Subtle -> --pk-sys-border-subtle,
+   Surface/Subtle -> --pk-sys-surface-subtle, Text + Icon/Black -> --pk-sys-text-black,
+   Level 2/* -> --pk-sys-level2-*, GAP/* -> --pk-sys-gap-*. */
+
+.pk-payment-method-form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--pk-sys-level2-gap);
+  padding: var(--pk-sys-level2-vertical) var(--pk-sys-level2-horizontal);
+  background: var(--pk-sys-bg-default);
+  border-radius: 16px;
+}
+
+.pk-payment-method-form__saved-cards {
+  display: flex;
+  flex-direction: column;
+  gap: var(--pk-sys-gap-sm);
+}
+
+.pk-payment-method-form__divider {
+  display: flex;
+  align-items: center;
+  gap: var(--pk-sys-gap-sm);
+  border-top: 1px solid var(--pk-sys-border-subtle);
+  padding-top: var(--pk-sys-gap-sm);
+  color: var(--pk-sys-text-secondary);
+}
+
+.pk-payment-method-form__add-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--pk-sys-gap-sm);
+  border: none;
+  background: var(--pk-sys-surface-subtle);
+  color: var(--pk-sys-text-black);
+  padding: var(--pk-sys-button-default-v) var(--pk-sys-button-default-h);
+  border-radius: 8px;
+  cursor: pointer;
+  align-self: flex-start;
+}
+
+.pk-payment-method-form__new-card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--pk-sys-gap-md);
+}
+
+.pk-payment-method-form__row {
+  display: flex;
+  gap: var(--pk-sys-gap-sm);
+}
+
+.pk-payment-method-form__row > * {
+  flex: 1;
+}

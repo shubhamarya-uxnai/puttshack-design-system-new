@@ -1,0 +1,34 @@
+/* ============================================================================
+   Step Free — composition scaffold for Figma "Step Free" (node 4624:108772).
+   ========================================================================== */
+
+.pk-step-free {
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  gap: var(--pk-sys-gap-md);
+  padding: var(--pk-sys-level3-vertical) var(--pk-sys-level3-horizontal);
+  border: var(--pk-ref-border-thin) solid var(--pk-sys-border-inverse);
+}
+
+.pk-step-free__icon {
+  display: inline-flex;
+  color: var(--pk-sys-text-secondary);
+  flex-shrink: 0;
+}
+
+.pk-step-free__text {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  flex: 1;
+  color: var(--pk-sys-text-primary); /* token: Text + Icon/Black */
+}
+
+.pk-step-free__description {
+  color: var(--pk-sys-text-secondary);
+}
+
+.pk-step-free__checkbox {
+  flex-shrink: 0;
+}

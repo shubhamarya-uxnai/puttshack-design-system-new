@@ -1,0 +1,78 @@
+/* "Selection Cards" — booking-and-perks composition scaffold. */
+
+.pk-oct-selection-card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--pk-sys-gap-md); /* Figma token: GAP/Medium */
+  padding: var(--pk-sys-level3-vertical) var(--pk-sys-level3-horizontal); /* Figma token: Level 3/Vertical, Level 3/Horizontal */
+  border-radius: 16px; /* Figma token: lg */
+  background: var(--pk-sys-surface-subtle); /* Figma token: Surface/Subtle */
+  border: var(--pk-ref-border-thin) solid transparent;
+  cursor: pointer;
+}
+
+.pk-oct-selection-card--selected {
+  background: var(--pk-sys-surface-selected); /* Figma token: Surface/Selected */
+  border-color: var(--pk-sys-border-magenta); /* Figma token: Border/Magenta */
+}
+
+.pk-oct-selection-card--dark {
+  background: var(--pk-sys-bg-magenta-dark);
+}
+
+.pk-oct-selection-card--dark .pk-oct-selection-card__title,
+.pk-oct-selection-card--dark .pk-oct-selection-card__content {
+  color: var(--pk-sys-text-inverse);
+}
+
+.pk-oct-selection-card__top {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--pk-sys-gap-sm); /* Figma token: GAP/Small */
+}
+
+.pk-oct-selection-card__radio {
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.pk-oct-selection-card__heading {
+  display: flex;
+  flex-direction: column;
+  gap: var(--pk-sys-gap-xs);
+  flex: 1;
+}
+
+.pk-oct-selection-card__title-row {
+  display: flex;
+  align-items: center;
+  gap: var(--pk-sys-gap-sm);
+  flex-wrap: wrap;
+}
+
+.pk-oct-selection-card__title {
+  color: var(--pk-sys-text-primary);
+}
+
+.pk-oct-selection-card__content {
+  color: var(--pk-sys-text-secondary);
+}
+
+.pk-oct-selection-card__prices {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--pk-sys-gap-lg); /* Figma token: GAP/Large */
+  padding-top: var(--pk-sys-gap-sm);
+  border-top: var(--pk-ref-border-thin) solid var(--pk-sys-border-default);
+}
+
+.pk-oct-selection-card__price-lines {
+  display: flex;
+  gap: var(--pk-sys-gap-lg);
+  color: var(--pk-sys-text-secondary);
+}
+
+.pk-oct-selection-card__total {
+  color: var(--pk-sys-text-primary);
+}

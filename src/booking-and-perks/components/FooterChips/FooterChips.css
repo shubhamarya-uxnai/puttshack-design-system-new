@@ -1,0 +1,27 @@
+/* Tokens used in Figma capture: GAP/Medium, GAP/Small, Icon size/M,
+   Text + Icon/Magenta. */
+
+.pk-footer-chips {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--pk-sys-gap-sm);
+}
+
+.pk-footer-chips__icon {
+  display: inline-flex;
+  width: var(--pk-sys-icon-m);
+  height: var(--pk-sys-icon-m);
+  color: var(--pk-sys-text-magenta);
+}
+
+.pk-footer-chips__label {
+  color: var(--pk-sys-text-magenta);
+  white-space: nowrap;
+}
+
+.pk-footer-chips__separator {
+  width: 1px;
+  height: 16px;
+  background: var(--pk-sys-border-magenta);
+  margin-left: var(--pk-sys-gap-md);
+}

@@ -1,0 +1,33 @@
+/* ============================================================================
+   Player Card — composition scaffold for Figma "Player Card" (node
+   4261:215484).
+   ========================================================================== */
+
+.pk-player-card {
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--pk-sys-gap-md);
+  padding: var(--pk-sys-level3-vertical) var(--pk-sys-level3-horizontal);
+  background: var(--pk-sys-bg-default);
+  border: var(--pk-ref-border-thin) solid var(--pk-sys-border-magenta);
+  border-radius: var(--pk-ref-radius-full);
+}
+
+.pk-player-card__info {
+  display: flex;
+  flex-direction: column;
+  gap: var(--pk-sys-gap-xs);
+}
+
+.pk-player-card__name-row {
+  display: flex;
+  align-items: center;
+  gap: var(--pk-sys-gap-sm);
+  color: var(--pk-sys-text-primary); /* token: Text + Icon/Black */
+}
+
+.pk-player-card__lead-chip {
+  flex-shrink: 0;
+}

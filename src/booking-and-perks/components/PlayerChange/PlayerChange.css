@@ -1,0 +1,44 @@
+/* ============================================================================
+   Player Change — composition scaffold for Figma "Player Change" component
+   set (node 4199:163181). Sits on the dark/inverse surface per its tokens.
+   ========================================================================== */
+
+.pk-player-change {
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  gap: var(--pk-sys-gap-md);
+  padding: var(--pk-sys-level3-vertical) var(--pk-sys-level3-horizontal);
+  background: var(--pk-sys-bg-inverse); /* token: Surface/Inverse */
+  border: var(--pk-ref-border-thin) solid var(--pk-sys-border-inverse);
+  border-radius: var(--pk-ref-radius-md);
+  color: var(--pk-sys-text-inverse);
+}
+
+.pk-player-change__icon {
+  display: inline-flex;
+  flex-shrink: 0;
+}
+
+.pk-player-change--added .pk-player-change__icon {
+  color: var(--pk-sys-success-text);
+}
+
+.pk-player-change--removed .pk-player-change__icon {
+  color: var(--pk-sys-error-text);
+}
+
+.pk-player-change__text {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.pk-player-change__status {
+  color: var(--pk-sys-text-inverse-subtle);
+  text-transform: uppercase;
+}
+
+.pk-player-change__detail {
+  color: var(--pk-sys-text-inverse-subtle);
+}

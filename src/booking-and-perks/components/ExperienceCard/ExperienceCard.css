@@ -1,0 +1,28 @@
+/* "Expericne Card" [sic] — booking-and-perks composition scaffold. */
+
+.pk-oct-experience-card {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--pk-sys-gap-lg); /* Figma token: GAP/Large */
+  padding: var(--pk-ref-space-16);
+  border-radius: 9999px; /* Figma token: full — matches the yellow Chip's pill shape */
+  background: var(--pk-sys-bg-inverse); /* Figma token: Surface/Inverse */
+  border: var(--pk-ref-border-thin) solid var(--pk-sys-border-magenta); /* Figma token: Border/Magenta */
+  text-align: left;
+  cursor: pointer;
+  color: var(--pk-sys-text-inverse); /* Figma token: Text + Icon/Inverse */
+}
+
+.pk-oct-experience-card--selected {
+  background: var(--pk-sys-surface-selected); /* Figma token: Surface/Selected */
+  color: var(--pk-sys-text-primary);
+}
+
+.pk-oct-experience-card--selected .pk-oct-experience-card__details {
+  color: var(--pk-sys-text-primary);
+}
+
+.pk-oct-experience-card__details {
+  color: inherit;
+}

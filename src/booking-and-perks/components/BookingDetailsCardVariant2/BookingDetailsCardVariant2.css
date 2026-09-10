@@ -1,0 +1,43 @@
+/* Tokens used in Figma capture: Border/Inverse, GAP/Small, Level 2/Horizontal,
+   Level 2/Vertical, Surface/Inverse, Text + Icon/Inverse,
+   Text + Icon/Inverse-Subtle, radius "md". */
+
+.pk-booking-details-card-v2 {
+  display: flex;
+  flex-direction: column;
+  gap: var(--pk-sys-gap-sm);
+  background: var(--pk-sys-surface-inverse);
+  border: 1px solid var(--pk-sys-border-inverse);
+  border-radius: var(--pk-ref-radius-md);
+  padding: var(--pk-sys-level2-vertical) var(--pk-sys-level2-horizontal);
+}
+
+.pk-booking-details-card-v2__row {
+  display: flex;
+  align-items: center;
+  gap: var(--pk-sys-gap-sm);
+}
+
+.pk-booking-details-card-v2__icon {
+  width: var(--pk-sys-icon-m);
+  height: var(--pk-sys-icon-m);
+  color: var(--pk-sys-text-inverse-subtle);
+  flex-shrink: 0;
+}
+
+.pk-booking-details-card-v2__text {
+  display: flex;
+  flex-direction: column;
+}
+
+.pk-booking-details-card-v2__label {
+  color: var(--pk-sys-text-inverse-subtle);
+}
+
+.pk-booking-details-card-v2__value {
+  color: var(--pk-sys-text-inverse);
+}
+
+.pk-booking-details-card-v2__perks {
+  color: var(--pk-sys-text-inverse);
+}

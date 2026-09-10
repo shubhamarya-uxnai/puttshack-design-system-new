@@ -1,0 +1,23 @@
+/* Tokens: Background/Magenta Dark 3 -> --pk-sys-bg-magenta-dark (closest semantic match — no numbered
+   "Dark 3" tier), Level 2/* -> --pk-sys-level2-*, Interactive/Tertiary/Border -> --pk-sys-tertiary-border,
+   Button/Default/* -> --pk-sys-button-default-*, GAP/Large -> --pk-sys-gap-lg, GAP/Small -> --pk-sys-gap-sm. */
+
+.pk-promo-code-input {
+  display: flex;
+  flex-direction: column;
+  gap: var(--pk-sys-level2-gap);
+}
+
+.pk-promo-code-input__row {
+  display: flex;
+  align-items: flex-end;
+  gap: var(--pk-sys-gap-sm);
+}
+
+.pk-promo-code-input__row > :first-child {
+  flex: 1;
+}
+
+.pk-promo-code-input--desktop .pk-promo-code-input__row {
+  max-width: 420px;
+}

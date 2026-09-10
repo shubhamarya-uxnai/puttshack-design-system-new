@@ -1,0 +1,50 @@
+/* Tokens: Background/Default -> --pk-sys-bg-default, Surface/Inverse -> --pk-sys-surface-inverse,
+   Border/Inverse -> --pk-sys-border-inverse, Feedback-Inverse/Info/Background & Border have no
+   dedicated inverse-feedback tokens in tokens.css — falling back to --pk-sys-info-bg/--pk-sys-info-border
+   (flagged, not invented), Text + Icon/Inverse-Subtle -> --pk-sys-text-inverse-subtle,
+   Level 2/*, Level 3/* -> --pk-sys-level2-*/--pk-sys-level3-*, Icon size/M -> --pk-sys-icon-m,
+   Button/Default/* -> --pk-sys-button-default-*. */
+
+.pk-modal__overlay {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--pk-sys-surface-modal-overlay);
+  padding: var(--pk-sys-gap-lg);
+}
+
+.pk-modal {
+  display: flex;
+  flex-direction: column;
+  gap: var(--pk-sys-level2-gap);
+  width: 100%;
+  max-width: 480px;
+  padding: var(--pk-sys-level2-vertical) var(--pk-sys-level2-horizontal);
+  background: var(--pk-sys-bg-default);
+  border-radius: 16px;
+}
+
+.pk-modal__info-banner {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--pk-sys-gap-sm);
+  padding: var(--pk-sys-level3-vertical) var(--pk-sys-level3-horizontal);
+  background: var(--pk-sys-info-bg);
+  border: 1px solid var(--pk-sys-info-border);
+  border-radius: 12px;
+}
+
+.pk-modal__body,
+.pk-modal__body-secondary {
+  display: flex;
+  flex-direction: column;
+  gap: var(--pk-sys-gap-sm);
+}
+
+.pk-modal__button-group {
+  display: flex;
+  flex-direction: column;
+  gap: var(--pk-sys-gap-sm);
+}

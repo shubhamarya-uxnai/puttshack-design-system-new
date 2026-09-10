@@ -1,0 +1,51 @@
+/* "Bundle Upsell Section" — booking-and-perks composition scaffold. */
+
+.pk-oct-bundle-upsell {
+  display: flex;
+  flex-direction: column;
+  gap: var(--pk-sys-gap-md); /* Figma token: GAP/Medium */
+  padding: var(--pk-sys-level2-vertical) var(--pk-sys-level2-horizontal); /* Figma token: Level 2/Vertical, Level 2/Horizontal */
+  border-radius: 24px; /* Figma token: xl */
+  background: var(--pk-sys-bg-magenta-dark); /* Figma token: Background/Magenta Dark 3 */
+  border: var(--pk-ref-border-thin) solid var(--pk-sys-border-magenta); /* Figma token: Border/Magenta */
+}
+
+.pk-oct-bundle-upsell--added {
+  background: var(--pk-sys-surface-selected); /* Figma token: Surface/Selected */
+}
+
+.pk-oct-bundle-upsell__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--pk-sys-gap-sm);
+}
+
+.pk-oct-bundle-upsell__title {
+  color: var(--pk-sys-text-inverse); /* Figma token: Text + Icon/Inverse */
+}
+
+.pk-oct-bundle-upsell--added .pk-oct-bundle-upsell__title {
+  color: var(--pk-sys-text-primary);
+}
+
+.pk-oct-bundle-upsell__body {
+  min-height: 96px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.pk-placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  min-height: 64px;
+  border: 1px dashed var(--pk-sys-border-strong);
+  border-radius: 12px;
+  color: var(--pk-sys-text-secondary);
+  font-size: 12px;
+  padding: var(--pk-sys-gap-sm);
+  text-align: center;
+}
