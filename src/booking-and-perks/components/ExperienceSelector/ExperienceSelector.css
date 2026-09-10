@@ -15,6 +15,7 @@
 }
 
 .pk-experience-selector__card {
+  position: relative;
   flex: 0 0 auto;
   width: 272px;
   display: flex;
@@ -31,12 +32,19 @@
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.24);
 }
 
-.pk-experience-selector__card--selected {
+/* The ring has to be its own layer stacked ABOVE the photo and body panels (Figma: a separate
+   "Overlay+Shadow" div, z-index above both) — as a box-shadow on the card itself it's fully hidden
+   behind those opaque full-bleed children instead of showing through. */
+.pk-experience-selector__card--selected::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
   box-shadow:
     inset 0 0 0 3px var(--pk-ref-magenta-100),
     inset 0 0 0 6px var(--pk-ref-magenta-300),
-    inset 0 0 0 9px var(--pk-ref-magenta-500),
-    0 2px 8px rgba(0, 0, 0, 0.24);
+    inset 0 0 0 9px var(--pk-ref-magenta-500);
 }
 
 .pk-experience-selector__photo {
