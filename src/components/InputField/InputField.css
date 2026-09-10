@@ -103,11 +103,15 @@
 
 /* --- State: typing (focused) — real :focus-within drives this in normal
    use; the State prop and forceState escape hatch both pin the same look
-   for a variant that can't otherwise be captured on a static Storybook page. */
+   for a variant that can't otherwise be captured on a static Storybook page.
+   Figma capture (both Inverse=Yes node 11093:41552 and Inverse=No node
+   12995:27997) shows the focus border as Text+Icon/Magenta (#F45197), not
+   the shared --pk-sys-border-focus (blue) token other components use —
+   InputField's own focus ring is magenta. */
 .pk-input-field--typing .pk-input-field__row,
 .pk-input-field__row:focus-within,
 .pk-input-field__row[data-force-state='focus'] {
-  border-color: var(--pk-sys-border-focus);
+  border-color: var(--pk-sys-border-magenta);
 }
 
 /* --- State: error --- */
@@ -136,15 +140,24 @@
 
 /* --- Inverse (on dark backgrounds) — orthogonal to State, so every
    combination is scoped with a compound selector to win regardless of the
-   State rule's position above. */
-.pk-input-field--inverse .pk-input-field__label,
-.pk-input-field--inverse .pk-input-field__icon,
-.pk-input-field--inverse .pk-input-field__control {
+   State rule's position above.
+   Real Figma capture (Puttshack DS 2026, "Input Field" node 10559:11971,
+   State=Typed/Mode=Mobile/Inverse=Yes) confirms `inverse` does NOT invert
+   the row itself to a dark fill — the row stays `Background/Default`
+   (white) with black text/icons; only the LABEL above the row (which sits
+   directly on the dark card, not inside the box) turns white. Previously
+   this was implemented backwards (dark row, white text) — corrected here. */
+.pk-input-field--inverse .pk-input-field__label {
   color: var(--pk-sys-text-inverse);
 }
 
+.pk-input-field--inverse .pk-input-field__icon,
+.pk-input-field--inverse .pk-input-field__control {
+  color: var(--pk-sys-text-black);
+}
+
 .pk-input-field--inverse .pk-input-field__control::placeholder {
-  color: var(--pk-sys-text-inverse-subtle);
+  color: var(--pk-sys-text-tertiary);
 }
 
 .pk-input-field--inverse .pk-input-field__helper-icon,
@@ -153,14 +166,14 @@
 }
 
 .pk-input-field--inverse .pk-input-field__row {
-  background: var(--pk-sys-bg-inverse);
-  border-color: var(--pk-sys-border-inverse);
+  background: var(--pk-sys-bg-default);
+  border-color: var(--pk-sys-border-subtle);
 }
 
 .pk-input-field--inverse.pk-input-field--typing .pk-input-field__row,
 .pk-input-field--inverse .pk-input-field__row:focus-within,
 .pk-input-field--inverse .pk-input-field__row[data-force-state='focus'] {
-  border-color: var(--pk-sys-border-focus);
+  border-color: var(--pk-sys-border-magenta);
 }
 
 .pk-input-field--inverse.pk-input-field--error .pk-input-field__row {
