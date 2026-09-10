@@ -31,10 +31,40 @@
   text-transform: uppercase;
 }
 
-.pk-booking-footer__separator {
-  width: 1px;
-  height: 16px;
-  background: var(--pk-sys-border-magenta);
+/* "Footer Chips" (Figma node 5672:151357) — replaced the old filled Badge
+   pill: plain bold text + a small dot, no background. `venue` (Location)
+   is magenta; `experience` (Time/Age Group/Bundle) is uppercase black/64%. */
+.pk-booking-footer__chip {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--pk-sys-gap-xs);
+}
+
+.pk-booking-footer__chip-label {
+  white-space: nowrap;
+}
+
+.pk-booking-footer__chip--venue .pk-booking-footer__chip-label {
+  color: var(--pk-sys-text-magenta);
+}
+
+.pk-booking-footer__chip--venue .pk-booking-footer__chip-dot {
+  background: var(--pk-sys-text-magenta);
+}
+
+.pk-booking-footer__chip--experience .pk-booking-footer__chip-label {
+  color: var(--pk-sys-text-secondary);
+}
+
+.pk-booking-footer__chip--experience .pk-booking-footer__chip-dot {
+  background: var(--pk-sys-text-secondary);
+}
+
+.pk-booking-footer__chip-dot {
+  width: 2px;
+  height: 2px;
+  border-radius: var(--pk-ref-radius-full);
+  flex-shrink: 0;
 }
 
 .pk-booking-footer__cta {

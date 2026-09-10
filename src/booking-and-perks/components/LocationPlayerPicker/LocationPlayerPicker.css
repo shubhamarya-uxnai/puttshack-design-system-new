@@ -161,6 +161,12 @@
   display: flex;
   gap: var(--pk-sys-gap-sm);
   overflow-x: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.pk-location-player-picker__dates::-webkit-scrollbar {
+  display: none;
 }
 
 .pk-location-player-picker__date-card {
@@ -171,13 +177,22 @@
   min-width: 100px;
   padding: 13px 9px;
   border-radius: 14px;
-  background: var(--pk-sys-surface-disabled);
-  border: var(--pk-ref-border-thin) solid var(--pk-sys-text-disabled);
-  color: var(--pk-sys-text-disabled);
+  background: transparent;
+  border: var(--pk-ref-border-thin) solid var(--pk-sys-border-inverse);
+  color: var(--pk-sys-text-inverse);
   cursor: pointer;
 }
 
+.pk-location-player-picker__date-card--selected {
+  background: var(--pk-sys-bg-default);
+  border-color: var(--pk-sys-bg-default);
+  color: var(--pk-sys-text-primary);
+}
+
 .pk-location-player-picker__date-card:disabled {
+  background: var(--pk-sys-surface-disabled);
+  border-color: var(--pk-sys-text-disabled);
+  color: var(--pk-sys-text-disabled);
   cursor: not-allowed;
 }
 

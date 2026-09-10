@@ -1,8 +1,6 @@
 import React from 'react'
 import { cx } from '../../../lib/cx'
-import { Badge } from '../../../components/Badge/Badge'
 import { Button } from '../../../components/Button/Button'
-import { MapPin, Clock, Users, Gift } from '../../../icons'
 import './BookingFooter.css'
 
 /**
@@ -13,21 +11,47 @@ import './BookingFooter.css'
  * "You are in". `Property 2` is a constant "October" release tag, not
  * modeled.
  *
- * DS usage: up to 4× `Badge` (Figma: `Type=Icon + Text, Status=Linked-2` ->
- * closest DS `BadgeStatus` is `'linked-secondary'`) for Location, Time,
- * Age Group, and Bundle — Location and Age Group carry the captured
- * `Separator` prop (rendered here as a trailing divider), and 1× `Button`
- * (Figma: `Size=Default, Type=Primary, Label="CHECKOUT"`) for the
- * checkout CTA, shown only on the `checkout` variant.
+ * DS usage: up to 4× "Footer Chips" (Figma node 5672:151357 — a later
+ * capture that replaced the original filled `Badge` pill for this
+ * component: plain bold text + a small dot separator, no background, no
+ * icon by default. Two real variants — `Venue` (magenta text/dot, for
+ * Location) and `Exeprience` [sic, per Figma] (uppercase black/64% text,
+ * for Time/Age Group/Bundle)) for Location, Time, Age Group, and Bundle,
+ * and 1× `Button` (Figma: `Size=Default, Type=Primary, Label="CHECKOUT"`)
+ * for the checkout CTA, shown only on the `checkout` variant.
  *
  * A second real capture of this component (node 5000:149758, on the
  * "Unlimited Round — Default Package Selection" screen) shows a different
- * real state before a time/party are chosen: only the Location badge, a
+ * real state before a time/party are chosen: only the Location chip, a
  * headline-size running total in place of the Time/Age Group/Bundle
- * badges, and the Checkout button disabled — modeled here via the
+ * chips, and the Checkout button disabled — modeled here via the
  * optional `price` and `checkoutDisabled` props rather than a new variant,
- * since the badge layout and CTA are otherwise identical.
+ * since the chip layout and CTA are otherwise identical.
  */
+function FooterChip({
+  variant,
+  separator = true,
+  children,
+}: {
+  variant: 'venue' | 'experience'
+  separator?: boolean
+  children: React.ReactNode
+}) {
+  return (
+    <span className={cx('pk-booking-footer__chip', `pk-booking-footer__chip--${variant}`)}>
+      <span
+        className={cx(
+          'pk-booking-footer__chip-label',
+          variant === 'venue' ? 'pk-text-title-small' : 'pk-text-label-medium'
+        )}
+      >
+        {children}
+      </span>
+      {separator && <span className="pk-booking-footer__chip-dot" aria-hidden="true" />}
+    </span>
+  )
+}
+
 export type BookingFooterVariant = 'default' | 'checkout' | 'you-are-in'
 
 export interface BookingFooterProps extends React.HTMLAttributes<HTMLDivElement> {
@@ -60,32 +84,27 @@ export function BookingFooter({
   return (
     <div className={cx('pk-booking-footer', `pk-booking-footer--${variant}`, className)} {...rest}>
       <div className="pk-booking-footer__badges">
-        <Badge type="icon-text" status="linked-secondary" icon={<MapPin aria-hidden="true" />}>
-          {location}
-        </Badge>
+        <FooterChip variant="venue">{location}</FooterChip>
         {price ? (
           <span className="pk-booking-footer__price pk-text-headline-medium">{price}</span>
         ) : (
           <>
-            <span className="pk-booking-footer__separator" aria-hidden="true" />
-            <Badge type="icon-text" status="linked-secondary" icon={<Clock aria-hidden="true" />}>
-              {time}
-            </Badge>
-            <Badge type="icon-text" status="linked-secondary" icon={<Users aria-hidden="true" />}>
+            <FooterChip variant="experience">{time}</FooterChip>
+            <FooterChip variant="experience" separator={!!bundle}>
               {ageGroup}
-            </Badge>
-            <span className="pk-booking-footer__separator" aria-hidden="true" />
-            {bundle && (
-              <Badge type="icon-text" status="linked-secondary" icon={<Gift aria-hidden="true" />}>
-                {bundle}
-              </Badge>
-            )}
+            </FooterChip>
+            {bundle && <FooterChip variant="experience" separator={false}>{bundle}</FooterChip>}
           </>
         )}
       </div>
 
       {variant === 'checkout' && (
-        <Button variant="primary" disabled={checkoutDisabled} onClick={onCheckout}>
+        <Button
+          variant="primary"
+          disabled={checkoutDisabled}
+          onClick={onCheckout}
+          className="pk-booking-footer__cta"
+        >
           CHECKOUT
         </Button>
       )}

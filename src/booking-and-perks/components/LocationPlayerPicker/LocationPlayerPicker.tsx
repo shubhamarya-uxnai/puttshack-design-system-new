@@ -17,6 +17,8 @@ export interface LocationPlayerPickerProps {
   onClearLocation?: () => void
   /** Figma: the 5 `Date Picker Card` instances — `{ day, label }` pairs, e.g. `{ day: 'APR 20', label: 'Today' }`. */
   dates?: { day: string; label: string }[]
+  /** Day (matching a `dates` entry's `day`) with no availability. @default the last date */
+  disabledDate?: string
   className?: string
 }
 
@@ -33,22 +35,29 @@ const DEFAULT_DATES = [
  * 5000:149754 on the "Unlimited Round — Default Package Selection" screen).
  * DS `InputField` for the location search + a Group Size quantity-stepper
  * block + a row of Date Picker Cards, all on the dark magenta card surface.
- * Group size starts at 0/0/0 and date selection stays disabled until at
- * least one player is added, matching the Figma annotation on the Minus
- * control and the "Add at least 1 player to check availability" helper
- * text.
+ * Group size starts at 0/0/0; the Minus control stays disabled at 0 per the
+ * Figma annotation and the "Add at least 1 player to check availability"
+ * helper text. Date cards are independently selectable (one is picked by
+ * default) with only one date — no real availability data exists yet, so
+ * `disabledDate` defaults to the last one — shown as unavailable.
  */
 export function LocationPlayerPicker({
   locationQuery = 'Chicago, IL',
   selectedLocation = { name: 'Chicago, IL', address: 'Oakbrook Center · 60523' },
   onClearLocation,
   dates = DEFAULT_DATES,
+  disabledDate,
   className,
 }: LocationPlayerPickerProps) {
   const [adults, setAdults] = useState(0)
   const [youngAdults, setYoungAdults] = useState(0)
   const [juniors, setJuniors] = useState(0)
   const [location, setLocation] = useState(selectedLocation)
+
+  const unavailableDay = disabledDate ?? dates[dates.length - 1]?.day
+  const [selectedDate, setSelectedDate] = useState(
+    () => dates.find((d) => d.day !== unavailableDay)?.day
+  )
 
   const total = adults + youngAdults + juniors
   const hasPlayers = total > 0
@@ -151,17 +160,25 @@ export function LocationPlayerPicker({
       <div className="pk-location-player-picker__section">
         <h3 className="pk-location-player-picker__heading pk-text-title-medium">Select Date</h3>
         <div className="pk-location-player-picker__dates">
-          {dates.map((d) => (
-            <button
-              type="button"
-              key={d.day}
-              className="pk-location-player-picker__date-card"
-              disabled={!hasPlayers}
-            >
-              <span className="pk-location-player-picker__date-label pk-text-label-x-small">{d.label}</span>
-              <span className="pk-location-player-picker__date-day pk-text-title-large">{d.day}</span>
-            </button>
-          ))}
+          {dates.map((d) => {
+            const isDisabled = d.day === unavailableDay
+            const isSelected = !isDisabled && d.day === selectedDate
+            return (
+              <button
+                type="button"
+                key={d.day}
+                className={`pk-location-player-picker__date-card${
+                  isSelected ? ' pk-location-player-picker__date-card--selected' : ''
+                }`}
+                disabled={isDisabled}
+                aria-pressed={isSelected}
+                onClick={() => setSelectedDate(d.day)}
+              >
+                <span className="pk-location-player-picker__date-label pk-text-label-x-small">{d.label}</span>
+                <span className="pk-location-player-picker__date-day pk-text-title-large">{d.day}</span>
+              </button>
+            )
+          })}
         </div>
         <Button variant="tertiary" inverse disabled={!hasPlayers} className="pk-location-player-picker__calendar-btn">
           See Full Calendar

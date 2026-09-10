@@ -61,7 +61,7 @@ export function PerksCard({
           <span className="pk-oct-perks-card__copy pk-text-body-small">
             Join Puttshack Perks to start earning rewards on every visit.
           </span>
-          <Button variant="secondary" onClick={onJoinPerks}>
+          <Button variant="secondary" inverse onClick={onJoinPerks}>
             Join Perks
           </Button>
         </>
@@ -87,7 +87,7 @@ export function PerksCard({
             <Button variant="primary" onClick={onSignIn}>
               Sign in
             </Button>
-            <Button variant="secondary" onClick={onJoinPerks}>
+            <Button variant="secondary" inverse onClick={onJoinPerks}>
               Join Perks
             </Button>
           </div>
