@@ -1,12 +1,14 @@
-/* "Experience Type Selector/October" — booking-and-perks composition scaffold. Figma's real
-   instance (node 5000:149789) has no outer card panel of its own — each child (ExperienceSelector,
-   SelectionCards) already carries its own visual treatment, so this is just a vertical stack of
-   sections, not a wrapped card. */
+/* "Experience Type Selector/October" — booking-and-perks composition scaffold. Wrapped in the same
+   "Web/Card Background" card treatment as Location & Player Picker (--pk-sys-bg-card, #290E3C). */
 
 .pk-oct-experience-selector {
   display: flex;
   flex-direction: column;
   gap: var(--pk-sys-gap-lg); /* Figma token: GAP/Large */
+  padding: var(--pk-sys-level2-horizontal);
+  border-radius: var(--pk-ref-radius-xl);
+  background: var(--pk-sys-bg-card);
+  box-sizing: border-box;
 }
 
 .pk-oct-experience-selector__section {
