@@ -5,27 +5,41 @@
      Ringside Regular  (Book + Bold) — UI: Headline / Title / Body / Label
      Gyst Variable      (Bold + Bold Italic) — brand expression: Display only
 
-   Both are licensed commercial fonts and their font files are not bundled in
-   this extraction. The @font-face blocks below are wired up and ready — drop
-   the licensed .woff2 files into src/styles/fonts/ and uncomment the `src`
-   line. Until then, every text style falls back to the system stack declared
-   in the `font-family` tokens, so the app still renders correctly, just in a
-   substitute typeface.
+   Ringside is now bundled (2026-09-11, licensed .otf files supplied
+   directly) at src/styles/fonts/. Gyst still has no font file supplied —
+   its @font-face stays commented out and `--pk-sys-font-display` falls
+   back to Ringside Regular Bold / Georgia until it's provided.
    ========================================================================== */
 
 @font-face {
   font-family: 'Ringside Regular Book';
-  /* src: url('./fonts/RingsideRegular-Book.woff2') format('woff2'); */
+  src: url('./fonts/RingsideRegular-Book.otf') format('opentype');
   font-weight: 400;
   font-style: normal;
   font-display: swap;
 }
 
 @font-face {
+  font-family: 'Ringside Regular Book';
+  src: url('./fonts/RingsideRegular-BookItalic.otf') format('opentype');
+  font-weight: 400;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
   font-family: 'Ringside Regular Bold';
-  /* src: url('./fonts/RingsideRegular-Bold.woff2') format('woff2'); */
+  src: url('./fonts/RingsideRegular-Bold.otf') format('opentype');
   font-weight: 700;
   font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Ringside Regular Bold';
+  src: url('./fonts/RingsideRegular-BoldItalic.otf') format('opentype');
+  font-weight: 700;
+  font-style: italic;
   font-display: swap;
 }
 

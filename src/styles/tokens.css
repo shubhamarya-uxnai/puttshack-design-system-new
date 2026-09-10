@@ -8,9 +8,13 @@
      --pk-comp-*    component               — defined inside each component's own CSS
 
    COLOR MODE
-     Light only. The Semantic collection's other mode is named
-     "Dark (NOT TO BE USED)" in the source file — there is no dark theme here,
-     by design, not by omission.
+     Light is the default (:root). Figma's Semantic collection now has a real,
+     named "Dark" mode (confirmed live 2026-09-11 — it was previously named
+     "Dark (NOT TO BE USED)"; that warning is gone from the source file).
+     Opt into it with [data-theme="dark"] on any ancestor element — every
+     --pk-sys-* token below with a dark override switches; anything not
+     listed in the dark block resolves identically in both modes (confirmed
+     from the live Figma data, not assumed).
 
    DEVICE MODE
      [data-screen="mobile|desktop|kiosk"] — implemented at the component tier
@@ -306,4 +310,85 @@
   --pk-sys-button-large-h:     var(--pk-ref-space-32); /* Kiosk-only size */
   --pk-sys-button-large-v:     var(--pk-ref-space-24);
   --pk-sys-button-large-gap:   var(--pk-ref-space-12);
+}
+
+
+/* ==========================================================================
+   TIER 2 — DARK MODE OVERRIDES
+   Figma: "Colors - Semantic" → Dark mode (fetched live 2026-09-11).
+   Opt in with [data-theme="dark"] on <html>, a screen root, or any ancestor.
+   Only tokens whose Dark value actually differs from Light are listed here —
+   confirmed per-token from the live Figma data, not assumed identical.
+   ========================================================================== */
+
+:root[data-theme="dark"] {
+
+  /* --- Text + Icon ---------------------------------------------------------- */
+  --pk-sys-text-primary:        var(--pk-ref-white);
+  --pk-sys-text-secondary:      var(--pk-ref-white-64);
+  --pk-sys-text-tertiary:       var(--pk-ref-white-32);
+  --pk-sys-text-disabled:       var(--pk-ref-white-24);
+  --pk-sys-text-inverse:        var(--pk-ref-purple-midnight);
+  --pk-sys-text-inverse-subtle: var(--pk-ref-black-64);
+  --pk-sys-text-orange:         var(--pk-ref-orange-300);
+  --pk-sys-text-blue:           var(--pk-ref-blue-100);
+
+  /* --- Background ------------------------------------------------------------ */
+  --pk-sys-bg-background:   var(--pk-ref-purple-midnight);
+  --pk-sys-bg-inverse:      var(--pk-ref-white);
+  --pk-sys-bg-overlay:      var(--pk-ref-white-12);
+  --pk-sys-bg-blue:         var(--pk-ref-blue-500);
+  --pk-sys-bg-magenta-dark: var(--pk-ref-magenta-400);
+
+  /* --- Surface ---------------------------------------------------------------- */
+  --pk-sys-surface-hover:    var(--pk-ref-white-06);
+  --pk-sys-surface-pressed:  var(--pk-ref-white-12);
+  --pk-sys-surface-disabled: var(--pk-ref-white-06);
+  --pk-sys-surface-inverse:  var(--pk-ref-black-06);
+
+  /* --- Border ---------------------------------------------------------------- */
+  --pk-sys-border-subtle:       var(--pk-ref-white-06);
+  --pk-sys-border-default:      var(--pk-ref-white-12);
+  --pk-sys-border-strong:       var(--pk-ref-white-24);
+  --pk-sys-border-inverse:      var(--pk-ref-black-24);
+  --pk-sys-border-magenta-dark: var(--pk-ref-magenta-300);
+
+  /* --- Interactive: Primary / Secondary / Tertiary ---------------------------- */
+  --pk-sys-primary-border:    var(--pk-ref-white-12);
+  --pk-sys-secondary-enabled: var(--pk-ref-white);
+  --pk-sys-secondary-text:    var(--pk-ref-purple-midnight);
+  --pk-sys-tertiary-text:     var(--pk-ref-white);
+  --pk-sys-tertiary-border:   var(--pk-ref-white);
+
+  /* --- Interactive: Link -------------------------------------------------------- */
+  --pk-sys-link-text:       var(--pk-ref-blue-100);
+  --pk-sys-link-text-hover: var(--pk-ref-blue-200);
+  --pk-sys-link-pressed:    var(--pk-ref-white);
+
+  /* --- Interactive: Disabled ----------------------------------------------------- */
+  --pk-sys-disabled-cta-bg: var(--pk-ref-white-06);
+  --pk-sys-disabled-text:   var(--pk-ref-white-24);
+  --pk-sys-disabled-border: var(--pk-ref-white-16);
+
+  /* --- Feedback: Success / Error / Warning / Info (bg/text invert, border fixed) - */
+  --pk-sys-success-bg:      var(--pk-ref-green-700);
+  --pk-sys-success-text:    var(--pk-ref-green-100);
+  --pk-sys-success-hover:   var(--pk-ref-green-500);
+  --pk-sys-success-pressed: var(--pk-ref-green-300);
+
+  --pk-sys-error-bg:      var(--pk-ref-red-700);
+  --pk-sys-error-text:    var(--pk-ref-red-100);
+  --pk-sys-error-hover:   var(--pk-ref-red-500);
+  --pk-sys-error-pressed: var(--pk-ref-red-300);
+
+  --pk-sys-warning-bg:      var(--pk-ref-yellow-700);
+  --pk-sys-warning-text:    var(--pk-ref-yellow-100);
+  --pk-sys-warning-hover:   var(--pk-ref-yellow-500);
+  --pk-sys-warning-pressed: var(--pk-ref-yellow-300);
+
+  --pk-sys-info-bg:      var(--pk-ref-info-blue-700);
+  --pk-sys-info-text:    var(--pk-ref-info-blue-100);
+  --pk-sys-info-border:  var(--pk-ref-info-blue-300);
+  --pk-sys-info-hover:   var(--pk-ref-info-blue-500);
+  --pk-sys-info-pressed: var(--pk-ref-info-blue-300);
 }

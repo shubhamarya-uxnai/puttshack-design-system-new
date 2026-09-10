@@ -33,6 +33,8 @@ export interface ExperienceTypeSelectorProps {
   puttcade?: boolean
   /** The selectable options rendered as `SelectionCards`. */
   options?: ExperienceTypeSelectorOption[]
+  /** Forwarded to each `SelectionCards`' own `onDarkBackground` — set true when this sits on a dark/branded page background. @default false */
+  onDarkBackground?: boolean
   onViewMenu?: () => void
 }
 
@@ -52,6 +54,7 @@ export function ExperienceTypeSelector({
   miniGolf = false,
   puttcade = false,
   options = DEFAULT_OPTIONS,
+  onDarkBackground = false,
   onViewMenu,
 }: ExperienceTypeSelectorProps) {
   const [selectedIndex, setSelectedIndex] = useState(0)
@@ -78,6 +81,7 @@ export function ExperienceTypeSelector({
             totalPrice={opt.totalPrice}
             selected={selectedIndex === i}
             onSelect={() => setSelectedIndex(i)}
+            onDarkBackground={onDarkBackground}
           />
         ))}
       </div>

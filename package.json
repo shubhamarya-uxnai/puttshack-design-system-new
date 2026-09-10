@@ -7,7 +7,8 @@
   "scripts": {
     "storybook": "storybook dev -p 6006",
     "build": "storybook build -o storybook-static",
-    "login": "vite login-app --config login-app/vite.config.ts --port 5173"
+    "login": "vite login-app --config login-app/vite.config.ts --port 5173",
+    "mini-golf": "vite mini-golf-flow --config mini-golf-flow/vite.config.ts --port 5174"
   },
   "dependencies": {
     "lucide-react": "^1.31.0",

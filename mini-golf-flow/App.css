@@ -1,0 +1,18 @@
+/* Page chrome only. Every visual detail inside a component comes from that
+   component's own CSS — nothing here overrides or reimplements DS styling. */
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+  margin: 0;
+}
+
+body {
+  font-family: 'Ringside Regular Book', system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}

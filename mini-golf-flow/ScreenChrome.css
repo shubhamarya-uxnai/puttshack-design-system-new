@@ -1,0 +1,42 @@
+.pk-proto-page-title {
+  display: flex;
+  align-items: center;
+  gap: var(--pk-sys-gap-sm);
+  padding: var(--pk-sys-container-top) var(--pk-sys-container-horizontal) 0;
+}
+
+.pk-proto-page-title__back {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border: none;
+  background: none;
+  color: var(--pk-sys-text-inverse);
+  cursor: pointer;
+  padding: 0;
+  flex-shrink: 0;
+}
+
+.pk-proto-page-title__text {
+  margin: 0;
+  color: var(--pk-sys-text-inverse);
+}
+
+.pk-proto-step-progress {
+  display: flex;
+  gap: var(--pk-sys-gap-xs);
+  padding: var(--pk-sys-gap-sm) var(--pk-sys-container-horizontal) 0;
+}
+
+.pk-proto-step-progress__bar {
+  flex: 1;
+  height: 4px;
+  border-radius: var(--pk-ref-radius-full);
+  background: var(--pk-sys-border-inverse);
+}
+
+.pk-proto-step-progress__bar--done {
+  background: var(--pk-sys-text-inverse);
+}

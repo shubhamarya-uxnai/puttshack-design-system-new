@@ -2,3 +2,11 @@ node_modules
 storybook-static
 *.log
 .DS_Store
+
+# Licensed commercial fonts (Ringside) — not redistributable via a public
+# repo. Drop your own licensed copies into src/styles/fonts/ locally; see
+# the @font-face comments in src/styles/fonts.css for the exact filenames.
+src/styles/fonts/*.otf
+src/styles/fonts/*.woff2
+src/styles/fonts/*.woff
+src/styles/fonts/*.ttf

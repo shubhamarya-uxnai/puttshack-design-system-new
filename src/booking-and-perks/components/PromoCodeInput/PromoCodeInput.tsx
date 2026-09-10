@@ -17,6 +17,8 @@ export interface PromoCodeInputProps {
   mode?: PromoCodeInputMode
   promoValue?: string
   giftCardValue?: string
+  /** Forwarded to both `InputField`s' own `inverse` — set true when this sits on a dark/branded page background. @default false */
+  inverse?: boolean
   onApplyPromo?: () => void
   onApplyGiftCard?: () => void
   className?: string
@@ -32,6 +34,7 @@ export function PromoCodeInput({
   mode = 'mobile',
   promoValue = 'Promo code',
   giftCardValue = 'Gift card number',
+  inverse = false,
   onApplyPromo,
   onApplyGiftCard,
   className,
@@ -46,6 +49,7 @@ export function PromoCodeInput({
           required
           defaultValue={promoValue}
           state={applied ? 'disabled' : 'default'}
+          inverse={inverse}
         />
         <Button variant="tertiary" onlyIcon onClick={onApplyPromo} disabled={applied}>
           Apply
@@ -53,7 +57,7 @@ export function PromoCodeInput({
       </div>
 
       <div className="pk-promo-code-input__row">
-        <InputField label="Gift card" required defaultValue={giftCardValue} />
+        <InputField label="Gift card" required defaultValue={giftCardValue} inverse={inverse} />
         <Button variant="tertiary" onlyIcon onClick={onApplyGiftCard}>
           Apply
         </Button>
