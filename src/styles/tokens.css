@@ -45,6 +45,7 @@
   --pk-ref-magenta-300: #93358D;
   --pk-ref-magenta-400: #863399; /* Primary */
   --pk-ref-magenta-500: #592C82;
+  --pk-ref-magenta-600: #290E3C; /* darkest step — Figma "Background/Magenta Dark 3" / the "Web/Card Background" style */
 
   --pk-ref-blue-100: #00C1DE; /* "Cool Blue" — distinct from Feedback/Info blue */
   --pk-ref-blue-200: #0091B3;
@@ -195,6 +196,11 @@
   --pk-sys-bg-orange:        var(--pk-ref-orange-300);
   --pk-sys-bg-magenta-light: var(--pk-ref-magenta-100);
   --pk-sys-bg-magenta-dark:  var(--pk-ref-magenta-500);
+  /* Figma paint style "Web/Card Background" (Booking and Perks Flow library) — the real fill used
+     by Location & Player Picker, Promo Code Input, Bundle Upsell Section, Time Slot Picker, and
+     other booking-and-perks cards. Previously approximated as --pk-sys-bg-magenta-dark (#592C82,
+     one ramp step lighter); this is the real, distinct captured value. */
+  --pk-sys-bg-card:          var(--pk-ref-magenta-600);
 
   /* --- Surface (cards, inputs, rows) ---------------------------------------- */
   --pk-sys-surface-default:      var(--pk-ref-white);

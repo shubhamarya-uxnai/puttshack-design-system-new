@@ -1,6 +1,8 @@
-/* Tokens: Background/Magenta Dark 3 -> --pk-sys-bg-magenta-dark (closest semantic match — no numbered
-   "Dark 3" tier), Level 2/* -> --pk-sys-level2-*, Interactive/Tertiary/Border -> --pk-sys-tertiary-border,
-   Button/Default/* -> --pk-sys-button-default-*, GAP/Large -> --pk-sys-gap-lg, GAP/Small -> --pk-sys-gap-sm. */
+/* Tokens: Background/Magenta Dark 3 (Figma style "Web/Card Background", #290E3C) -> --pk-sys-bg-card
+   — this component doesn't paint its own card background (the parent card surface does), noted here
+   only because the captured instance sits on that fill. Level 2/* -> --pk-sys-level2-*,
+   Interactive/Tertiary/Border -> --pk-sys-tertiary-border, Button/Default/* -> --pk-sys-button-default-*,
+   GAP/Large -> --pk-sys-gap-lg, GAP/Small -> --pk-sys-gap-sm. */
 
 .pk-promo-code-input {
   display: flex;

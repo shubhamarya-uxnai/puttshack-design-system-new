@@ -6,7 +6,7 @@
   gap: var(--pk-sys-gap-md); /* Figma token: GAP/Medium */
   padding: var(--pk-sys-level2-vertical) var(--pk-sys-level2-horizontal); /* Figma token: Level 2/Vertical, Level 2/Horizontal */
   border-radius: 24px; /* Figma token: xl */
-  background: var(--pk-sys-bg-magenta-dark); /* Figma token: Background/Magenta Dark 3 */
+  background: var(--pk-sys-bg-card); /* Figma style: Web/Card Background (#290E3C) */
   border: var(--pk-ref-border-thin) solid var(--pk-sys-border-magenta); /* Figma token: Border/Magenta */
 }
 

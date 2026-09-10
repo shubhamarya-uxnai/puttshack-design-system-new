@@ -1,9 +1,10 @@
-/* Tokens: Web/Card Background (#290E3C) -> --pk-sys-bg-magenta-dark (closest semantic match, same
-   precedent as PromoCodeInput.css), Level 2/* -> --pk-sys-level2-*, Text+Icon/Primary and
-   Text+Icon/Secondary inside this dark card resolve visually as inverse (white-on-dark) per the
-   real screenshot, not the light-mode fallback hex the codegen printed -> --pk-sys-text-inverse /
-   --pk-sys-text-inverse-subtle. Type comes from the shared .pk-text-* classes (see text-styles.css)
-   applied in the component; this file only sets color + layout. */
+/* Tokens: Web/Card Background (#290E3C) -> --pk-sys-bg-card (the real captured style — see
+   tokens.css; previously approximated as --pk-sys-bg-magenta-dark, one ramp step lighter), Level
+   2/* -> --pk-sys-level2-*, Text+Icon/Primary and Text+Icon/Secondary inside this dark card resolve
+   visually as inverse (white-on-dark) per the real screenshot, not the light-mode fallback hex the
+   codegen printed -> --pk-sys-text-inverse / --pk-sys-text-inverse-subtle. Type comes from the
+   shared .pk-text-* classes (see text-styles.css) applied in the component; this file only sets
+   color + layout. */
 
 .pk-location-player-picker {
   display: flex;
@@ -11,7 +12,7 @@
   gap: var(--pk-sys-gap-lg);
   padding: var(--pk-sys-level2-horizontal);
   border-radius: var(--pk-ref-radius-xl);
-  background: var(--pk-sys-bg-magenta-dark);
+  background: var(--pk-sys-bg-card);
   box-sizing: border-box;
 }
 

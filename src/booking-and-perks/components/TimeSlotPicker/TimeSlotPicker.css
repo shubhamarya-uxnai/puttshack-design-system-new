@@ -1,13 +1,13 @@
-/* Tokens: Background/Magenta Dark 3 -> --pk-sys-bg-magenta-dark (no numbered "Dark 3" tier exists in
-   tokens.css, using the closest semantic match), Border/Subtle -> --pk-sys-border-subtle,
-   Level 2/* -> --pk-sys-level2-gap/horizontal/vertical, Level 3/Gap -> --pk-sys-level3-gap. */
+/* Tokens: Background/Magenta Dark 3 (Figma style "Web/Card Background", #290E3C) -> --pk-sys-bg-card,
+   Border/Subtle -> --pk-sys-border-subtle, Level 2/* -> --pk-sys-level2-gap/horizontal/vertical,
+   Level 3/Gap -> --pk-sys-level3-gap. */
 
 .pk-time-slot-picker {
   display: flex;
   flex-direction: column;
   gap: var(--pk-sys-level2-gap);
   padding: var(--pk-sys-level2-vertical) var(--pk-sys-level2-horizontal);
-  background: var(--pk-sys-bg-magenta-dark);
+  background: var(--pk-sys-bg-card);
   border: 1px solid var(--pk-sys-border-subtle);
   border-radius: 16px;
   color: var(--pk-sys-text-inverse);
