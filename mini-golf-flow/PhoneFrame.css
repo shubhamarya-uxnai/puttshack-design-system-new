@@ -9,6 +9,27 @@
   box-sizing: border-box;
 }
 
+.pk-proto-theme-toggle {
+  position: fixed;
+  top: var(--pk-sys-gap-lg);
+  right: var(--pk-sys-gap-lg);
+  z-index: 100;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--pk-sys-gap-xs);
+  border: var(--pk-ref-border-thin) solid var(--pk-sys-border-inverse);
+  border-radius: var(--pk-ref-radius-full);
+  background: var(--pk-sys-surface-inverse);
+  color: var(--pk-sys-text-inverse);
+  padding: var(--pk-sys-gap-xs) var(--pk-sys-gap-md);
+  cursor: pointer;
+  backdrop-filter: blur(8px);
+}
+
+.pk-proto-theme-toggle:hover {
+  background: var(--pk-sys-surface-pressed);
+}
+
 .pk-proto-phone {
   position: relative;
   width: 390px;

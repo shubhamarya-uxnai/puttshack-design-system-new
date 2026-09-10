@@ -1,62 +1,43 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { AppHeader } from '../src/booking-and-perks/components/AppHeader/AppHeader'
 import { BookingFooter } from '../src/booking-and-perks/components/BookingFooter/BookingFooter'
 import { PerksCard } from '../src/booking-and-perks/components/PerksCard/PerksCard'
-import {
-  LocationPlayerPicker,
-  type AgeGroupCount,
-} from '../src/booking-and-perks/components/LocationPlayerPicker/LocationPlayerPicker'
 import { ExperienceTypeSelector } from '../src/booking-and-perks/components/ExperienceTypeSelector/ExperienceTypeSelector'
 import { BundleUpsellSection } from '../src/booking-and-perks/components/BundleUpsellSection/BundleUpsellSection'
 import { TimeSlotPicker } from '../src/booking-and-perks/components/TimeSlotPicker/TimeSlotPicker'
+import { PageTitle, StepProgress } from './ScreenChrome'
 import './Screens.css'
 
-const DEFAULT_AGE_GROUPS: AgeGroupCount[] = [
-  { label: 'Adults', ageRange: '21+', count: 0 },
-  { label: 'Young Adults', ageRange: '13-20', count: 0 },
-  { label: 'Juniors', ageRange: '0-12', count: 0 },
-]
-
 /**
- * Screen 1 — "Let's plan your visit" (Figma: Interactive Mini Golf section,
+ * Screen 1 — "Configure your round" (Figma: Interactive Mini Golf section,
  * frames "2 Rounds — Round 1 Set, Picking Round" / "Unlimited Round —
  * Default Package Selection", node e.g. 4281:90781). Content column
  * confirmed via a read-only shallow scan: Page Title Container, Perks
  * Card, Stepper (progress), Location & Player Picker, Experience Type
  * Selector/October, Bundle Upsell Section, Time Slot Picker, Booking Footer.
  *
- * Headline/subtitle copy and the Location & Player Picker composition are
- * from a reference screenshot the user supplied (2026-09-11) — the
- * original Figma capture for this page never included bound text content,
- * and "Location & Player Picker" itself hit the permanent transport
- * limitation, so neither could come from the scan data directly.
+ * "Location & Player Picker" and "Page Title Container" are both real
+ * captured instances on this screen but neither is one of the 45 built
+ * October Release components, and neither had any Figma-captured text/prop
+ * content — rendered as honest placeholders / generic chrome rather than
+ * invented copy, per instruction: this screen should reflect only verified
+ * Figma composition data, not guesses from a reference screenshot.
  */
 export function ConfigureScreen({ onCheckout }: { onCheckout: () => void }) {
-  const [ageGroups, setAgeGroups] = useState(DEFAULT_AGE_GROUPS)
-  const [selectedDateIndex, setSelectedDateIndex] = useState(0)
-
   return (
     <div className="pk-proto-screen">
       <AppHeader />
-
-      <div className="pk-proto-screen__hero">
-        <h1 className="pk-proto-screen__hero-title pk-text-headline-large">Let&rsquo;s plan your visit</h1>
-        <p className="pk-proto-screen__hero-subtitle pk-text-body-medium">
-          Build your perfect Puttshack experience — dates, drinks, high-fives, all sorted.
-        </p>
-      </div>
+      <PageTitle title="Configure your round" />
+      <StepProgress step={1} of={3} />
 
       <div className="pk-proto-screen__body">
         <PerksCard type="rewards" />
 
-        <LocationPlayerPicker
-          ageGroups={ageGroups}
-          onChangeAgeGroup={(i, delta) =>
-            setAgeGroups((prev) => prev.map((g, gi) => (gi === i ? { ...g, count: Math.max(0, g.count + delta) } : g)))
-          }
-          selectedDateIndex={selectedDateIndex}
-          onSelectDate={setSelectedDateIndex}
-        />
+        {/* "Location & Player Picker" is one of the 3 October Release components
+            that could never be scanned (persistent transport limitation
+            documented in figma-changes-command.md) — no composition data exists
+            for it, so it's rendered as an honest placeholder. */}
+        <div className="pk-placeholder">Location &amp; Player Picker</div>
 
         <ExperienceTypeSelector diningMenu onDarkBackground />
         <BundleUpsellSection />

@@ -1,4 +1,5 @@
-import React from 'react'
+import React, { useState } from 'react'
+import { Sun, Moon } from '../src/icons'
 import './PhoneFrame.css'
 
 export interface PhoneFrameProps {
@@ -11,18 +12,31 @@ export interface PhoneFrameProps {
  * the screen content. Built once; every screen in this flow renders inside
  * it rather than each screen re-implementing its own frame.
  *
- * No light/dark toggle here — this flow's dark styling matches the actual
- * Figma design (confirmed against a reference screenshot), and the
- * "Interactive Mini Golf" section has no real light-mode variant to switch
- * to. Adding one would mean inventing a look Figma doesn't have, not
- * reflecting it. The system-level dark mode tokens (tokens.css's
- * [data-theme="dark"] block, sourced from Figma's real Dark semantic mode)
- * are a separate, legitimate feature — untouched here.
+ * Owns the light/dark toggle for the whole demo — sets `data-theme` on the
+ * phone itself so every --pk-sys-* token inside (tokens.css's real
+ * [data-theme="dark"] block, sourced live from Figma's Dark semantic mode)
+ * switches. Known caveat: this flow's screens were styled with tokens
+ * chosen as a fixed dark look (matching the real Figma design), not built
+ * as a true light/dark pair, so the "light" toggle state reflects the real
+ * semantic token values rather than a curated alternate layout — some
+ * elements (e.g. the Stepper's icon-on-white contrast) aren't tuned for it.
  */
 export function PhoneFrame({ children }: PhoneFrameProps) {
+  const [theme, setTheme] = useState<'light' | 'dark'>('light')
+
   return (
     <div className="pk-proto-backdrop">
-      <div className="pk-proto-phone">
+      <button
+        type="button"
+        className="pk-proto-theme-toggle"
+        onClick={() => setTheme((t) => (t === 'light' ? 'dark' : 'light'))}
+        aria-label={`Switch to ${theme === 'light' ? 'dark' : 'light'} mode`}
+      >
+        {theme === 'light' ? <Moon aria-hidden="true" /> : <Sun aria-hidden="true" />}
+        <span>{theme === 'light' ? 'Dark mode' : 'Light mode'}</span>
+      </button>
+
+      <div className="pk-proto-phone" data-theme={theme}>
         <div className="pk-proto-phone__island" aria-hidden="true" />
         <div className="pk-proto-phone__screen">{children}</div>
         <div className="pk-proto-phone__home-indicator" aria-hidden="true" />
