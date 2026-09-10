@@ -321,7 +321,7 @@
    confirmed per-token from the live Figma data, not assumed identical.
    ========================================================================== */
 
-:root[data-theme="dark"] {
+[data-theme="dark"] {
 
   /* --- Text + Icon ---------------------------------------------------------- */
   --pk-sys-text-primary:        var(--pk-ref-white);
