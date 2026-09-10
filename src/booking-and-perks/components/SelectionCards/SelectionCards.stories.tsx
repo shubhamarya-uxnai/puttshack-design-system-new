@@ -9,7 +9,7 @@ const meta = {
     title: 'Unlimited',
     content: 'Keep the fun going with unlimited rounds, perfect for the full Puttshack experience.',
     showDetails: true,
-    popular: true,
+    badge: 'Popular',
     showCheck: true,
     showPriceBreakdown: true,
     adultPrice: '$36',

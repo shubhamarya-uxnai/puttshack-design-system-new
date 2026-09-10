@@ -24,8 +24,11 @@ export interface SelectionCardsProps {
   content?: string
   /** Figma: `Details#4605:0` boolean — shows `content`. @default true */
   showDetails?: boolean
-  /** Figma: `Popularity#4435:13` boolean — shows the "Popular" Chip. @default false */
-  popular?: boolean
+  /** Figma: `Popularity#4435:13` — shows a yellow `Chip` with this text when set (e.g. "Popular" on
+   * the round-count tiers, "Reccomended" [sic, kept verbatim from Figma's own text layer] on the
+   * bay-count/duration tiers) — a string rather than a fixed "Popular" boolean since the same card
+   * is reused across sections with different badge copy. */
+  badge?: string
   /** Figma: `Check#4435:14` boolean — shows the radio control. @default true */
   showCheck?: boolean
   /** Figma: `Price breakdown#4605:4` boolean — shows the adult/junior per-person lines. @default false */
@@ -48,7 +51,7 @@ export function SelectionCards({
   title,
   content,
   showDetails = true,
-  popular = false,
+  badge,
   showCheck = true,
   showPriceBreakdown = false,
   adultPrice,
@@ -79,7 +82,7 @@ export function SelectionCards({
         <div className="pk-oct-selection-card__heading">
           <div className="pk-oct-selection-card__title-row">
             <span className="pk-oct-selection-card__title pk-text-title-medium">{title}</span>
-            {popular && <Chip variant="promo">Popular</Chip>}
+            {badge && <Chip variant="promo">{badge}</Chip>}
           </div>
           {showDetails && content && (
             <span className="pk-oct-selection-card__content pk-text-label-medium">{content}</span>

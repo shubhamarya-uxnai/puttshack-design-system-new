@@ -3,7 +3,11 @@ import { AppHeader } from '../src/booking-and-perks/components/AppHeader/AppHead
 import { BookingFooter } from '../src/booking-and-perks/components/BookingFooter/BookingFooter'
 import { PerksCard } from '../src/booking-and-perks/components/PerksCard/PerksCard'
 import { LocationPlayerPicker } from '../src/booking-and-perks/components/LocationPlayerPicker/LocationPlayerPicker'
-import { ExperienceTypeSelector } from '../src/booking-and-perks/components/ExperienceTypeSelector/ExperienceTypeSelector'
+import {
+  ExperienceTypeSelector,
+  MINI_GOLF_ROUND_OPTION_GROUPS,
+  PUTTCADE_SETUP_OPTION_GROUPS,
+} from '../src/booking-and-perks/components/ExperienceTypeSelector/ExperienceTypeSelector'
 import './Screens.css'
 
 /**
@@ -19,15 +23,19 @@ import './Screens.css'
  * step in this flow — the app reveals it once a date is picked in
  * Location & Player Picker, matching the flow's own progressive-
  * disclosure pattern (Select Date itself stays disabled until a player
- * is added). Its "HOW MANY ROUNDS?" pricing tiers are only real for the
- * Interactive Mini Golf experience — Puttcade/Dining Only's own tiers
- * aren't captured yet, so the section only shows once that option is
- * chosen.
+ * is added). Both Interactive Mini Golf's "HOW MANY ROUNDS?" (the
+ * component's own default `optionGroups`) and Puttcade's "CHOOSE YOUR
+ * SETUP" (bay count + duration, `PUTTCADE_SETUP_OPTION_GROUPS`) reuse the
+ * same `ExperienceTypeSelector`/`SelectionCards` — only the heading and
+ * option data change per experience. Dining Only's own tiers aren't
+ * captured yet, so nothing shows for that option.
  */
 export function ConfigureScreen({ onCheckout }: { onCheckout: () => void }) {
   const [selectedDate, setSelectedDate] = useState<string | undefined>(undefined)
   const [selectedExperience, setSelectedExperience] = useState<string | undefined>(undefined)
   const [selectedRound, setSelectedRound] = useState<number | undefined>(undefined)
+  const [selectedBay, setSelectedBay] = useState<number | undefined>(undefined)
+  const [selectedDuration, setSelectedDuration] = useState<number | undefined>(undefined)
 
   return (
     <div className="pk-proto-screen">
@@ -43,13 +51,25 @@ export function ConfigureScreen({ onCheckout }: { onCheckout: () => void }) {
       <div className="pk-proto-screen__body">
         <PerksCard type="unlock" />
         <LocationPlayerPicker onDateSelect={setSelectedDate} />
-        {selectedDate && (
+        {selectedDate && selectedExperience !== 'puttcade' && (
           <ExperienceTypeSelector
             experienceValue={selectedExperience}
             onExperienceChange={setSelectedExperience}
             showOptions={selectedExperience === 'mini-golf'}
-            selectedOptionIndex={selectedRound}
-            onOptionSelect={setSelectedRound}
+            optionGroups={[
+              { ...MINI_GOLF_ROUND_OPTION_GROUPS[0], selectedIndex: selectedRound, onSelect: setSelectedRound },
+            ]}
+          />
+        )}
+        {selectedDate && selectedExperience === 'puttcade' && (
+          <ExperienceTypeSelector
+            experienceValue={selectedExperience}
+            onExperienceChange={setSelectedExperience}
+            optionsHeading="Choose your setup"
+            optionGroups={[
+              { ...PUTTCADE_SETUP_OPTION_GROUPS[0], selectedIndex: selectedBay, onSelect: setSelectedBay },
+              { ...PUTTCADE_SETUP_OPTION_GROUPS[1], selectedIndex: selectedDuration, onSelect: setSelectedDuration },
+            ]}
           />
         )}
       </div>

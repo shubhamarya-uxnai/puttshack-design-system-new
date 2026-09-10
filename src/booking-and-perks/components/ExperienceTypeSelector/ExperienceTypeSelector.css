@@ -28,3 +28,10 @@
   flex-direction: column;
   gap: var(--pk-sys-gap-sm); /* Figma token: GAP/Small */
 }
+
+/* Separates independent SelectionCards groups within one "optionsHeading" section — e.g. Puttcade's
+   "CHOOSE YOUR SETUP" bay-count group vs its duration group. */
+.pk-oct-experience-selector__group-divider {
+  height: 1px;
+  background: var(--pk-sys-border-inverse);
+}

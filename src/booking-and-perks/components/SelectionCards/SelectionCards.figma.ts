@@ -33,7 +33,7 @@ export default {
       title="${title}"
       content="${content}"
       ${showDetails ? '' : 'showDetails={false}'}
-      ${popular ? 'popular' : ''}
+      ${popular ? 'badge="Popular"' : ''}
       ${showCheck ? '' : 'showCheck={false}'}
       ${showPriceBreakdown ? 'showPriceBreakdown' : ''}
       ${adultPrice ? figma.code` adultPrice="${adultPrice}"` : ''}
