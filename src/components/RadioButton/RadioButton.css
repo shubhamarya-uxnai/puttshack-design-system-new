@@ -3,25 +3,33 @@
      maps to any --pk-sys-* token, so it lives as a component token driven by
      [data-screen] the same way tokens.css documents for this component. */
   --pk-comp-radio-size: 24px;
-  /* Inner filled-dot / checkmark size as a fraction of the circle — Figma's
-     screenshot shows a smaller centered mark but doesn't spec an exact px,
-     so this ratio is a judgment call rather than an extracted value. */
-  --pk-comp-radio-mark-scale: 0.5;
-  /* "Selected with Tick" reuses Checkbox's checked magenta — no --pk-sys-*
-     token exists for it, so it's pinned here the same way Checkbox does. */
-  --pk-comp-radio-color-checked: var(--pk-ref-magenta-200);
+  /* The plain filled dot ("Selection=On, Tick=No") fills the circle's padded
+     content box — Figma's _radio component pads 4px on every side regardless
+     of overall circle size, so the dot is (size - 8px), not a fixed ratio. */
+  --pk-comp-radio-mark-size: calc(var(--pk-comp-radio-size) - 8px);
+  /* "Selected with Tick" checkmark glyph is bound to "$Icon size/M" — a fixed
+     literal size, independent of the circle's own size, confirmed at the
+     Default (24px) circle. Clamped to the padded content box so it can't
+     overflow the circle at the smaller `mobile` (20px) size, which Figma
+     doesn't have a confirmed "tick" variant for. */
+  --pk-comp-radio-tick-size: min(var(--pk-sys-icon-m), var(--pk-comp-radio-mark-size));
+  /* Figma: "$Background/Magenta light" — this IS a --pk-sys-* token
+     (--pk-sys-bg-magenta-light), re-scoped to a component name for clarity. */
+  --pk-comp-radio-color-checked: var(--pk-sys-bg-magenta-light);
   --pk-comp-radio-tick-icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='20 6 9 17 4 12'/%3E%3C/svg%3E");
-  /* .pk-text-body-medium's 22px line-height, mirrored here so the label's
+  /* .pk-text-body-small's 20px line-height, mirrored here so the label's
      first line can be vertically centered against the circle — text-styles.css
      bakes line-height as a literal per class rather than a bindable token,
      so there is nothing in --pk-sys-* to reference instead. */
-  --pk-comp-radio-label-line-height: 22px;
+  --pk-comp-radio-label-line-height: 20px;
 
   position: relative;
   box-sizing: border-box;
   display: inline-flex;
   align-items: flex-start;
-  gap: var(--pk-sys-gap-sm);
+  /* Figma: itemSpacing = "$GAP/Small", 4px — this is our --pk-sys-gap-xs, not
+     --pk-sys-gap-sm (8px); the two systems' "Small" step for gap don't line up 1:1. */
+  gap: var(--pk-sys-gap-xs);
   cursor: pointer;
 }
 
@@ -64,7 +72,8 @@
   width: var(--pk-comp-radio-size);
   height: var(--pk-comp-radio-size);
   border-radius: var(--pk-ref-radius-full);
-  border: var(--pk-ref-border-medium) solid var(--pk-sys-border-strong);
+  /* Figma: unchecked stroke = "$Text + Icon/Primary", weight 1 (INSIDE). */
+  border: var(--pk-ref-border-thin) solid var(--pk-sys-text-primary);
   background: var(--pk-sys-surface-default);
   display: inline-flex;
   align-items: center;
@@ -75,8 +84,8 @@
 .pk-radio__control::after {
   content: '';
   display: block;
-  width: calc(var(--pk-comp-radio-size) * var(--pk-comp-radio-mark-scale));
-  height: calc(var(--pk-comp-radio-size) * var(--pk-comp-radio-mark-scale));
+  width: var(--pk-comp-radio-mark-size);
+  height: var(--pk-comp-radio-mark-size);
   border-radius: var(--pk-ref-radius-full);
   background-color: var(--pk-sys-text-primary);
   opacity: 0;
@@ -93,6 +102,8 @@
    of the plain inner dot. Reuses the same ::after box, swapped to a masked
    icon shape so disabled-state overrides (below) only need to touch color. */
 .pk-radio--tick .pk-radio__control::after {
+  width: var(--pk-comp-radio-tick-size);
+  height: var(--pk-comp-radio-tick-size);
   border-radius: 0;
   background-color: var(--pk-sys-text-inverse);
   -webkit-mask-image: var(--pk-comp-radio-tick-icon);
@@ -152,9 +163,10 @@
   color: var(--pk-sys-text-disabled);
 }
 
+/* Figma binds this instance to "$Icon size/M". */
 .pk-radio__tooltip-icon {
-  width: var(--pk-sys-icon-s);
-  height: var(--pk-sys-icon-s);
+  width: var(--pk-sys-icon-m);
+  height: var(--pk-sys-icon-m);
   flex: none;
   color: var(--pk-sys-text-secondary);
 }

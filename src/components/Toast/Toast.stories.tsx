@@ -1,15 +1,16 @@
 import type { Meta, StoryObj } from '@storybook/react-vite'
-import { Check, Sparkles, TriangleAlert } from '../../icons'
+import { AlertOctagon, AlertTriangle, CheckCircle, Info } from '../../icons'
 import { Toast } from './Toast'
 
-/** Fills the `warning` icon slot — Figma ships this as an instance-swap, no default asset exists in this extraction. */
-const alertIcon = <TriangleAlert aria-hidden="true" />
-
-/** Fills the `success` icon slot. */
-const checkIcon = <Check aria-hidden="true" />
-
-/** Fills the `promo` icon slot. */
-const sparkleIcon = <Sparkles aria-hidden="true" />
+const icons = {
+  warning: <AlertTriangle aria-hidden="true" />,
+  promo: <Info aria-hidden="true" />,
+  success: <CheckCircle aria-hidden="true" />,
+  error: <AlertOctagon aria-hidden="true" />,
+  informative: <Info aria-hidden="true" />,
+  brand: <AlertTriangle aria-hidden="true" />,
+  neutral: <CheckCircle aria-hidden="true" />,
+} as const
 
 const meta = {
   title: 'Components/Toast',
@@ -18,26 +19,20 @@ const meta = {
   argTypes: {
     variant: {
       control: 'inline-radio',
-      options: ['warning', 'promo', 'success'],
+      options: ['warning', 'promo', 'success', 'error', 'informative', 'brand', 'neutral'],
       table: { category: 'Variant (Figma: Property 1)' },
     },
-    title: {
-      control: 'text',
-      table: { category: 'Content (Figma: title — success only)' },
-    },
+    inverse: { control: 'boolean', table: { category: 'Variant (Figma: Inverse)' } },
+    title: { control: 'text', table: { category: 'Content (Figma: Heading)' } },
     message: {
       control: false,
-      table: {
-        category: 'Content (Figma: message — pass JSX with an inner <strong> for the bold lead-in on warning/promo)',
-      },
+      table: { category: 'Content (Figma: Content — pass JSX with an inner <strong> for a bold lead-in)' },
     },
-    icon: {
-      control: false,
-      table: { category: 'Content (Figma: icon instance-swap — required, no default ships)' },
-    },
+    subheading: { control: 'text', table: { category: 'Content (Figma: Subheading) — off by default' } },
+    icon: { control: false, table: { category: 'Content (Figma: Icon instance-swap)' } },
     onDismiss: {
       control: false,
-      table: { category: 'Behavior (renders dismiss control only when provided)' },
+      table: { category: 'Behavior (Figma: Close) — renders the dismiss control only when provided' },
     },
     forceState: {
       control: 'inline-radio',
@@ -47,12 +42,14 @@ const meta = {
   },
   args: {
     variant: 'warning',
+    inverse: false,
+    title: 'Heading',
     message: (
       <>
-        <strong>Heads up —</strong> Lane 4 closes for maintenance at 6:00 PM tonight.
+        <strong>Heads up —</strong> adding this player adds $20.00 to your reservation.
       </>
     ),
-    icon: alertIcon,
+    icon: icons.warning,
     onDismiss: () => {},
   },
 } satisfies Meta<typeof Toast>
@@ -63,47 +60,50 @@ type Story = StoryObj<typeof meta>
 /** Turn every knob. This is the one to reach for when checking a combination. */
 export const Playground: Story = {}
 
-/** All variants side by side, each with the copy pattern it actually uses. */
+/** All 7 `Property 1` colors side by side. */
 export const Types: Story = {
   render: (args) => (
     <div className="sbx-row">
-      {(
-        [
-          {
-            variant: 'warning',
-            icon: alertIcon,
-            title: undefined,
-            message: (
-              <>
-                <strong>Heads up —</strong> Lane 4 closes for maintenance at 6:00 PM tonight.
-              </>
-            ),
-          },
-          {
-            variant: 'promo',
-            icon: sparkleIcon,
-            title: undefined,
-            message: (
-              <>
-                <strong>Limited time —</strong> Book a Saturday tee time and get a round on the house.
-              </>
-            ),
-          },
-          {
-            variant: 'success',
-            icon: checkIcon,
-            title: "YOU'RE ALL SET",
-            message: 'Your party of 6 is confirmed for 7:30 PM at Puttshack Denver.',
-          },
-        ] as const
-      ).map(({ variant, icon, title, message }) => (
-        <div className="sbx-stack" key={variant}>
-          <span className="sbx-label">{variant}</span>
-          <Toast {...args} variant={variant} icon={icon} title={title} message={message} />
+      {(['warning', 'promo', 'success', 'error', 'informative', 'brand', 'neutral'] as const).map((v) => (
+        <div className="sbx-stack" key={v}>
+          <span className="sbx-label">{v}</span>
+          <Toast {...args} variant={v} icon={icons[v]} />
         </div>
       ))}
     </div>
   ),
+}
+
+/**
+ * `inverse` swaps every color-carrying variant to the Feedback-Inverse/*
+ * token set (or the generic inverse surface, for promo/brand — see the
+ * component report). Heading/message always go light, regardless of variant.
+ */
+export const Inverse: Story = {
+  render: (args) => (
+    <div className="sbx-row" style={{ background: 'var(--pk-sys-bg-inverse)', padding: 16 }}>
+      {(['warning', 'promo', 'success', 'error', 'informative', 'brand', 'neutral'] as const).map((v) => (
+        <div className="sbx-stack" key={v}>
+          <span className="sbx-label" style={{ color: 'var(--pk-sys-text-white)' }}>
+            {v}
+          </span>
+          <Toast {...args} variant={v} icon={icons[v]} inverse />
+        </div>
+      ))}
+    </div>
+  ),
+}
+
+/** `subheading` is an optional second line below `message`, off by default. */
+export const WithSubheading: Story = {
+  render: (args) => (
+    <Toast {...args} subheading="You can remove this player any time before checkout." />
+  ),
+}
+
+/** `title` is optional — omit it for a single-line, icon + message toast. */
+export const WithoutTitle: Story = {
+  render: (args) => <Toast {...args} title={undefined} />,
 }
 
 /** Every real interaction state on the dismiss control, pinned open via forceState for a static screenshot. */

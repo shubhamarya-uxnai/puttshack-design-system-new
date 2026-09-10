@@ -1,6 +1,6 @@
 import React from 'react'
 import { cx } from '../../lib/cx'
-import { X } from '../../icons'
+import { XCircle } from '../../icons'
 import './Chip.css'
 
 /**
@@ -20,9 +20,18 @@ export interface ChipProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 'c
   /** Fallback initials shown in the avatar circle when `avatarSrc` isn't given. Only meaningful when `variant='avatar'`. */
   avatarInitials?: string
   /**
-   * Figma: `Remove icon` instance. Only rendered — as an interactive ×
-   * button — when `variant='avatar'` AND this is provided. Chips don't
-   * assume a remove handler always exists; wire it manually.
+   * Figma: `Icon + Label/accessibility` instance-swap icon slot, shown
+   * before the label. The captured Figma instance always shows an
+   * accessibility glyph here, but there's no boolean toggle for it in the
+   * component set, so this is left as an optional slot rather than a
+   * hardcoded icon. Only rendered when `variant='avatar'`.
+   */
+  icon?: React.ReactNode
+  /**
+   * Figma: `Remove icon` instance (bound to the `x-circle` glyph). Only
+   * rendered — as an interactive button — when `variant='avatar'` AND this
+   * is provided. Chips don't assume a remove handler always exists; wire it
+   * manually.
    */
   onRemove?: () => void
   /** Documentation only — pins the remove button's interaction state open so Storybook can screenshot hover/pressed on a static page. Never use in application code. */
@@ -34,6 +43,7 @@ export function Chip({
   variant = 'default',
   avatarSrc,
   avatarInitials,
+  icon,
   onRemove,
   forceState,
   className,
@@ -53,7 +63,12 @@ export function Chip({
           )}
         </span>
       )}
-      <span className="pk-text-label-medium pk-chip__label">{children}</span>
+      {isAvatar && icon && (
+        <span className="pk-chip__icon" aria-hidden="true">
+          {icon}
+        </span>
+      )}
+      <span className="pk-text-label-x-small pk-chip__label">{children}</span>
       {showRemove && (
         <button
           type="button"
@@ -62,7 +77,7 @@ export function Chip({
           aria-label={typeof children === 'string' ? `Remove ${children}` : 'Remove'}
           data-force-state={forceState}
         >
-          <X aria-hidden="true" />
+          <XCircle aria-hidden="true" />
         </button>
       )}
     </div>

@@ -1,0 +1,104 @@
+import { Meta, Canvas, Controls } from '@storybook/addon-docs/blocks'
+import * as StepperStories from './Stepper.stories'
+
+<Meta of={StepperStories} />
+
+# Stepper
+
+A small circular +/- tap target. Reach for a pair of these — one `direction="minus"`,
+one `direction="add"` — flanking a number any time someone needs to nudge a count up
+or down by one, e.g. number of players or number of bays.
+
+<Canvas of={StepperStories.Playground} />
+<Controls of={StepperStories.Playground} />
+
+---
+
+## Quantity picker
+
+<Canvas of={StepperStories.QuantityPicker} />
+
+Stepper only renders the tap target itself — the number in the middle and the
+increment/decrement logic (clamping to a min/max, wiring `onClick`) belong to the
+consumer.
+
+---
+
+## Add vs Minus
+
+<Canvas of={StepperStories.Directions} />
+
+Figma models these as two separate component sets ("Add" and "Minus") grouped under
+one "Stepper Buttons" section, identical in shape, padding and token set and differing
+only in which icon they show — implemented here as one component with a `direction`
+prop rather than two near-duplicate components.
+
+---
+
+## States
+
+<Canvas of={StepperStories.States} />
+
+Real states come from real CSS: `:hover` and the native `disabled` attribute (driven
+by `active={false}`). `forceState="hover"` pins hover open so this page can show it in
+a static screenshot — it must never be used in application code.
+
+---
+
+## Tokens consumed
+
+| Token | Used for |
+|---|---|
+| `--pk-ref-radius-full` | Pill/circle corner radius. |
+| `--pk-ref-border-thin` | The circle's 1px border. |
+| `--pk-ref-border-medium` | Focus ring width. |
+| `--pk-ref-space-2` | Focus ring offset. |
+| `--pk-sys-border-focus` | Focus ring color. |
+| `--pk-sys-gap-sm` | Padding on every side of the icon (8px) — approximates Figma's `GAP/Medium`, a per-device-mode variable; the captured frame renders at this system token's exact value. |
+| `--pk-sys-icon-l` | Icon width/height (24px) — approximates Figma's `Icon size/XL` binding; the captured icon renders at this system token's value, not the 32px `--pk-sys-icon-xl` step its Figma name suggests. |
+| `--pk-sys-text-primary` | Icon color and the enabled circle's border (Figma: `Text + Icon/Black`). |
+| `--pk-sys-bg-default` | Enabled circle's background (Figma: `Background/Default`). |
+| `--pk-sys-tertiary-pressed` / `--pk-sys-tertiary-border` | Hover background/border (Figma: `Interactive/Tertiary/Pressed` / `Interactive/Tertiary/Border`) — the same tokens Button's own Tertiary type uses. |
+| `--pk-sys-disabled-cta-bg` / `--pk-sys-disabled-border` / `--pk-sys-disabled-text` | Disabled circle's background, border and icon color. |
+
+---
+
+## Do / Don't
+
+**Do**
+- Always render `add` and `minus` as a pair around a visible count — a lone Stepper
+  button has no meaning.
+- Pass a descriptive `aria-label` when the control isn't a plain quantity (the default
+  labels are "Increase quantity" / "Decrease quantity").
+
+**Don't**
+- Use `forceState` in application code — it exists only for documentation screenshots.
+- Disable one side of the pair without disabling the other unless the count is
+  genuinely pinned at one bound (e.g. disable `minus` only when the count is at its
+  minimum).
+
+---
+
+## Accessibility
+
+Stepper renders a real `<button type="button">`, so Enter/Space activation, tab focus
+order and the `disabled` attribute all come from the browser for free. Because the
+Figma component has no label layer, `aria-label` is required reading — the defaults
+("Increase quantity" / "Decrease quantity") only fit an actual quantity picker.
+
+---
+
+## Figma parity
+
+Source: file `x40IO8pltwoAFiVkBZEUzT`, "Add" (node `10872:107981`) and "Minus" (node
+`10872:107884`), both under the "Stepper Buttons" section of the Button page. Each
+component set captures 3 of its 4 possible `Active`×`Hover` combinations —
+`Active=False, Hover=True` (a disabled circle that's also hovered) isn't defined in
+the source file, matching this component: `:hover` has no effect once `disabled` is
+set.
+
+The disabled variant's instance-swap delta hints the icon's own fill may recolor
+independently of the circle's border/background, but the resolved value isn't
+recoverable from the captured snapshot — `--pk-sys-disabled-text` is used as the
+closest reasonable approximation rather than a guessed hex value; flag for design QA
+if the real disabled icon color differs.

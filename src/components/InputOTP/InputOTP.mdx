@@ -19,14 +19,30 @@ variable-length input.
 
 <Canvas of={InputOTPStories.Sizes} />
 
-`size` drives cell dimensions and fill via `[data-screen]`, matching the
-device mode confirmed in the source file:
+`size` (Figma: `Mode`) drives cell dimensions only via `[data-screen]` —
+a bigger touch target at each step up, not a different fill or color:
 
-| Size | Cell dimensions | Fill |
-|---|---|---|
-| `mobile` | 44 × 52px | Bordered, transparent/white fill |
-| `desktop` | 60 × 68px (default) | Filled, no border (pale grey) |
-| `kiosk` | 76 × 84px | Filled, dark surface — pairs with this system's dark color mode |
+| Size | Cell dimensions |
+|---|---|
+| `mobile` | 61 × 72px |
+| `desktop` | 90 × 100px (default) |
+| `kiosk` | 120 × 160px |
+
+All 3 sizes share the same 12px (`$md`) corner radius, the same pale
+`--pk-ref-black-06` fill, and the same 48px digit — confirmed from the
+source file, which has no per-mode override for radius or digit size.
+
+---
+
+## Inverse
+
+<Canvas of={InputOTPStories.Inverse} />
+
+`inverse` (Figma: `Color` = Inverse) is an **independent axis from `size`**
+— pass it wherever the cells sit on a dark surface, at any of the 3 sizes.
+It is not tied to `size="kiosk"`: a kiosk-sized OTP on a light surface uses
+the same default fill as mobile/desktop, and a mobile-sized OTP can be
+inverse too.
 
 ---
 
@@ -57,26 +73,25 @@ longer identifiers.
 
 | Token | Used for |
 |---|---|
-| `--pk-sys-gap-sm` | Gap between label and cell row; gap between cells (mobile/desktop) |
-| `--pk-ref-radius-md` | Cell corner radius (desktop) |
-| `--pk-ref-radius-sm` | Cell corner radius (mobile) |
-| `--pk-sys-text-primary` | Label text color; digit color (mobile/desktop) |
-| `--pk-sys-text-inverse` | Label and digit color on kiosk's dark surface |
-| `--pk-sys-border-strong` | Cell border color (mobile) |
-| `--pk-sys-bg-default` | Cell fill (mobile) |
-| `--pk-ref-black-06` | Cell fill (desktop) — closest confirmed match to the source screenshot; no `--pk-sys-surface-*` token lands on this exact tone |
-| `--pk-sys-surface-inverse` | Cell fill (kiosk) |
-| `--pk-ref-border-thin` | Cell border width |
+| `--pk-sys-gap-sm` | Gap between label and cell row ("$GAP/Medium", 8px); gap between cells |
+| `--pk-ref-radius-md` | Cell corner radius — confirmed the same ("$md") at every size |
+| `--pk-sys-text-primary` | Label text color; digit color (default, non-inverse) |
+| `--pk-sys-text-inverse` | Label and digit color when `inverse` is true |
+| `--pk-ref-black-06` | Default cell fill ("$Surface/Subtle@6%") — no `--pk-sys-surface-*` token lands on this exact tone |
+| `--pk-sys-surface-inverse` | Cell fill when `inverse` is true ("$Surface/Inverse@2%") |
+| `--pk-ref-border-medium` | Cell border width (transparent by default; colored on `error`) |
 | `--pk-sys-font-ui-bold` | Digit font family |
-| `--pk-ref-magenta-200` | Caret color — Figma's Active state uses a blinking magenta cursor |
+| `--pk-sys-text-magenta` | Caret color — Figma's Active state uses a blinking magenta cursor ("$Text + Icon/Magenta") |
 | `--pk-sys-border-focus` | Focus ring (`:focus-visible`) |
 | `--pk-sys-error-border` | Cell border color when `error` is true |
 | `--pk-sys-error-text` | Error message color |
 
-Cell width/height, the kiosk radius/gap, and the digit font size are pinned
-as component-tier variables (`--pk-comp-input-otp-*`) rather than mapped to
-a `--pk-ref-*` step, because the confirmed values (44/52/60/68/76/84px cells,
-10px kiosk radius/gap) fall between the nearest spacing and radius steps.
+Cell width/height and the digit font size are pinned as component-tier
+variables (`--pk-comp-input-otp-*`) rather than mapped to a `--pk-ref-*`
+step: the confirmed cell dimensions (61×72 / 90×100 / 120×160px) fall
+between spacing steps, and the 48px digit has no matching named Text
+Style — Figma calls it "Headline/X-large", a step that doesn't exist among
+this codebase's 17 Text Styles (Headline tops out at Large, 36px).
 
 ---
 
@@ -115,13 +130,21 @@ across the remaining cells from the cursor position.
 
 ## Figma parity
 
-Source: file `x40IO8pltwoAFiVkBZEUzT`, node `12731:83461` ("Numeric
-Input" — the file's own documentation canvas for this component).
+Source: file `x40IO8pltwoAFiVkBZEUzT`, component sets `Numeric input`
+(node `12960:6294`, the group of cells + Error/Inverse/"Show 8" variants)
+and `_Numeric input` (node `12642:82259`, the individual cell — `Color`
+Default/Inverse × `Mode` Mobile/Desktop/Kiosk, plus `Cursor`/`Error`/`Number`
+booleans), page "⭐ input OTP".
 
-Two values in the implementation are pinned as confirmed-but-unmapped
-constants rather than forced onto a nearby token: the desktop cell fill
-(`--pk-ref-black-06`, since no `--pk-sys-surface-*` token matches the pale
-grey in the source screenshot) and the kiosk cell radius/gap (10px, which
-falls between the `sm`/`md` radius steps and the `gap-sm`/`gap-md` steps).
-Both are called out in the component's own CSS rather than silently
-rounded.
+`size` (Mode) and `inverse` (Color) are confirmed as two independent variant
+axes on the individual cell, not one combined "device mode" — the previous
+implementation conflated them (treating kiosk as always-dark and mobile as
+always-bordered), which the source data doesn't support: Default-color cells
+use the same pale fill and no border at every Mode, and Inverse can apply at
+any size. Cell dimensions (61×72 / 90×100 / 120×160px) and the 48px digit
+size are pinned as component-tier variables since neither maps to an
+existing `--pk-ref-*` spacing/radius step or a named Text Style — both are
+called out in the component's own CSS rather than silently rounded. The
+`Cursor` boolean (a visible blinking magenta caret rectangle) is
+approximated here with the native input's `caret-color` rather than a
+custom-built cursor element — a deliberate simplification, not a gap.

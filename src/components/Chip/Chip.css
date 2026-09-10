@@ -1,11 +1,13 @@
 .pk-chip {
-  /* No --pk-ref-space step lands on 3px. Figma's own auto-layout measures
-     4px vertical padding on this pill, but that was set against a text
-     box auto-sized to a tight 14px glyph box. The system's mandatory
-     .pk-text-label-medium style reserves a full 16px line-height, so 4px
-     padding would render 24px tall instead of the spec's measured 22px —
-     3px is what actually hits the exact height once the real style is applied. */
-  --pk-comp-chip-label-v-padding: 3px;
+  /* Figma binds height to $S6 with $GAP/Small (top/bottom) and $GAP/Large
+     (left/right) padding on the Small/Yellow variants. $GAP/Small measures
+     4px, which lands exactly on --pk-ref-space-4 once the label uses the
+     correct Label/x-Small text style (11px/14px line-height) — no fudge
+     factor needed the way a 16px-line-height style would require one. */
+  --pk-comp-chip-label-v-padding: var(--pk-ref-space-4);
+  /* $GAP/Large — a component-local step (12px) that doesn't match any of
+     the global --pk-sys-gap-* stops, so it's applied as a raw primitive. */
+  --pk-comp-chip-label-h-padding: var(--pk-ref-space-12);
   /* Figma's remove icon is drawn at 12px, below the smallest system icon
      step (--pk-sys-icon-s, 16px). This is the tappable button size that
      wraps it while still fitting inside the 24px-tall AVATAR chip. */
@@ -18,26 +20,28 @@
   display: inline-flex;
   align-items: center;
   border-radius: var(--pk-ref-radius-full);
+  border: var(--pk-ref-border-thin) solid var(--pk-sys-border-magenta); /* $Border/Magenta — shared by all 3 variants, inherited on Yellow/AVATAR */
   white-space: nowrap;
 }
 
 .pk-chip--default,
 .pk-chip--avatar {
-  background: var(--pk-sys-bg-inverse);
-  color: var(--pk-sys-text-inverse);
+  /* $Background/Default — a light/white surface, not the inverse (dark)
+     background this previously used. */
+  background: var(--pk-sys-bg-default);
+  color: var(--pk-sys-text-black); /* $Text + Icon/Black */
 }
 
 .pk-chip--promo {
-  /* Colors-Semantic has no literal "Yellow" token. Orange is the closest
-     brand-yellow-adjacent hue in this palette, and matches the Yellow
-     variant's own bound Figma value (#FFC629 = --pk-ref-orange-100). */
-  background: var(--pk-ref-orange-100);
-  color: var(--pk-sys-text-primary);
+  /* $Surface/Selected — same resolved hex as --pk-ref-orange-100, but this
+     is the actual bound semantic variable name for the Yellow variant. */
+  background: var(--pk-sys-surface-selected);
+  color: var(--pk-sys-text-black); /* $Text + Icon/Black — inherited from the base (Small) variant, unchanged by Yellow's delta */
 }
 
 .pk-chip--default,
 .pk-chip--promo {
-  padding: var(--pk-comp-chip-label-v-padding) var(--pk-ref-space-12);
+  padding: var(--pk-comp-chip-label-v-padding) var(--pk-comp-chip-label-h-padding);
 }
 
 .pk-chip--avatar {
@@ -54,10 +58,27 @@
   height: var(--pk-sys-icon-m);
   border-radius: var(--pk-ref-radius-full);
   overflow: hidden;
-  /* Placeholder fill for the no-image/no-initials edge case — a light
-     overlay on the dark pill so initials stay legible; not a bound Figma
-     value since the source component only shows a filled avatar image. */
-  background: var(--pk-ref-white-24);
+  border: var(--pk-ref-border-thin) solid var(--pk-sys-text-orange); /* $Text + Icon/Orange, bound as the avatar circle's stroke in Figma */
+  /* Placeholder fill for the no-image/no-initials edge case — a subtle
+     tint so initials stay legible on the now-light chip background; not a
+     bound Figma value since the source component only shows a filled
+     avatar image. */
+  background: var(--pk-sys-surface-subtle);
+}
+
+.pk-chip__icon {
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--pk-comp-chip-remove-icon-size);
+  height: var(--pk-comp-chip-remove-icon-size);
+  color: var(--pk-sys-text-black); /* $Text + Icon/Black, matches the "accessibility" instance's bound fill */
+}
+
+.pk-chip__icon svg {
+  width: 100%;
+  height: 100%;
 }
 
 .pk-chip__avatar-image {
@@ -89,12 +110,13 @@
 
 .pk-chip__remove:hover:not(:disabled),
 .pk-chip__remove[data-force-state='hover'] {
-  background: var(--pk-ref-white-16);
+  /* Dark-on-light overlay now that the chip background is $Background/Default (light), not inverse. */
+  background: var(--pk-ref-black-06);
 }
 
 .pk-chip__remove:active,
 .pk-chip__remove[data-force-state='pressed'] {
-  background: var(--pk-ref-white-24);
+  background: var(--pk-ref-black-12);
 }
 
 .pk-chip__remove:focus-visible,

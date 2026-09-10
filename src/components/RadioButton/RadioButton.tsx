@@ -66,7 +66,8 @@ export function RadioButton({
       <span className="pk-radio__control" aria-hidden="true" />
       {(label || tooltipIcon) && (
         <span className="pk-radio__text">
-          {label && <span className={cx('pk-radio__label', 'pk-text-body-medium')}>{label}</span>}
+          {/* Figma: Label/Label uses the "Body/Small" text style. */}
+          {label && <span className={cx('pk-radio__label', 'pk-text-body-small')}>{label}</span>}
           {tooltipIcon && <CircleHelp className="pk-radio__tooltip-icon" aria-hidden="true" />}
         </span>
       )}

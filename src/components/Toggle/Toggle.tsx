@@ -1,6 +1,6 @@
 import React from 'react'
 import { cx } from '../../lib/cx'
-import { CircleHelp } from '../../icons'
+import { Check, CircleHelp } from '../../icons'
 import './Toggle.css'
 
 /** Figma variant property `Size`. Track measures 40×24px (default) or 32×20px (small). */
@@ -52,10 +52,15 @@ export function Toggle({
           {...rest}
         />
         <span className="pk-toggle__track" aria-hidden="true">
+          <Check className="pk-toggle__check" aria-hidden="true" />
           <span className="pk-toggle__knob" />
         </span>
       </span>
-      {label && <span className="pk-toggle__label pk-text-body-medium">{label}</span>}
+      {label && (
+        <span className={cx('pk-toggle__label', size === 'small' ? 'pk-text-body-small' : 'pk-text-body-medium')}>
+          {label}
+        </span>
+      )}
       {label && tooltipIcon && <CircleHelp className="pk-toggle__tooltip-icon" aria-hidden="true" />}
     </label>
   )

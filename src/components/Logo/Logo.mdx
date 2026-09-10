@@ -1,0 +1,83 @@
+import { Meta, Canvas, Controls } from '@storybook/addon-docs/blocks'
+import * as LogoStories from './Logo.stories'
+
+<Meta of={LogoStories} />
+
+# Logo
+
+The Puttshack wordmark. Reach for it any time a screen needs the brand mark itself —
+a splash screen, a receipt header, an empty state — rather than reproducing the
+letterforms by hand.
+
+<Canvas of={LogoStories.Playground} />
+<Controls of={LogoStories.Playground} />
+
+---
+
+## On its intended background
+
+<Canvas of={LogoStories.OnBrandBackground} />
+
+The source Figma component is filled with the `White` color variable, so it's
+designed to sit on the branded/dark screen backdrop (`--pk-sys-bg-background`) or
+another dark surface — not directly on a white card, where it disappears.
+
+---
+
+## Sizes
+
+<Canvas of={LogoStories.Sizes} />
+
+`size` sets the rendered width in pixels; height follows automatically from the
+mark's fixed 6:1 aspect ratio. There's no small/medium/large step in Figma — pick
+whatever width fits the layout.
+
+---
+
+## Tokens consumed
+
+| Token | Used for |
+|---|---|
+| `--pk-sys-text-white` | The mark's fill color (Figma: `White`), applied via `currentColor` so a wrapping element can override it with its own `color` if a screen ever needs the mark in another ink. |
+
+---
+
+## Do / Don't
+
+**Do**
+- Place it on the branded backdrop or another sufficiently dark surface.
+- Let it scale as one unit via `size` — never stretch width and height independently.
+
+**Don't**
+- Drop it on a plain white card at the default color — it's a white mark and will
+  vanish.
+- Recolor individual strokes of the mark — it's brand artwork, treat it as a single
+  fixed asset.
+
+---
+
+## Accessibility
+
+Renders as an `<svg role="img" aria-label="Puttshack">`, so screen readers announce it
+as a single image named "Puttshack" rather than reading out path data.
+
+---
+
+## Figma parity
+
+Source: file `x40IO8pltwoAFiVkBZEUzT`, node `2003:135458` ("Company Logo", page
+"LOGO"). This component has no variant properties in the source file — a single fixed
+lockup — so the code component takes no `variant` prop either, only a `size` for
+rendered width.
+
+**Asset note:** the captured Figma snapshot records this node's frame size (296×48)
+and its bound `White` fill, but — unlike the other components in this pass — it does
+not include the underlying vector path data, only layer metadata. Rather than
+fabricate a lookalike wordmark, this component reuses the path data from this repo's
+one other Puttshack wordmark asset,
+`src/screens/BookingRegistration/assets/puttshack-wordmark.svg` (viewBox 156×26,
+≈6:1 — matching Figma's 296:48 frame's ≈6:1 ratio closely enough to be confident
+it's the same lockup), re-inked from that asset's hardcoded Midnight Purple fill to
+`currentColor` so it renders in the `White` this Figma component actually specifies.
+If the real "Company Logo" vector differs from this asset in any letterform detail,
+that would only surface by re-exporting the SVG directly from Figma.

@@ -35,8 +35,8 @@
   position: relative;
   box-sizing: border-box;
   width: var(--pk-comp-scroll-bar-rail-width);
-  border-radius: var(--pk-ref-radius-xs);
-  background: var(--pk-sys-surface-subtle);
+  border-radius: var(--pk-ref-radius-xs); /* $xs */
+  background: var(--pk-sys-surface-subtle); /* $Surface/Subtle@6% — Figma's capture shows this fill at ~6% opacity; --pk-sys-surface-subtle itself resolves to black/2%, so this is the closest named match rather than an exact alpha match. */
   /* Do: xs radius for the track, fully rounded for the handle. Don't: the
      track itself is never interactive — no click-to-jump, no track hover
      state, so no cursor/pointer rules live here. */
@@ -49,7 +49,7 @@
   box-sizing: border-box;
   width: var(--pk-comp-scroll-bar-rail-width);
   border-radius: var(--pk-ref-radius-full);
-  background: var(--pk-sys-text-tertiary);
+  background: var(--pk-sys-text-tertiary); /* $Text + Icon/Tertiary@32% — exact match, --pk-sys-text-tertiary is already black/32% */
   cursor: grab;
   touch-action: none;
   transition: background-color 120ms ease;
@@ -57,7 +57,7 @@
 
 .pk-scroll-bar__handle:hover,
 .pk-scroll-bar__handle[data-force-state='hover'] {
-  background: var(--pk-sys-text-secondary);
+  background: var(--pk-sys-text-secondary); /* Figma variant "with bacground - hover" [sic]: $Text + Icon/Secondary@64% — exact match, --pk-sys-text-secondary is already black/64% */
 }
 
 .pk-scroll-bar__handle:active,

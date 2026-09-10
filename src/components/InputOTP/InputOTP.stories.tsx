@@ -17,7 +17,11 @@ const meta = {
     },
     error: {
       control: 'boolean',
-      table: { category: 'Variant (Figma: State=Error)' },
+      table: { category: 'Variant (Figma: Error)' },
+    },
+    inverse: {
+      control: 'boolean',
+      table: { category: 'Variant (Figma: Color=Inverse)' },
     },
     errorMessage: {
       control: 'text',
@@ -40,6 +44,7 @@ const meta = {
     length: 6,
     label: 'Enter the 6-digit code sent to your phone',
     error: false,
+    inverse: false,
     errorMessage: "That code didn't work. Check your texts and try again.",
     autoFocus: false,
   },
@@ -51,16 +56,32 @@ type Story = StoryObj<typeof meta>
 /** Turn every knob. This is the one to reach for when checking a combination. */
 export const Playground: Story = {}
 
-/** All device modes side by side — each carries its own cell size and fill (kiosk ships on the dark surface it's built for). */
+/** All 3 device modes side by side — each is a different cell size/touch target, not a different fill. */
 export const Sizes: Story = {
   render: (args) => (
     <div className="sbx-row">
       {(['mobile', 'desktop', 'kiosk'] as const).map((s) => (
-        <div className={s === 'kiosk' ? 'sbx-stack sbx-dark-plate' : 'sbx-stack'} key={s}>
+        <div className="sbx-stack" key={s}>
           <span className="sbx-label">{s}</span>
           <InputOTP {...args} size={s} />
         </div>
       ))}
+    </div>
+  ),
+}
+
+/** Same cells on light vs. dark backgrounds — `Color`/`inverse` is orthogonal to `size`/Mode, unlike sizing it is not tied to kiosk specifically. */
+export const Inverse: Story = {
+  render: (args) => (
+    <div className="sbx-row">
+      <div className="sbx-stack">
+        <span className="sbx-label">default</span>
+        <InputOTP {...args} inverse={false} />
+      </div>
+      <div className="sbx-stack sbx-dark-plate">
+        <span className="sbx-label">inverse</span>
+        <InputOTP {...args} inverse />
+      </div>
     </div>
   ),
 }

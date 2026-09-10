@@ -1,13 +1,16 @@
 .pk-checkbox {
-  /* --pk-comp-checkbox-color-checked: none of the --pk-sys-* semantic names map to "checkbox
-     fill" specifically, so this is a component-tier token pointing at the confirmed Figma value. */
-  --pk-comp-checkbox-color-checked: var(--pk-ref-magenta-200);
+  /* Figma: checked fill = "$Background/Magenta light" — this IS a --pk-sys-* token
+     (--pk-sys-bg-magenta-light), just re-scoped to a component name here since
+     "checkbox fill" isn't self-evident from the semantic name alone. */
+  --pk-comp-checkbox-color-checked: var(--pk-sys-bg-magenta-light);
   --pk-comp-checkbox-size: 24px; /* Desktop default, overridden per data-screen below */
 
   box-sizing: border-box;
   display: inline-flex;
   align-items: center;
-  gap: var(--pk-sys-gap-sm);
+  /* Figma: itemSpacing = "$GAP/Small", 4px — note this is our --pk-sys-gap-xs, not
+     --pk-sys-gap-sm (8px); the two systems' "Small" step for gap don't line up 1:1. */
+  gap: var(--pk-sys-gap-xs);
   cursor: pointer;
   -webkit-tap-highlight-color: transparent;
 }
@@ -71,7 +74,8 @@
   align-items: center;
   justify-content: center;
   border-radius: var(--pk-ref-radius-xs);
-  border: var(--pk-ref-border-medium) solid var(--pk-sys-border-strong);
+  /* Figma: unchecked stroke = "$Text + Icon/Primary", weight 1 (INSIDE). */
+  border: var(--pk-ref-border-thin) solid var(--pk-sys-text-primary);
   background: var(--pk-sys-bg-default);
   transition: background-color 150ms ease, border-color 150ms ease, box-shadow 150ms ease;
 }
@@ -85,9 +89,13 @@
   border-color: var(--pk-sys-error-border);
 }
 
+/* Figma binds the check/minus glyph to "$Icon size/M" — use that literal size
+   rather than a percentage of the box, confirmed at the Default (24px) box.
+   Clamped so it can't overflow the box at the smaller `mobile` (20px) size,
+   which Figma doesn't have a confirmed variant for. */
 .pk-checkbox__icon {
-  width: 70%;
-  height: 70%;
+  width: min(var(--pk-sys-icon-m), calc(var(--pk-comp-checkbox-size) - 4px));
+  height: min(var(--pk-sys-icon-m), calc(var(--pk-comp-checkbox-size) - 4px));
   color: var(--pk-sys-text-inverse);
 }
 
@@ -107,10 +115,11 @@
 }
 
 /* CircleHelp (lucide) already draws its own circle outline, so this only
-   needs to size and color it — no separate CSS-drawn border/circle. */
+   needs to size and color it — no separate CSS-drawn border/circle.
+   Figma binds this instance to "$Icon size/M" too. */
 .pk-checkbox__tooltip-icon {
-  width: var(--pk-sys-icon-s);
-  height: var(--pk-sys-icon-s);
+  width: var(--pk-sys-icon-m);
+  height: var(--pk-sys-icon-m);
   flex-shrink: 0;
   color: var(--pk-sys-text-secondary);
 }

@@ -16,21 +16,31 @@ import './InputOTP.css'
  * beyond the digit itself, since auto-advance already communicates it), and
  * Error (component-level, not per-cell — all cells take the error border and
  * clear together).
+ *
+ * `size` (Figma: `Mode`) and `inverse` (Figma: `Color` = Default/Inverse) are
+ * independent axes in the source file — Kiosk is a bigger touch target, not a
+ * dark theme. Pass `inverse` explicitly wherever the cell sits on a dark
+ * surface, at any size.
  */
 
 export type InputOTPSize = 'mobile' | 'desktop' | 'kiosk'
 
 export interface InputOTPProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 'onChange'> {
-  /** Figma: device mode — drives cell sizing/fill via [data-screen]. @default 'desktop' */
+  /** Figma: `Mode` — drives cell sizing via [data-screen]. @default 'desktop' */
   size?: InputOTPSize
   /** Number of digit cells. Figma's visual example uses 6. @default 6 */
   length?: number
   /** Labels the group as a whole. Never render per-cell labels (no D1/D2/D3). */
   label?: string
-  /** Figma: Error state. All cells clear and take the error border together. */
+  /** Figma: `Error`. All cells clear and take the error border together. */
   error?: boolean
   /** Message rendered below the component when `error` is true. */
   errorMessage?: string
+  /**
+   * Figma: `Color` = Inverse. Places the cells on a dark surface — independent
+   * of `size`/Mode. @default false
+   */
+  inverse?: boolean
   /** Fires once every cell is filled — no separate confirm button needed. */
   onComplete?: (code: string) => void
   /**
@@ -46,6 +56,7 @@ export function InputOTP({
   label,
   error = false,
   errorMessage,
+  inverse = false,
   onComplete,
   autoFocus = false,
   className,
@@ -116,7 +127,12 @@ export function InputOTP({
 
   return (
     <div
-      className={cx('pk-input-otp', error && 'pk-input-otp--error', className)}
+      className={cx(
+        'pk-input-otp',
+        error && 'pk-input-otp--error',
+        inverse && 'pk-input-otp--inverse',
+        className
+      )}
       data-screen={size}
       {...rest}
     >

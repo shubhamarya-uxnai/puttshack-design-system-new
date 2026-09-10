@@ -1,0 +1,74 @@
+/* ============================================================================
+   Stepper — Figma component sets "Add" (node 10872:107981) and "Minus"
+   (node 10872:107884), 3 captured variants each: Active=True/Hover=False
+   (enabled), Active=False/Hover=False (disabled), Active=True/Hover=True
+   (hover). Active=False/Hover=True isn't defined in the source file — a
+   disabled circle has no hover treatment.
+
+   Frame hugs its content: 40×40 = 8px padding on every side + a 24×24 icon.
+   ========================================================================== */
+
+.pk-stepper {
+  box-sizing: border-box; /* Figma's 1px stroke draws INSIDE the frame */
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  /* Figma binds "GAP/Medium" here, a per-device-mode spacing variable
+     (Mobile 8px / Desktop 12px) — the captured frame renders at 8px, which
+     matches this system token exactly, so it's used as-is rather than
+     inventing a component-local token. */
+  padding: var(--pk-sys-gap-sm);
+  border-radius: var(--pk-ref-radius-full);
+  border: var(--pk-ref-border-thin) solid var(--pk-sys-text-primary);
+  background: var(--pk-sys-bg-default);
+  color: var(--pk-sys-text-primary);
+  cursor: pointer;
+  transition: background-color 120ms ease, border-color 120ms ease, color 120ms ease;
+}
+
+.pk-stepper:focus-visible {
+  outline: var(--pk-ref-border-medium) solid var(--pk-sys-border-focus);
+  outline-offset: var(--pk-ref-space-2);
+}
+
+.pk-stepper__icon {
+  display: block;
+  flex-shrink: 0;
+  /* Figma binds "Icon size/XL" here, a per-device-mode variable (Mobile
+     24px / Desktop 32px) — the captured icon renders at 24px, which matches
+     this DS's --pk-sys-icon-l step, not --pk-sys-icon-xl (32px) despite the
+     Figma property's name. Using the token whose *value* matches the
+     captured render rather than the one whose *name* matches. */
+  width: var(--pk-sys-icon-l);
+  height: var(--pk-sys-icon-l);
+}
+
+/* --- Hover (real interaction state, plus forceState for documentation) ---
+   Figma's "Hover=True" variant swaps the fill to Interactive/Tertiary/Pressed
+   and the border to Interactive/Tertiary/Border — the same tokens Button's
+   Tertiary type uses for its own hover/pressed treatment. Border resolves to
+   the same Midnight Purple as the enabled circle's border, so it doesn't
+   visibly change; declared anyway for parity with the source data. */
+.pk-stepper:hover:not(:disabled),
+.pk-stepper[data-force-state='hover'] {
+  background: var(--pk-sys-tertiary-pressed);
+  border-color: var(--pk-sys-tertiary-border);
+}
+
+.pk-stepper:active:not(:disabled) {
+  background: var(--pk-sys-tertiary-pressed);
+  border-color: var(--pk-sys-tertiary-border);
+}
+
+/* --- Disabled (Figma: Active=False) ---------------------------------------
+   Fill and border both go to the DS's standard Disabled tokens — the same
+   ones Button's own :disabled state uses. The source file's instance-swap
+   delta hints the icon's own fill may also change on this variant, but the
+   resolved color isn't recoverable from the snapshot; approximated here
+   with --pk-sys-disabled-text rather than guessing a hex value. */
+.pk-stepper:disabled {
+  cursor: not-allowed;
+  background: var(--pk-sys-disabled-cta-bg);
+  border-color: var(--pk-sys-disabled-border);
+  color: var(--pk-sys-disabled-text);
+}

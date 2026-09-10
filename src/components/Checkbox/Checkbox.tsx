@@ -95,7 +95,8 @@ export function Checkbox({
           {isIndeterminate && <Minus className="pk-checkbox__icon" aria-hidden="true" />}
         </span>
       </span>
-      {label && <span className="pk-checkbox__label pk-text-body-medium">{label}</span>}
+      {/* Figma: Label/Label uses the "Body/Small" text style. */}
+      {label && <span className="pk-checkbox__label pk-text-body-small">{label}</span>}
       {tooltipIcon && <CircleHelp className="pk-checkbox__tooltip-icon" aria-hidden="true" />}
     </label>
   )

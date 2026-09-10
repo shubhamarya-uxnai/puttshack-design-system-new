@@ -79,28 +79,31 @@ is the standard pattern for a parent checkbox that summarizes a set of child che
 
 | Token | Used for |
 |---|---|
-| `--pk-ref-magenta-200` | Checked fill and border color (via component-tier `--pk-comp-checkbox-color-checked` — no `--pk-sys-*` semantic token maps to "checkbox fill" specifically) |
-| `--pk-sys-gap-sm` | Gap between the box and the label |
+| `--pk-sys-bg-magenta-light` | Checked fill and border color ("$Background/Magenta light" — via component-tier `--pk-comp-checkbox-color-checked`, since no `--pk-sys-*` name says "checkbox fill" specifically) |
+| `--pk-sys-gap-xs` | Gap between the box and the label ("$GAP/Small" — Figma's "Small" step is 4px, which lines up with our `gap-xs`, not `gap-sm`) |
 | `--pk-ref-radius-full` | Fully-rounded hover/focus hit-area background |
 | `--pk-sys-surface-hover` | Hit-area background on hover / `forceState="hover"` |
 | `--pk-ref-border-medium` | Focus ring thickness |
 | `--pk-sys-border-focus` | Focus ring color |
-| `--pk-ref-radius-xs` | Box corner radius |
-| `--pk-sys-border-strong` | Box border color, unchecked |
+| `--pk-ref-radius-xs` | Box corner radius ("$xs") |
+| `--pk-sys-icon-l` | Box size ("$Icon size/L") |
+| `--pk-sys-text-primary` | Box border color, unchecked ("$Text + Icon/Primary"); label color, default |
 | `--pk-sys-bg-default` | Box background, unchecked |
 | `--pk-sys-error-border` | Box border color when `error` is true (and unchecked) |
+| `--pk-sys-icon-m` | Check/minus icon size and tooltip icon size (both bound to "$Icon size/M" in Figma) |
 | `--pk-sys-text-inverse` | Check/minus icon color on the filled (checked) box |
 | `--pk-sys-surface-disabled` | Box background, disabled |
 | `--pk-sys-disabled-border` | Box border color, disabled |
 | `--pk-sys-text-disabled` | Label and icon color, disabled |
-| `--pk-sys-text-primary` | Label color, default |
-| `--pk-sys-icon-s` | Tooltip icon size |
-| `--pk-ref-border-thin` | Tooltip icon border thickness |
-| `--pk-sys-border-default` | Tooltip icon border color |
 | `--pk-sys-text-secondary` | Tooltip icon color |
 
-Label text uses the `pk-text-body-medium` text style; the tooltip icon glyph uses
-`pk-text-label-small`.
+Label text uses the `pk-text-body-small` text style (Figma: "Body/Small", confirmed by the
+captured node data — not `pk-text-body-medium`).
+
+Figma binds both the check/minus glyph and the tooltip icon to "$Icon size/M", which this
+codebase's `--pk-sys-icon-m` documents as 20px — flagged here since the literal pixel
+values captured on those specific instances in the source file read smaller (16px); the
+token *name* binding is treated as authoritative over an instance's possibly-stale override.
 
 ---
 

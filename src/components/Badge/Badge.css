@@ -1,43 +1,57 @@
 .pk-badge {
-  --pk-comp-badge-circle-size: 24px; /* diameter for `small` / `icon-only` — no --pk-sys-* size token maps to this exact circle dimension */
-  --pk-comp-badge-dot-size: 12px; /* diameter for `dot` */
-  --pk-comp-badge-color-linked: var(--pk-ref-magenta-200); /* `linked` status fill — no --pk-sys-* name maps to this "badge brand fill" color */
+  --pk-comp-badge-circle-size: 24px; /* $Icon size/XL — `small` / `icon-only` height, and their min-width */
+  --pk-comp-badge-dot-size: 12px; /* $Icon size/S — `dot` diameter (Figma's "Icon size" scale doesn't line up with --pk-sys-icon-*, so used as a raw px step) */
   box-sizing: border-box;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
   white-space: nowrap;
+  border-radius: var(--pk-ref-radius-full); /* $full — every Type shares this */
+  border-style: solid;
 }
 
 .pk-badge--dot {
   width: var(--pk-comp-badge-dot-size);
   height: var(--pk-comp-badge-dot-size);
-  border-radius: var(--pk-ref-radius-full);
+  border-width: var(--pk-ref-border-thin);
+  border-color: var(--pk-sys-border-subtle); /* $Border/Subtle@6% — exact match, --pk-sys-border-subtle is already black/6% */
 }
 
+/* `small` and `icon-only` hug their content with a 24px floor (Figma:
+   Position sizing = "Auto" + minWidth = $Icon size/XL) rather than a fixed
+   24x24 box, so a 2+ digit count or a wider icon doesn't get clipped. */
 .pk-badge--small,
 .pk-badge--icon-only {
-  width: var(--pk-comp-badge-circle-size);
+  min-width: var(--pk-comp-badge-circle-size);
   height: var(--pk-comp-badge-circle-size);
-  border-radius: var(--pk-ref-radius-full);
+  padding: 0 var(--pk-ref-space-4); /* $GAP/Small */
+  border-width: var(--pk-ref-border-thin); /* $Border/Strong@24% is drawn at the same 1px weight as every other Type's stroke */
+  border-color: var(--pk-sys-border-strong); /* $Border/Strong@24% — exact match, --pk-sys-border-strong is already black/24% */
 }
 
 .pk-badge--text-filled,
 .pk-badge--icon-text {
-  border-radius: var(--pk-ref-radius-full);
-  /* gap-sm (8px) is the only --pk-sys-* spacing token that lands this pill at the
-     ~28-32px tall shown in the screenshot once the 16px label line-height is added
-     top and bottom (8 + 16 + 8 = 32px). */
-  padding: var(--pk-sys-gap-sm) var(--pk-sys-level3-horizontal);
-  gap: var(--pk-sys-gap-xs);
+  /* $GAP/Small top/bottom (4px); Text Filled is $GAP/Large (12px) both sides,
+     Icon + Text is asymmetric — $GAP/Medium (8px) left / $GAP/Large (12px)
+     right — to sit closer to its leading icon. None of these land on a
+     --pk-sys-gap-* step, so they're applied as raw primitives per Figma's
+     own component-local GAP scale. */
+  padding: var(--pk-ref-space-4) var(--pk-ref-space-12);
+  border-width: var(--pk-ref-border-thin);
+  border-color: var(--pk-sys-border-strong); /* $Border/Strong@24% */
+}
+
+.pk-badge--icon-text {
+  padding-left: var(--pk-ref-space-8); /* $GAP/Medium */
+  gap: var(--pk-ref-space-8); /* $GAP/Medium — itemSpacing between icon and label */
 }
 
 .pk-badge__icon {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: var(--pk-sys-icon-s);
+  width: var(--pk-sys-icon-s); /* $Icon size/M — 16px, exact match */
   height: var(--pk-sys-icon-s);
   flex-shrink: 0;
 }
@@ -48,15 +62,9 @@
   height: 100%;
 }
 
-.pk-badge__icon svg {
-  width: 100%;
-  height: 100%;
-}
-
-.pk-badge__label {
-  /* The screenshot's label text ("PRIMARY") reads visually bolder than any Book-weight
-     .pk-text-label-* class, so this is its own small type treatment (Ringside Bold at
-     Label size) rather than forcing an ill-fitting shared class onto it. */
+/* `small`'s digit label — Figma binds $Label/Medium (12px/16px, uppercase),
+   with a Bold weight override on top of that style's normal Book weight. */
+.pk-badge--small .pk-badge__label {
   font-family: var(--pk-sys-font-ui-bold);
   font-weight: 700;
   font-size: 12px;
@@ -64,27 +72,44 @@
   text-transform: uppercase;
 }
 
+/* `text-filled` / `icon-text`'s word label — Figma binds $Title/Small Capital
+   but overrides its line-height to 20px and weight to Bold; no single
+   .pk-text-title-* utility matches that exact combination (title-small is
+   14/20 Bold but not uppercase; title-small-capital is uppercase but 14/24
+   Book), so this reproduces the override directly. */
+.pk-badge--text-filled .pk-badge__label,
+.pk-badge--icon-text .pk-badge__label {
+  font-family: var(--pk-sys-font-ui-bold);
+  font-weight: 700;
+  font-size: 14px;
+  line-height: 20px;
+  text-transform: uppercase;
+}
+
 .pk-badge--linked {
-  background: var(--pk-comp-badge-color-linked);
-  color: var(--pk-sys-text-white);
+  background: var(--pk-sys-bg-magenta-light); /* $Background/Magenta light */
+  color: var(--pk-sys-text-white); /* $Text + Icon/White */
 }
 
 .pk-badge--linked-secondary {
-  background: var(--pk-sys-bg-inverse);
-  color: var(--pk-sys-text-white);
+  background: var(--pk-sys-bg-magenta-dark); /* $Background/Magenta Dark — Figma's "Linked-2" option */
+  color: var(--pk-sys-text-white); /* $Text + Icon/White */
 }
 
 .pk-badge--warning {
-  background: var(--pk-sys-warning-bg);
-  color: var(--pk-sys-warning-text);
+  background: var(--pk-sys-warning-hover); /* $Feedback/Warning/Hover — not warning-bg; Figma binds the medium-strength swatch here, not the pale one */
+  color: var(--pk-sys-warning-text); /* $Feedback/Warning/Text */
 }
 
 .pk-badge--success {
-  background: var(--pk-sys-success-bg);
-  color: var(--pk-sys-success-text);
+  background: var(--pk-sys-success-hover); /* $Feedback/Success/Hover — not success-bg, see warning's note */
+  color: var(--pk-sys-success-text); /* $Feedback/Success/Text */
 }
 
 .pk-badge--disabled {
-  background: var(--pk-sys-surface-disabled);
-  color: var(--pk-sys-text-disabled);
+  /* $Surface/default@16% has no exact --pk-sys-* match (closest named
+     candidate, --pk-sys-disabled-cta-bg, is black/12% not 16%) — used as
+     the nearest semantic "disabled surface" token rather than inventing one. */
+  background: var(--pk-sys-disabled-cta-bg);
+  color: var(--pk-sys-text-primary); /* $Text + Icon/Primary — full-strength text, not a dimmed disabled color, per the captured data */
 }

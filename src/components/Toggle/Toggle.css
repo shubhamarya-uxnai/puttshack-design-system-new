@@ -4,12 +4,15 @@
    ========================================================================== */
 
 .pk-toggle {
-  /* No --pk-sys-* pair names these two exact switch sizes — confirmed exact
-     from the source file's own no-label instances, so they live here. */
+  /* Confirmed exact from the "_Toggle" sub-component's own captured
+     instances (node 391:28982): Default = 40x24, Small = 32x20. */
   --pk-comp-toggle-track-w: 40px;
   --pk-comp-toggle-track-h: 24px;
   /* Knob diameter = track-h − (inset * 2), i.e. track-height minus ~4px. */
   --pk-comp-toggle-knob-inset: 2px;
+  /* The "on-fill" check icon inside the track — 16px default / 12px small,
+     per "_Toggle"'s "Toggle/IconLeft" layer. */
+  --pk-comp-toggle-check-size: 16px;
   /* No --pk-sys-* name matches "toggle on-fill" exactly. */
   --pk-comp-toggle-color-on: var(--pk-ref-magenta-200);
 
@@ -25,6 +28,7 @@
 .pk-toggle--small {
   --pk-comp-toggle-track-w: 32px;
   --pk-comp-toggle-track-h: 20px;
+  --pk-comp-toggle-check-size: 12px;
 }
 
 .pk-toggle--disabled {
@@ -63,7 +67,9 @@
   width: 100%;
   height: 100%;
   border-radius: var(--pk-ref-radius-full);
-  border: var(--pk-ref-border-medium) solid var(--pk-sys-border-strong);
+  /* "_Toggle"'s base (Off) track stroke is 1px $Text + Icon/Primary, not the
+     2px/Border-Strong pairing this used before — corrected to match. */
+  border: var(--pk-ref-border-thin) solid var(--pk-sys-text-primary);
   background: transparent;
   transition: background-color 200ms ease, border-color 200ms ease, box-shadow 200ms ease;
 }
@@ -76,10 +82,30 @@
   width: calc(var(--pk-comp-toggle-track-h) - (var(--pk-comp-toggle-knob-inset) * 2));
   height: calc(var(--pk-comp-toggle-track-h) - (var(--pk-comp-toggle-knob-inset) * 2));
   border-radius: var(--pk-ref-radius-full);
-  background: var(--pk-sys-surface-default);
+  background: var(--pk-sys-surface-default); /* Figma binds $Text + Icon/Inverse here — same resolved white, --pk-sys-surface-default reads better semantically for a knob surface */
   /* 200ms ease isn't spec'd for Toggle in the extracted docs — matches this
      system's other 150–200ms interaction transitions (see Button/Radio). */
   transition: transform 200ms ease, background-color 200ms ease;
+}
+
+/* "_Toggle"'s track has a hidden ("Toggle/IconLeft", opacity 0) checkmark
+   sized 12px (small) / 16px (default) that only shows up in the Turn=On
+   overrides — a confirmation glyph revealed on the track once the knob has
+   slid clear of it, on the side the knob started from. */
+.pk-toggle__check {
+  position: absolute;
+  top: 50%;
+  left: var(--pk-comp-toggle-knob-inset);
+  width: var(--pk-comp-toggle-check-size);
+  height: var(--pk-comp-toggle-check-size);
+  transform: translateY(-50%);
+  opacity: 0;
+  color: var(--pk-sys-text-white);
+  transition: opacity 200ms ease;
+}
+
+.pk-toggle__input:checked ~ .pk-toggle__track .pk-toggle__check {
+  opacity: 1;
 }
 
 /* --- Checked (Figma "Turn=On") --------------------------------------------- */
@@ -123,10 +149,19 @@
 .pk-toggle__input:disabled ~ .pk-toggle__track .pk-toggle__knob {
   background: var(--pk-sys-text-disabled);
 }
+.pk-toggle__input:disabled ~ .pk-toggle__track .pk-toggle__check {
+  color: var(--pk-sys-text-disabled);
+}
 
 /* --- Label + tooltip icon ---------------------------------------------------- */
 
 .pk-toggle__label {
+  /* Figma's "_Toggle" binds the label to $Text + Icon/Inverse (white) —
+     that only reads correctly on a dark/branded surface. This component is
+     also used directly on light Storybook/doc backgrounds, where white text
+     would be invisible, so this intentionally keeps --pk-sys-text-primary
+     instead of following Figma's literal binding — a judgment call, not an
+     oversight; flagged in the component report. */
   color: var(--pk-sys-text-primary);
 }
 .pk-toggle--disabled .pk-toggle__label {

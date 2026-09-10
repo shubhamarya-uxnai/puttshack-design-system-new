@@ -70,27 +70,33 @@ group or field level, not per-radio.
 
 | Token | Used for |
 |---|---|
-| `--pk-sys-gap-sm` | Gap between the circle and the label/tooltip text |
-| `--pk-sys-gap-xs` | Gap between the label and the tooltip icon |
+| `--pk-sys-gap-xs` | Gap between the circle and the label/tooltip text ("$GAP/Small" — Figma's "Small" step is 4px, matching our `gap-xs`, not `gap-sm`); gap between the label and the tooltip icon |
 | `--pk-ref-radius-full` | Fully round corners on the circle and the inner mark |
-| `--pk-sys-border-strong` | Default (unselected) circle border color |
+| `--pk-sys-text-primary` | Default (unselected) circle border color ("$Text + Icon/Primary"); plain-dot fill color when checked; label text color |
 | `--pk-sys-surface-default` | Default circle fill |
-| `--pk-ref-border-medium` | Circle border width, and the focus ring width |
-| `--pk-sys-text-primary` | Plain-dot fill color when checked; label text color |
+| `--pk-ref-border-thin` | Circle border width ("$Text + Icon/Primary" stroke, weight 1) |
+| `--pk-sys-icon-l` | Circle size ("$Icon size/L") |
+| `--pk-sys-icon-m` | "Tick" checkmark glyph size (bound to "$Icon size/M"); tooltip icon size (also "$Icon size/M") |
+| `--pk-sys-bg-magenta-light` | "Tick" style checked fill ("$Background/Magenta light" — via component-tier `--pk-comp-radio-color-checked`) |
 | `--pk-sys-text-inverse` | Checkmark color inside the "tick" style |
 | `--pk-sys-text-secondary` | Hover border color; tooltip icon color |
 | `--pk-sys-border-focus` | Focus-visible outline color |
+| `--pk-ref-border-medium` | Focus ring width |
 | `--pk-ref-space-2` | Focus-visible outline offset |
 | `--pk-sys-disabled-border` | Circle border color when disabled |
 | `--pk-sys-surface-disabled` | Circle fill when disabled + checked |
 | `--pk-sys-text-disabled` | Mark, label and tooltip icon color when disabled |
-| `--pk-sys-icon-s` | Tooltip icon size |
-| `--pk-ref-magenta-200` | "Tick" style checked fill (reuses Checkbox's checked magenta — no `--pk-sys-*` token exists for it) |
-| `--pk-ref-magenta-300` | "Tick" style checked + hover fill |
+| `--pk-ref-magenta-300` | "Tick" style checked + hover fill (hover-only escalation; not sourced from a `--pk-sys-*` step) |
 
-`--pk-comp-radio-size`, `--pk-comp-radio-mark-scale`, `--pk-comp-radio-label-line-height` and
-the checkmark mask icon are component-local tokens with no `--pk-sys-*` equivalent — see the
-comments at the top of `RadioButton.css` for why.
+Label text uses the `pk-text-body-small` text style (Figma: "Body/Small" — not
+`pk-text-body-medium`).
+
+`--pk-comp-radio-size`, `--pk-comp-radio-mark-size`, `--pk-comp-radio-tick-size`,
+`--pk-comp-radio-label-line-height` and the checkmark mask icon are component-local tokens
+with no single `--pk-sys-*` equivalent — see the comments at the top of `RadioButton.css`
+for why. The plain-dot mark size (`--pk-comp-radio-mark-size`) is derived as
+`circle size − 8px`, matching the confirmed 4px inset on every side of the circle in the
+source file, rather than a percentage scale.
 
 ---
 
@@ -121,9 +127,11 @@ change alone.
 
 ## Figma parity
 
-Source: file `x40IO8pltwoAFiVkBZEUzT`, node `33:68532` (component set `290:19385`, 36
-variants).
+Source: file `x40IO8pltwoAFiVkBZEUzT`, node `33:68532`: component sets `Radio button`
+(node `290:17625`, the public component — `Size=Default`, `Label`/`Tooltip` booleans) and
+`_radio` (node `12682:14920`, the inner circle — `Selection` On/Off × `TIck` No/Yes).
 
-Figma doesn't spec an exact pixel size for the inner mark (dot or checkmark), so the
-component derives it as a fraction (`--pk-comp-radio-mark-scale: 0.5`) of the circle size
-rather than a fixed value — a judgment call made in code, not lifted directly from the file.
+The plain filled dot's size is confirmed directly from the file: the inner "Value" shape
+fills the circle's padded content box, and that padding is a constant 4px on every side
+regardless of overall circle size — so the mark is `circle size − 8px`, not a percentage.
+The "tick" checkmark is a separate, fixed-size instance bound to "$Icon size/M".

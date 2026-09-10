@@ -20,8 +20,10 @@
   color: var(--pk-sys-text-secondary);
 }
 
+/* Figma: the "*" required marker fills with "$Text + Icon/Magenta", not the
+   error/red tone — required is a neutral-brand marker, not a validation state. */
 .pk-input-field__required {
-  color: var(--pk-sys-error-text);
+  color: var(--pk-sys-text-magenta);
   line-height: 1;
 }
 

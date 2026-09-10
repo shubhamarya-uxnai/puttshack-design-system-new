@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react-vite'
 import { Chip } from './Chip'
+import { Accessibility } from '../../icons'
 
 /** Small solid-fill avatar placeholder so `avatarSrc` has something real to render — no network dependency. */
 const AVATAR_IMAGE =
@@ -21,6 +22,7 @@ const meta = {
     children: { control: 'text', table: { category: 'Content (Figma: Chip label)' } },
     avatarSrc: { control: 'text', table: { category: 'Content (Figma: Avatars)' } },
     avatarInitials: { control: 'text', table: { category: 'Content (Figma: Avatars)' } },
+    icon: { control: false, table: { category: 'Content (Figma: Icon + Label/accessibility)' } },
     onRemove: { control: false, table: { category: 'Behavior (Figma: Remove icon)' } },
     forceState: {
       control: 'inline-radio',
@@ -42,7 +44,7 @@ type Story = StoryObj<typeof meta>
 /** Turn every knob. This is the one to reach for when checking a combination. */
 export const Playground: Story = {}
 
-/** All three variants side by side — default (dark pill), promo (brand-tinted, use sparingly), avatar (leading avatar + label + remove). */
+/** All three variants side by side — default (light pill, magenta border), promo (Surface/Selected-tinted, use sparingly), avatar (leading avatar + label + remove). */
 export const Types: Story = {
   render: (args) => {
     const labels = {
@@ -99,6 +101,15 @@ export const AvatarSource: Story = {
         </Chip>
       </div>
     </div>
+  ),
+}
+
+/** Figma's captured AVATAR instance always shows a leading `Icon + Label/accessibility` glyph next to the label — pass any icon via the optional `icon` prop. */
+export const WithIcon: Story = {
+  render: (args) => (
+    <Chip {...args} variant="avatar" icon={<Accessibility />}>
+      Alex Morgan
+    </Chip>
   ),
 }
 

@@ -1,5 +1,5 @@
 /* ============================================================================
-   Button — Figma component set "Button" (node 10443:108219), 96 variants.
+   Button — Figma component set "Button" (node 10443:108219), 98 variants.
    Shape is a fully rounded pill in every Type/Size combination.
    ========================================================================== */
 
@@ -117,7 +117,34 @@
   border-color: var(--pk-sys-secondary-border);
 }
 
-/* --- Type: Tertiary (outlined, transparent fill) --------------------------- */
+/* Secondary + Inverse: Figma binds a wholly separate
+   "Interactive/Secondary-Inverse/*" token group here, not just a text/border
+   swap — Enabled flips to a white fill with Midnight-Purple text (readable on
+   a dark surface), while Hover/Pressed/Border resolve to the exact same
+   values as non-inverse Secondary, so those three are left shared. */
+.pk-button--secondary.pk-button--inverse {
+  background: var(--pk-sys-bg-default);
+  color: var(--pk-sys-primary-text);
+  border-color: transparent;
+}
+.pk-button--secondary.pk-button--inverse:hover:not(:disabled),
+.pk-button--secondary.pk-button--inverse[data-force-state='hover'] {
+  background: var(--pk-sys-secondary-hover);
+  color: var(--pk-sys-primary-text);
+  border-color: var(--pk-sys-secondary-border);
+}
+.pk-button--secondary.pk-button--inverse:active:not(:disabled),
+.pk-button--secondary.pk-button--inverse[data-force-state='pressed'] {
+  background: var(--pk-sys-secondary-pressed);
+  color: var(--pk-sys-primary-text);
+  border-color: var(--pk-sys-secondary-border);
+}
+
+/* --- Type: Tertiary (outlined, transparent fill) ---------------------------
+   Hover/Pressed are a SOLID fill in the source file (Interactive/Tertiary/Hover
+   and /Pressed), not a tinted wash — corrected 2026-09-10 against the
+   design-system snapshot, which was previously approximated as a
+   color-mix() tint. The border color never changes across states. */
 
 .pk-button--tertiary {
   background: transparent;
@@ -127,39 +154,59 @@
 
 .pk-button--tertiary:hover:not(:disabled),
 .pk-button--tertiary[data-force-state='hover'] {
-  background: color-mix(in srgb, var(--pk-sys-tertiary-hover) 16%, transparent);
+  background: var(--pk-sys-tertiary-hover);
+  color: var(--pk-sys-primary-hover-text);
 }
 
 .pk-button--tertiary:active:not(:disabled),
 .pk-button--tertiary[data-force-state='pressed'] {
-  background: color-mix(in srgb, var(--pk-sys-tertiary-pressed) 24%, transparent);
+  background: var(--pk-sys-tertiary-pressed);
+  color: var(--pk-sys-primary-hover-text);
 }
 
-/* --- Type: Ghost/Link (borderless — distinguishes it from Tertiary) -------- */
+/* Tertiary + Inverse hover/pressed: the fill is the same Magenta step as
+   non-inverse, but Figma's "Interactive/Secondary-Inverse/Hover Text" token
+   (reused here) resolves to Midnight Purple, not white@88% — text needs its
+   own override even though the background doesn't. */
+.pk-button--tertiary.pk-button--inverse:hover:not(:disabled),
+.pk-button--tertiary.pk-button--inverse[data-force-state='hover'],
+.pk-button--tertiary.pk-button--inverse:active:not(:disabled),
+.pk-button--tertiary.pk-button--inverse[data-force-state='pressed'] {
+  color: var(--pk-sys-tertiary-text);
+}
+
+/* --- Type: Ghost/Link (borderless, styled as a hyperlink) -------------------
+   Ghost/Link binds "Interactive/Link/*" tokens, a different family from
+   Tertiary — Cool-Blue text (not Midnight Purple) and neutral black-tint
+   hover/pressed washes (not Magenta) — corrected 2026-09-10 against the
+   design-system snapshot, which had previously copied Tertiary's palette. */
 
 .pk-button--ghost {
   background: transparent;
-  color: var(--pk-sys-tertiary-text);
+  color: var(--pk-sys-link-text);
   border-color: transparent;
 }
 
 .pk-button--ghost:hover:not(:disabled),
 .pk-button--ghost[data-force-state='hover'] {
-  background: color-mix(in srgb, var(--pk-sys-tertiary-hover) 16%, transparent);
+  background: var(--pk-sys-border-subtle);
 }
 
 .pk-button--ghost:active:not(:disabled),
 .pk-button--ghost[data-force-state='pressed'] {
-  background: color-mix(in srgb, var(--pk-sys-tertiary-pressed) 24%, transparent);
+  background: var(--pk-sys-surface-pressed);
 }
 
-/* --- Type: Success / Error / Warning / Info (solid Feedback fill) ---------
-   The *-bg tokens are pale tints, too light for a filled CTA — the *-border
-   step (500-step, saturated) is used as the solid background instead. */
+/* --- Type: Success / Error / Warning / Info (soft Feedback fill) -----------
+   Corrected 2026-09-10: the source file uses the pale *-bg token as the
+   background with the dark *-text token as the label — a "soft" pill, not a
+   solid CTA with white text as previously implemented here. Hover/Pressed
+   were already correct (the *-hover/*-pressed steps), and the label color
+   never changes across states. */
 
 .pk-button--success {
-  background: var(--pk-sys-success-border);
-  color: var(--pk-sys-text-white);
+  background: var(--pk-sys-success-bg);
+  color: var(--pk-sys-success-text);
   border-color: transparent;
 }
 .pk-button--success:hover:not(:disabled),
@@ -172,8 +219,8 @@
 }
 
 .pk-button--error {
-  background: var(--pk-sys-error-border);
-  color: var(--pk-sys-text-white);
+  background: var(--pk-sys-error-bg);
+  color: var(--pk-sys-error-text);
   border-color: transparent;
 }
 .pk-button--error:hover:not(:disabled),
@@ -186,8 +233,8 @@
 }
 
 .pk-button--warning {
-  background: var(--pk-sys-warning-border);
-  color: var(--pk-sys-text-white);
+  background: var(--pk-sys-warning-bg);
+  color: var(--pk-sys-warning-text);
   border-color: transparent;
 }
 .pk-button--warning:hover:not(:disabled),
@@ -200,8 +247,8 @@
 }
 
 .pk-button--info {
-  background: var(--pk-sys-info-border);
-  color: var(--pk-sys-text-white);
+  background: var(--pk-sys-info-bg);
+  color: var(--pk-sys-info-text);
   border-color: transparent;
 }
 .pk-button--info:hover:not(:disabled),
@@ -211,6 +258,66 @@
 .pk-button--info:active:not(:disabled),
 .pk-button--info[data-force-state='pressed'] {
   background: var(--pk-sys-info-pressed);
+}
+
+/* Feedback + Inverse ("Feedback-Inverse/*" in Figma): a genuinely different
+   token group used when these buttons sit on a dark/brand surface — the
+   fill goes solid-dark (the 700-step) with a pale label (the 100-step),
+   and Hover/Pressed invert their step order (500 then 300) relative to the
+   non-inverse ramp. No --pk-sys-* semantic covers this "inverse feedback"
+   role, so it's defined here as component-scoped tokens straight off the
+   existing color ramps, matching this file's Chip/Toast/Checkbox precedent
+   for a token that only Button needs. */
+.pk-button--success.pk-button--inverse {
+  --pk-comp-button-feedback-inverse-bg: var(--pk-ref-green-700);
+  --pk-comp-button-feedback-inverse-text: var(--pk-ref-green-100);
+  --pk-comp-button-feedback-inverse-hover: var(--pk-ref-green-500);
+  --pk-comp-button-feedback-inverse-pressed: var(--pk-ref-green-300);
+}
+.pk-button--error.pk-button--inverse {
+  --pk-comp-button-feedback-inverse-bg: var(--pk-ref-red-700);
+  --pk-comp-button-feedback-inverse-text: var(--pk-ref-red-100);
+  --pk-comp-button-feedback-inverse-hover: var(--pk-ref-red-500);
+  --pk-comp-button-feedback-inverse-pressed: var(--pk-ref-red-300);
+}
+.pk-button--warning.pk-button--inverse {
+  --pk-comp-button-feedback-inverse-bg: var(--pk-ref-yellow-700);
+  --pk-comp-button-feedback-inverse-text: var(--pk-ref-yellow-100);
+  --pk-comp-button-feedback-inverse-hover: var(--pk-ref-yellow-500);
+  --pk-comp-button-feedback-inverse-pressed: var(--pk-ref-yellow-300);
+}
+.pk-button--info.pk-button--inverse {
+  --pk-comp-button-feedback-inverse-bg: var(--pk-ref-info-blue-700);
+  --pk-comp-button-feedback-inverse-text: var(--pk-ref-info-blue-100);
+  --pk-comp-button-feedback-inverse-hover: var(--pk-ref-info-blue-500);
+  --pk-comp-button-feedback-inverse-pressed: var(--pk-ref-info-blue-300);
+}
+.pk-button--success.pk-button--inverse,
+.pk-button--error.pk-button--inverse,
+.pk-button--warning.pk-button--inverse,
+.pk-button--info.pk-button--inverse {
+  background: var(--pk-comp-button-feedback-inverse-bg);
+  color: var(--pk-comp-button-feedback-inverse-text);
+}
+.pk-button--success.pk-button--inverse:hover:not(:disabled),
+.pk-button--success.pk-button--inverse[data-force-state='hover'],
+.pk-button--error.pk-button--inverse:hover:not(:disabled),
+.pk-button--error.pk-button--inverse[data-force-state='hover'],
+.pk-button--warning.pk-button--inverse:hover:not(:disabled),
+.pk-button--warning.pk-button--inverse[data-force-state='hover'],
+.pk-button--info.pk-button--inverse:hover:not(:disabled),
+.pk-button--info.pk-button--inverse[data-force-state='hover'] {
+  background: var(--pk-comp-button-feedback-inverse-hover);
+}
+.pk-button--success.pk-button--inverse:active:not(:disabled),
+.pk-button--success.pk-button--inverse[data-force-state='pressed'],
+.pk-button--error.pk-button--inverse:active:not(:disabled),
+.pk-button--error.pk-button--inverse[data-force-state='pressed'],
+.pk-button--warning.pk-button--inverse:active:not(:disabled),
+.pk-button--warning.pk-button--inverse[data-force-state='pressed'],
+.pk-button--info.pk-button--inverse:active:not(:disabled),
+.pk-button--info.pk-button--inverse[data-force-state='pressed'] {
+  background: var(--pk-comp-button-feedback-inverse-pressed);
 }
 
 /* --- State: Disabled --------------------------------------------------------
@@ -242,11 +349,41 @@
   border-color: transparent;
 }
 
+/* Disabled + Inverse (Primary/Secondary/Tertiary only — the only three Types
+   with a real Disabled variant): Figma binds a second, dedicated
+   "Interactive/Disabled Inverse/*" token group here (white-alpha instead of
+   black-alpha), not the plain Disabled tokens above. No --pk-sys-* semantic
+   names this "disabled-on-dark" role, so it's a component-scoped alias,
+   same rationale as the Feedback-Inverse tokens above. Border is left
+   un-overridden — Tertiary's border doesn't change between its enabled and
+   disabled Inverse variants in the source file, so it keeps whatever the
+   plain `:disabled` rule above already set. */
+.pk-button--primary.pk-button--inverse:disabled,
+.pk-button--secondary.pk-button--inverse:disabled,
+.pk-button--tertiary.pk-button--inverse:disabled {
+  --pk-comp-button-disabled-inverse-bg: var(--pk-ref-white-06);
+  --pk-comp-button-disabled-inverse-text: var(--pk-ref-white-24);
+  background: var(--pk-comp-button-disabled-inverse-bg);
+  color: var(--pk-comp-button-disabled-inverse-text);
+}
+
+/* Written out explicitly rather than left to a same-specificity cascade
+   tie with the plain `.pk-button--tertiary:disabled` border-color rule above
+   — Tertiary's border stays --pk-sys-text-inverse (white) across its enabled
+   and disabled Inverse variants alike, it never fades to the grey
+   --pk-sys-disabled-border step the way non-inverse Tertiary's does. */
+.pk-button--tertiary.pk-button--inverse:disabled {
+  border-color: var(--pk-sys-text-inverse);
+}
+
 /* --- Inverse (button sits on a dark/brand surface) --------------------------
-   Only Tertiary/Ghost need an override: their default text (and Tertiary's
-   border) is Midnight Purple, which disappears on a dark surface. Primary,
-   Secondary and the Feedback types already use white/brand fills that read
-   fine on light or dark, so they are intentionally left untouched. */
+   Tertiary and Ghost need a default-state override: their text (and
+   Tertiary's border) is Midnight Purple, which disappears on a dark surface.
+   Secondary and the Feedback types have their own full inverse treatment
+   defined next to their base rules above (a real token swap, not just a
+   text/border recolor). Primary is intentionally left untouched — its
+   Cool-Blue fill and Midnight-Purple text read fine on any surface, and
+   Figma defines no Primary-Inverse enabled/hover/pressed variant at all. */
 
 .pk-button--tertiary.pk-button--inverse,
 .pk-button--ghost.pk-button--inverse {

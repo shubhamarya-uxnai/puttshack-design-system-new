@@ -66,7 +66,8 @@ this component doesn't provide out of the box.
 | Token | Used for |
 |---|---|
 | `--pk-sys-text-secondary` | Label text, leading/trailing icon color, helper text color |
-| `--pk-sys-error-text` | Required asterisk color; error-state helper icon/text color |
+| `--pk-sys-text-magenta` | Required asterisk color ("$Text + Icon/Magenta" — a neutral brand marker, not the error/red tone) |
+| `--pk-sys-error-text` | Error-state helper icon/text color |
 | `--pk-sys-gap-xs` | Vertical gap between label row / input row / helper row; gap within the label row and helper row |
 | `--pk-sys-level3-gap` | Gap between icon slots and the input inside the bordered row |
 | `--pk-sys-level3-vertical` | Input row vertical padding |
@@ -124,3 +125,10 @@ Two deliberate departures from the Figma spec: the canonical Figma frame is a fi
 but this implementation is `width: 100%` so it drops into a real responsive layout instead of
 always measuring exactly 374px. And the source file's own instance-swap property is spelled
 "Tailing Icon" (a typo for "Trailing") — the prop is named correctly here as `trailingIcon`.
+
+Most of the layer data captured under this node is documentation/annotation furniture (callout
+frames like "Kiosk Style" and an icon-picker example, pointer lines, etc.) rather than the plain
+input row itself, so it wasn't usable to re-derive the row's own border/background per state.
+The one confidently-sourced correction from it was the required-asterisk color (magenta, not
+error-red, see above) — everything else (all 5 states, `inverse`, `required`, helper text
+toggle, and both icon slots) was already correctly implemented and is unchanged.

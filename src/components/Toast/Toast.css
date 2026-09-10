@@ -1,83 +1,74 @@
+/* This component set has two authored generations layered in the same Figma
+   node ("Version" = August / October). October is the newer, corrected
+   pass — it's the only one with Error/Informative/Brand/Neutral instances
+   and the only one with an Inverse variant, and it fixes an August contrast
+   bug (light background + near-white body text). This file implements the
+   October structure/tokens for every variant; there's no `version` prop —
+   see the component report for why. */
+
 .pk-toast {
-  --pk-comp-toast-icon-size: 32px; /* leading-circle diameter — no --pk-sys-icon-* token names a circle, only a bare glyph size; mirrors Badge's --pk-comp-badge-circle-size reasoning */
-  --pk-comp-toast-icon-bg-promo: var(--pk-ref-magenta-200); /* promo's icon-circle fill has no --pk-sys-* alias (warning/success reuse their --pk-sys-*-border token instead) — component-scoped alias per DS convention, see Badge.css --pk-comp-badge-color-linked */
-  box-sizing: border-box; /* Figma strokes draw INSIDE the frame */
+  --pk-comp-toast-radius: var(--pk-ref-radius-md); /* $md */
+  --pk-comp-toast-badge-radius: var(--pk-ref-radius-xs); /* $xs, the icon badge's own corner */
+  --pk-comp-toast-badge-size: 24px; /* $Icon size/XL */
+  --pk-comp-toast-icon-size: var(--pk-sys-icon-s); /* $Icon size/M — 16px, exact match */
+  --pk-comp-toast-dismiss-size: 32px; /* Figma hugs the "Add" close button with 8px ($GAP/Medium) padding around a ~16px glyph; no exact px is captured, this is the resulting hug size */
+
+  box-sizing: border-box;
+  position: relative;
   display: flex;
-  align-items: flex-start;
-  gap: var(--pk-sys-level2-gap);
-  padding: var(--pk-sys-level2-vertical) var(--pk-sys-level2-horizontal);
-  border-radius: var(--pk-ref-radius-lg);
+  flex-direction: column;
+  gap: var(--pk-ref-space-8); /* $GAP/Medium — itemSpacing between the header row and the message */
+  width: 360px;
+  padding: var(--pk-ref-space-12); /* $GAP/Large, all sides — no --pk-sys-gap-* step lands on 12px */
+  border-radius: var(--pk-comp-toast-radius);
   border: var(--pk-ref-border-thin) solid transparent;
 }
 
-.pk-toast--warning {
-  background: var(--pk-sys-warning-bg);
-  border-color: var(--pk-sys-warning-border);
-  color: var(--pk-sys-warning-text);
-}
-.pk-toast--warning .pk-toast__icon {
-  background: var(--pk-sys-warning-border);
-}
-
-.pk-toast--promo {
-  background: var(--pk-sys-bg-magenta-light);
-  border-color: var(--pk-sys-border-magenta);
-  /* NOT --pk-sys-text-magenta: that token is Magenta/200, nearly the same
-     saturation as this Magenta/100 background (contrast ~1.3:1, unreadable).
-     The system's own contrast rule puts Magenta 100-200 in the "light/bright
-     fill" bucket, which always takes Midnight Purple text, not more magenta. */
-  color: var(--pk-sys-text-primary);
-}
-.pk-toast--promo .pk-toast__icon {
-  background: var(--pk-comp-toast-icon-bg-promo);
-}
-
-.pk-toast--success {
-  background: var(--pk-sys-success-bg);
-  border-color: transparent; /* screenshot shows little/no visible border on this variant — kept transparent rather than dropped so box sizing stays identical across all three variants */
-  color: var(--pk-sys-success-text);
-}
-.pk-toast--success .pk-toast__icon {
-  background: var(--pk-sys-success-border);
-}
-
-.pk-toast__icon svg {
-  width: var(--pk-sys-icon-m);
-  height: var(--pk-sys-icon-m);
+.pk-toast__row {
+  display: flex;
+  align-items: center;
+  gap: var(--pk-ref-space-12); /* $GAP/Large — itemSpacing between the icon badge and the heading */
+  padding-right: calc(var(--pk-comp-toast-dismiss-size) + var(--pk-ref-space-8)); /* keeps the heading from running under the absolutely-positioned dismiss button */
 }
 
 .pk-toast__icon {
   box-sizing: border-box;
-  width: var(--pk-comp-toast-icon-size);
-  height: var(--pk-comp-toast-icon-size);
-  border-radius: var(--pk-ref-radius-full);
+  flex: none;
   display: flex;
   align-items: center;
   justify-content: center;
-  flex-shrink: 0;
-  color: var(--pk-sys-text-white); /* the passed-in icon asset is expected to use currentColor, so it reads white on the solid circle per the confirmed screenshots */
+  width: var(--pk-comp-toast-badge-size);
+  height: var(--pk-comp-toast-badge-size);
+  border-radius: var(--pk-comp-toast-badge-radius);
 }
 
 .pk-toast__icon svg {
-  width: var(--pk-sys-icon-m);
-  height: var(--pk-sys-icon-m);
-}
-
-.pk-toast__content {
-  flex: 1 1 auto;
-  min-width: 0;
-  display: flex;
-  flex-direction: column;
-  gap: var(--pk-sys-gap-xs);
+  width: var(--pk-comp-toast-icon-size);
+  height: var(--pk-comp-toast-icon-size);
 }
 
 .pk-toast__title {
   margin: 0;
-  text-transform: uppercase; /* .pk-text-headline-small doesn't carry uppercase (only headline-large/medium do, and both are too large for a toast card) — borrowing its weight/size and adding the transform locally */
+  /* $Title/Small Capital with a Bold + 20px-line-height override — no single
+     .pk-text-title-* utility matches this exact combination (see Badge's
+     identical note on its text-filled/icon-text label). */
+  font-family: var(--pk-sys-font-ui-bold);
+  font-weight: 700;
+  font-size: 14px;
+  line-height: 20px;
+  text-transform: uppercase;
 }
 
 .pk-toast__message {
   margin: 0;
+}
+.pk-toast__message,
+.pk-toast__subheading {
+  /* $Label/Small — exact match to .pk-text-label-small (12px/16px, Book) */
+  font-family: var(--pk-sys-font-ui);
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 16px;
 }
 
 .pk-toast__message strong {
@@ -85,23 +76,38 @@
   font-weight: 700;
 }
 
+.pk-toast__subheading {
+  margin: 0;
+  /* Only concretely captured on the (superseded) August Yellow/Megenta
+     variants, bound to $Body/Small (14px/20px) there — but every October
+     variant's own body copy is 12px/16px ($Label/Small), so this matches
+     that instead to read as a second line of the same paragraph rather than
+     a visually larger one. Color is inherited from .pk-toast__message. */
+}
+
 .pk-toast__dismiss {
+  position: absolute;
+  top: var(--pk-ref-space-8); /* Figma positions this absolutely (constraints: right/top) with no captured x/y offset — inset by less than the card's own 12px padding so it reads as a corner-overlapping badge, per the source screenshots */
+  right: var(--pk-ref-space-8);
   box-sizing: border-box;
-  flex-shrink: 0;
+  flex: none;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: var(--pk-sys-icon-l);
-  height: var(--pk-sys-icon-l);
+  width: var(--pk-comp-toast-dismiss-size);
+  height: var(--pk-comp-toast-dismiss-size);
   padding: 0;
-  border: var(--pk-ref-border-thin) solid transparent;
-  border-radius: var(--pk-ref-radius-full);
-  background: transparent;
-  color: currentColor;
-  font-size: var(--pk-sys-icon-m); /* no dismiss icon asset exists in this extraction — a plain × glyph stands in, sized off the icon-m token rather than an invented pixel value */
-  line-height: 1;
+  border-radius: var(--pk-ref-radius-full); /* $full */
+  background: var(--pk-sys-bg-default); /* $Background/Default — same on every variant, incl. inverse */
+  border: var(--pk-ref-border-thin) solid var(--pk-sys-text-black); /* $Text + Icon/Black — same on every variant, incl. inverse */
+  color: var(--pk-sys-text-black);
   cursor: pointer;
   transition: background-color 120ms ease;
+}
+
+.pk-toast__dismiss svg {
+  width: var(--pk-comp-toast-icon-size);
+  height: var(--pk-comp-toast-icon-size);
 }
 
 .pk-toast__dismiss:hover:not(:disabled),
@@ -118,4 +124,173 @@
 .pk-toast__dismiss[data-force-state='focus'] {
   outline: var(--pk-ref-border-medium) solid var(--pk-sys-border-focus);
   outline-offset: var(--pk-ref-space-2);
+}
+
+/* --- Variant colors -------------------------------------------------------
+   Every variant except `brand` binds the same two text colors: heading =
+   $Text + Icon/Primary, body = $Text + Icon/Secondary@64% — confirmed
+   identically across Yellow/Success/Error/Informative/Neutral's October
+   captures. `brand` is the one documented exception (magenta heading,
+   $Text + Icon/Black-Subtle@64% body, mapped to the same --pk-sys-text-
+   secondary value since no separate "black-subtle" token exists). `promo`
+   has no October capture at all — its colors below extrapolate brand's
+   pattern (both are the "magenta family" variants), flagged as inferred. */
+
+.pk-toast--warning,
+.pk-toast--success,
+.pk-toast--error,
+.pk-toast--informative,
+.pk-toast--neutral {
+  color: var(--pk-sys-text-primary); /* heading */
+}
+.pk-toast--warning .pk-toast__message,
+.pk-toast--success .pk-toast__message,
+.pk-toast--error .pk-toast__message,
+.pk-toast--informative .pk-toast__message,
+.pk-toast--neutral .pk-toast__message {
+  color: var(--pk-sys-text-secondary);
+}
+
+.pk-toast--warning {
+  background: var(--pk-sys-warning-bg); /* $Feedback/Warning/Background */
+  border-color: var(--pk-sys-warning-border); /* $Feedback/Warning/Border */
+}
+.pk-toast--warning .pk-toast__icon {
+  background: var(--pk-sys-warning-hover); /* $Feedback/Warning/Hover */
+  color: var(--pk-sys-warning-text);
+}
+
+.pk-toast--success {
+  background: var(--pk-sys-success-bg); /* $Feedback/Success/Background */
+  border-color: var(--pk-sys-success-border); /* $Feedback/Success/Border */
+}
+.pk-toast--success .pk-toast__icon {
+  background: var(--pk-sys-success-hover); /* $Feedback/Success/Hover */
+  color: var(--pk-sys-success-text);
+}
+
+.pk-toast--error {
+  background: var(--pk-sys-error-bg); /* $Feedback/Error/Background */
+  border-color: var(--pk-sys-error-border); /* $Feedback/Error/Border */
+}
+.pk-toast--error .pk-toast__icon {
+  background: var(--pk-sys-error-hover); /* $Feedback/Error/Hover */
+  color: var(--pk-sys-error-text);
+}
+
+.pk-toast--informative {
+  background: var(--pk-sys-info-bg); /* $Feedback/Info/Background */
+  border-color: var(--pk-sys-info-border); /* $Feedback/Info/Border */
+}
+.pk-toast--informative .pk-toast__icon {
+  background: var(--pk-sys-info-hover); /* $Feedback/Info/Hover */
+  color: var(--pk-sys-info-text);
+}
+
+.pk-toast--neutral {
+  /* $Surface/Subtle@6% — --pk-sys-surface-subtle is black/2%, not an exact
+     alpha match (see the same note on ScrollBar's track); closest named var. */
+  background: var(--pk-sys-surface-subtle);
+  border-color: var(--pk-sys-border-default); /* $Border/Default@12% — exact match, --pk-sys-border-default is already black/12% */
+}
+.pk-toast--neutral .pk-toast__icon {
+  background: var(--pk-sys-surface-subtle); /* $Surface/Subtle@6%, same fill as the card so the icon blends in per the captured instance */
+  color: var(--pk-sys-text-primary);
+}
+
+.pk-toast--promo,
+.pk-toast--brand {
+  background: var(--pk-sys-bg-default); /* $Background/Default — captured directly on `brand`; `promo` has no October capture, extrapolated to match since both are magenta-family variants */
+  border-color: var(--pk-sys-text-magenta); /* $Text + Icon/Magenta — Figma binds this Text+Icon color as the border here, not a $Border/* token */
+  color: var(--pk-sys-text-magenta); /* heading override — the one documented exception to the Primary/Secondary pairing above */
+}
+.pk-toast--promo .pk-toast__message,
+.pk-toast--brand .pk-toast__message {
+  color: var(--pk-sys-text-secondary); /* $Text + Icon/Black-Subtle@64% on `brand` — approximated as --pk-sys-text-secondary (black/64%), no distinct "black-subtle" token exists */
+}
+.pk-toast--promo .pk-toast__icon,
+.pk-toast--brand .pk-toast__icon {
+  background: var(--pk-sys-text-magenta); /* $Text + Icon/Magenta */
+  color: var(--pk-sys-text-white);
+}
+
+/* --- Inverse ----------------------------------------------------------------
+   $Text + Icon/Inverse (heading) and $Text + Icon/Inverse-Subtle@64% (body)
+   are universal across every inverse instance Figma captures, regardless of
+   variant. The surface/border/badge colors are Feedback-Inverse/<status>/*,
+   which has no --pk-sys-* equivalent anywhere in tokens.css (only the
+   light-mode Feedback/* set exists) — approximated below from the Tier-1
+   color ramps rather than left unstyled; flagged as unmapped in the report.
+   `neutral` is the one status where Figma's inverse tokens (Surface/Inverse,
+   Border/Inverse) already exist as exact --pk-sys-* matches. `promo`/`brand`
+   have no Inverse=True instance captured at all — they fall back to the
+   DS's generic inverse surface here. */
+
+.pk-toast--inverse {
+  color: var(--pk-sys-text-inverse); /* $Text + Icon/Inverse — same for every variant */
+}
+.pk-toast--inverse .pk-toast__message,
+.pk-toast--inverse .pk-toast__subheading {
+  color: var(--pk-sys-text-inverse-subtle); /* $Text + Icon/Inverse-Subtle@64% — same for every variant */
+}
+/* The dismiss button stays on Background/Default + Text+Icon/Black in every
+   captured Inverse=True instance — intentionally NOT overridden here. */
+
+.pk-toast--warning.pk-toast--inverse {
+  /* $Feedback-Inverse/Warning/Background + /Border — unmapped, approximated from the Warning ramp's deepest/mid steps */
+  background: var(--pk-ref-yellow-700);
+  border-color: var(--pk-ref-yellow-500);
+}
+.pk-toast--warning.pk-toast--inverse .pk-toast__icon {
+  background: var(--pk-ref-yellow-500); /* $Feedback-Inverse/Warning/Hover — unmapped, approximated */
+  color: var(--pk-sys-text-white);
+}
+
+.pk-toast--success.pk-toast--inverse {
+  background: var(--pk-ref-green-700); /* $Feedback-Inverse/Success/Background — unmapped, approximated */
+  border-color: var(--pk-ref-green-500); /* $Feedback-Inverse/Success/Border — unmapped, approximated */
+}
+.pk-toast--success.pk-toast--inverse .pk-toast__icon {
+  background: var(--pk-ref-green-500); /* $Feedback-Inverse/Success/Hover — unmapped, approximated */
+  color: var(--pk-sys-text-white);
+}
+
+.pk-toast--error.pk-toast--inverse {
+  background: var(--pk-ref-red-700); /* $Feedback-Inverse/Error/Background — unmapped, approximated */
+  border-color: var(--pk-ref-red-500); /* $Feedback-Inverse/Error/Border — unmapped, approximated */
+}
+.pk-toast--error.pk-toast--inverse .pk-toast__icon {
+  background: var(--pk-ref-red-500); /* $Feedback-Inverse/Error/Hover — unmapped, approximated */
+  color: var(--pk-sys-text-white);
+}
+
+.pk-toast--informative.pk-toast--inverse {
+  background: var(--pk-ref-info-blue-700); /* $Feedback-Inverse/Info/Background — unmapped, approximated */
+  border-color: var(--pk-ref-info-blue-500); /* $Feedback-Inverse/Info/Border — unmapped, approximated */
+}
+.pk-toast--informative.pk-toast--inverse .pk-toast__icon {
+  background: var(--pk-ref-info-blue-500); /* $Feedback-Inverse/Info/Hover — unmapped, approximated */
+  color: var(--pk-sys-text-white);
+}
+
+.pk-toast--neutral.pk-toast--inverse {
+  background: var(--pk-sys-surface-inverse); /* $Surface/Inverse@2% — exact match */
+  border-color: var(--pk-sys-border-inverse); /* $Border/Inverse@24% — exact match */
+}
+.pk-toast--neutral.pk-toast--inverse .pk-toast__icon {
+  background: var(--pk-sys-surface-inverse); /* $Surface/Inverse@2% — exact match, same fill as the card */
+}
+
+.pk-toast--promo.pk-toast--inverse,
+.pk-toast--brand.pk-toast--inverse {
+  /* No Inverse=True instance exists for promo/brand in Figma — falls back
+     to the DS's generic inverse card surface rather than guessing a
+     Feedback-Inverse/Magenta token that was never captured. */
+  background: var(--pk-sys-bg-inverse);
+  border-color: var(--pk-sys-border-inverse);
+}
+.pk-toast--promo.pk-toast--inverse .pk-toast__icon,
+.pk-toast--brand.pk-toast--inverse .pk-toast__icon {
+  background: var(--pk-sys-text-magenta);
+  color: var(--pk-sys-text-white);
 }

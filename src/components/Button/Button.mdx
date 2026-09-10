@@ -78,18 +78,24 @@ state at once in a static screenshot — it must never be used in application co
 | `--pk-sys-secondary-enabled` / `-hover` / `-pressed` | Secondary fill background per state. |
 | `--pk-sys-secondary-text` / `-hover-text` | Secondary label color (enabled vs. hover/pressed). |
 | `--pk-sys-secondary-border` | Secondary border, shown only on hover/pressed. |
-| `--pk-sys-tertiary-text` | Tertiary and Ghost label color. |
-| `--pk-sys-tertiary-border` | Tertiary border color. |
-| `--pk-sys-tertiary-hover` / `-pressed` | Tertiary and Ghost tinted background on hover/pressed (mixed to 16%/24% opacity). |
-| `--pk-sys-success-border` / `-hover` / `-pressed` | Success fill background per state (the saturated 500-step token, not the pale `-bg` tint). |
-| `--pk-sys-error-border` / `-hover` / `-pressed` | Error fill background per state. |
-| `--pk-sys-warning-border` / `-hover` / `-pressed` | Warning fill background per state. |
-| `--pk-sys-info-border` / `-hover` / `-pressed` | Info fill background per state. |
-| `--pk-sys-text-white` | Label color for Success, Error, Warning and Info. |
-| `--pk-sys-disabled-cta-bg` | Background for every disabled variant. |
-| `--pk-sys-disabled-text` | Label color for every disabled variant. |
+| `--pk-sys-tertiary-text` | Tertiary label color (also used for Tertiary/Ghost's Inverse hover/pressed label — see Figma parity). |
+| `--pk-sys-tertiary-border` | Tertiary border color — never changes across Tertiary's own states. |
+| `--pk-sys-tertiary-hover` / `-pressed` | Tertiary's own solid fill background on hover/pressed (a full-opacity Magenta step, not a tint). |
+| `--pk-sys-primary-hover-text` | Label color on Primary/Secondary/Tertiary hover & pressed (white@88%, Figma's "Interactive/Primary/Hover Text" token, reused by all three Types). |
+| `--pk-sys-link-text` | Ghost/Link's label color in every state — Ghost binds Figma's "Interactive/Link/*" tokens, a separate family from Tertiary. |
+| `--pk-sys-border-subtle` / `--pk-sys-surface-pressed` | Ghost/Link's hover/pressed background wash (neutral black-tint, not Magenta). |
+| `--pk-sys-success-bg` / `-text` / `-hover` / `-pressed` | Success's soft-pill background (pale tint), label (dark tint) and hover/pressed background steps. |
+| `--pk-sys-error-bg` / `-text` / `-hover` / `-pressed` | Error's soft-pill background, label and hover/pressed background steps. |
+| `--pk-sys-warning-bg` / `-text` / `-hover` / `-pressed` | Warning's soft-pill background, label and hover/pressed background steps. |
+| `--pk-sys-info-bg` / `-text` / `-hover` / `-pressed` | Info's soft-pill background, label and hover/pressed background steps. |
+| `--pk-sys-bg-default` | Secondary's Inverse-enabled background (white). |
+| `--pk-sys-primary-text` | Secondary's Inverse label color, and Ghost/Tertiary's ordinary (non-inverse) role reused where a "text on light surface" purple is needed. |
+| `--pk-comp-button-feedback-inverse-bg` / `-text` / `-hover` / `-pressed` | Component-local — Success/Error/Warning/Info's Inverse fill/label/hover/pressed (Figma's "Feedback-Inverse/\*" tokens; no `--pk-sys-*` semantic names this role). |
+| `--pk-comp-button-disabled-inverse-bg` / `-text` | Component-local — Primary/Secondary/Tertiary's Disabled+Inverse fill/label (Figma's "Interactive/Disabled Inverse/\*" tokens, white-alpha instead of black-alpha). |
+| `--pk-sys-disabled-cta-bg` | Background for every disabled variant (Off/non-inverse). |
+| `--pk-sys-disabled-text` | Label color for every disabled variant (Off/non-inverse). |
 | `--pk-sys-disabled-border` | Border color for disabled Tertiary and Feedback variants. |
-| `--pk-sys-text-inverse` | Tertiary/Ghost label (and Tertiary border) color when `inverse` is true. |
+| `--pk-sys-text-inverse` | Tertiary/Ghost label (and Tertiary border) color when `inverse` is true — stays in effect through Tertiary's Disabled+Inverse variant too. |
 
 ---
 
@@ -121,11 +127,29 @@ why `children` should always be a descriptive string even on icon-only buttons.
 ## Figma parity
 
 Source: file `x40IO8pltwoAFiVkBZEUzT`, node `10408:4635` (component set `10443:108219`,
-96 variants).
+98 variants). Verified 2026-09-10 against a full Figma snapshot capture; three
+mismatches from an earlier implementation were corrected:
+
+- **Success/Error/Warning/Info are a soft pill, not a solid CTA.** The source file
+  fills these with the pale `-bg` token and labels them with the dark `-text` token —
+  not a saturated background with a white label as previously coded. Hover/Pressed
+  backgrounds were already correct.
+- **Tertiary's hover/pressed is a solid fill, not a tint.** The source file swaps in
+  the full-opacity `-hover`/`-pressed` Magenta step (with the label going near-white)
+  rather than a `color-mix()` wash. Ghost/Link, despite looking similar to Tertiary,
+  binds a completely different token family — Cool-Blue text and a neutral
+  black-tint hover/pressed wash, styled like a hyperlink rather than a mini-Tertiary.
+- **`inverse` previously did nothing for Secondary or the Feedback types.** Figma
+  defines dedicated `Interactive/Secondary-Inverse/*` and `Feedback-Inverse/*` token
+  groups for these — not just a text-color swap — so both now flip to their own
+  fill/label recipe when `inverse` is true. `Disabled` also has its own
+  `Interactive/Disabled Inverse/*` white-alpha group (vs. the plain black-alpha
+  Disabled tokens) for Primary/Secondary/Tertiary.
 
 Disabled only has a distinct Figma treatment for Primary, Secondary and Tertiary,
 so Success/Error/Warning/Info/Ghost fall back to Tertiary's disabled styling rather than
-inventing a new one. Similarly, `inverse` only overrides Tertiary and Ghost — their
-default Midnight Purple text and border would disappear on a dark surface — while
-Primary, Secondary and the Feedback types already use white/brand fills that read
-correctly on any surface, so they're left untouched.
+inventing a new one. `inverse`'s default-state override still only touches Tertiary and
+Ghost directly — their default Midnight Purple text and border would disappear on a
+dark surface — while Primary keeps no inverse treatment at all (Figma defines none),
+and Secondary/Feedback's inverse recipes are defined next to their base rules rather
+than in the shared inverse block.

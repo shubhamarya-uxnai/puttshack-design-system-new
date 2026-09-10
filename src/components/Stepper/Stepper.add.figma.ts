@@ -1,0 +1,21 @@
+// url=https://www.figma.com/design/x40IO8pltwoAFiVkBZEUzT/Puttshack-Design-System-2026?node-id=10872-107981
+// source=src/components/Stepper/Stepper.tsx
+// component=Stepper (direction="add")
+import figma from 'figma'
+const instance = figma.selectedInstance
+
+const active = instance.getEnum('Active', {
+  True: true,
+  False: false,
+})
+
+// Hover is a real CSS state in code (:hover), not a prop.
+
+export default {
+  example: figma.code`
+    <Stepper direction="add" ${active ? '' : 'active={false}'} />
+  `,
+  imports: ['import { Stepper } from "./Stepper"'],
+  id: 'stepper-add',
+  metadata: { nestable: true },
+}

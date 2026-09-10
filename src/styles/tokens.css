@@ -215,8 +215,11 @@
   /* --- Interactive: Primary (Cool-Blue button) ------------------------------- */
   --pk-sys-primary-enabled:    var(--pk-ref-blue-100);
   --pk-sys-primary-text:       var(--pk-ref-purple-midnight);
+  /* Figma "Interactive/Primary/Hover Text" resolves to white@88%, not purple —
+     corrected 2026-09-10 against the design-system snapshot (was previously
+     bound to purple-midnight, which is illegible on the Magenta/200 hover fill). */
+  --pk-sys-primary-hover-text: var(--pk-ref-white-88);
   --pk-sys-primary-hover:      var(--pk-ref-magenta-200);
-  --pk-sys-primary-hover-text: var(--pk-ref-purple-midnight);
   --pk-sys-primary-pressed:    var(--pk-ref-magenta-300);
   --pk-sys-primary-border:     var(--pk-ref-purple-midnight);
 
@@ -224,7 +227,10 @@
   --pk-sys-secondary-enabled:    var(--pk-ref-purple-midnight);
   --pk-sys-secondary-text:       var(--pk-ref-white);
   --pk-sys-secondary-hover:      var(--pk-ref-magenta-200);
-  --pk-sys-secondary-hover-text: var(--pk-ref-purple-midnight);
+  /* Figma "Interactive/Primary/Hover Text" (the same variable Secondary and
+     Tertiary reuse) is white@88%, not purple — corrected 2026-09-10, see
+     --pk-sys-primary-hover-text above. */
+  --pk-sys-secondary-hover-text: var(--pk-ref-white-88);
   --pk-sys-secondary-pressed:    var(--pk-ref-magenta-300);
   --pk-sys-secondary-border:     var(--pk-ref-blue-100);
 

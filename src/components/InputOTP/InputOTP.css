@@ -2,49 +2,44 @@
   display: inline-flex;
   flex-direction: column;
   align-items: flex-start;
+  /* Figma: itemSpacing between the group label and the cell row = "$GAP/Medium", 8px. */
   gap: var(--pk-sys-gap-sm);
 
-  /* Component-tier tokens — cell width/height and the kiosk radius/gap have
-     no matching --pk-ref-* step (spacing scale skips 44/52/60/68/76/84,
-     radius scale skips 10px), so they're pinned here as the confirmed
-     values from the source file rather than forced onto a nearby token.
-     Desktop values are the default; [data-screen] overrides per mode. */
-  --pk-comp-input-otp-cell-w: 60px;
-  --pk-comp-input-otp-cell-h: 68px;
+  /* Component-tier tokens — cell width/height have no matching --pk-ref-*
+     step (spacing scale skips 61/90/100/120/160), so they're pinned here as
+     the confirmed per-Mode values from the source file. Desktop is the
+     default; [data-screen] overrides per mode. Radius is "$md" (12px) in
+     every mode — no per-mode radius variation confirmed. */
+  --pk-comp-input-otp-cell-w: 90px;
+  --pk-comp-input-otp-cell-h: 100px;
   --pk-comp-input-otp-cell-radius: var(--pk-ref-radius-md);
   --pk-comp-input-otp-cell-gap: var(--pk-sys-gap-sm);
-  /* No named Text Style matches the large bold OTP digit (screenshot shows
-     ~28-32px bold, bigger than any Title/Headline step at that weight) —
-     scoped as a component size per the source file's own guidance. */
-  --pk-comp-input-otp-digit-size: 28px;
+  /* No named Text Style in text-styles.css matches the OTP digit — Figma
+     names it "Headline/X-large" (48px, Book weight) but that step doesn't
+     exist in this codebase's 17 Text Styles (Headline tops out at Large,
+     36px). Kept as a confirmed literal per the source file's own guidance
+     for un-named sizes, flagged here rather than force-fit onto Headline/Large.
+     Confirmed constant across all 3 Modes (no per-mode override in the data). */
+  --pk-comp-input-otp-digit-size: 48px;
 }
 
 .pk-input-otp[data-screen='mobile'] {
-  --pk-comp-input-otp-cell-w: 44px;
-  --pk-comp-input-otp-cell-h: 52px;
-  --pk-comp-input-otp-cell-radius: var(--pk-ref-radius-sm);
-  --pk-comp-input-otp-cell-gap: var(--pk-sys-gap-sm);
-  --pk-comp-input-otp-digit-size: 20px;
+  --pk-comp-input-otp-cell-w: 61px;
+  --pk-comp-input-otp-cell-h: 72px;
 }
 
 .pk-input-otp[data-screen='kiosk'] {
-  --pk-comp-input-otp-cell-w: 76px;
-  --pk-comp-input-otp-cell-h: 84px;
-  /* 10px radius and 10px gap both fall between the sm(8)/md(12) and
-     gap-sm(8)/gap-md(16) steps — confirmed exact values, not roundable. */
-  --pk-comp-input-otp-cell-radius: 10px;
-  --pk-comp-input-otp-cell-gap: 10px;
-  --pk-comp-input-otp-digit-size: 36px;
+  --pk-comp-input-otp-cell-w: 120px;
+  --pk-comp-input-otp-cell-h: 160px;
 }
 
 .pk-input-otp__label {
   color: var(--pk-sys-text-primary);
 }
 
-/* Kiosk pairs with this system's Dark color mode — the one dark-surface
-   exception in an otherwise Light-only codebase, so the group label flips
-   to inverse text for contrast against the dark kiosk backdrop. */
-.pk-input-otp[data-screen='kiosk'] .pk-input-otp__label {
+/* Figma: `Color` = Inverse is an axis independent of Mode/size — dark surface
+   at any of the 3 sizes, not just Kiosk. */
+.pk-input-otp--inverse .pk-input-otp__label {
   color: var(--pk-sys-text-inverse);
 }
 
@@ -58,8 +53,14 @@
   width: var(--pk-comp-input-otp-cell-w);
   height: var(--pk-comp-input-otp-cell-h);
   border-radius: var(--pk-comp-input-otp-cell-radius);
-  border: var(--pk-ref-border-thin) solid transparent;
-  background: transparent;
+  /* Figma: cells carry no visible border in the default state at any Mode —
+     only Error shows a stroke. Kept at medium width (transparent) so the
+     border doesn't change the box's content area when Error toggles it on. */
+  border: var(--pk-ref-border-medium) solid transparent;
+  /* Figma: fill = "$Surface/Subtle@6%" in every Mode when Color=Default —
+     matches --pk-ref-black-06 (no --pk-sys-surface-* token lands on this
+     exact 6% tone). */
+  background: var(--pk-ref-black-06);
   color: var(--pk-sys-text-primary);
   font-family: var(--pk-sys-font-ui-bold);
   font-weight: 700;
@@ -68,28 +69,8 @@
   padding: 0;
   outline: none;
   appearance: none;
-  caret-color: var(--pk-ref-magenta-200); /* Figma: Active state = blinking magenta cursor */
-  transition: border-color 120ms ease, background-color 120ms ease;
-}
-
-/* Mobile: bordered cell, transparent/white fill. */
-.pk-input-otp[data-screen='mobile'] .pk-input-otp__cell {
-  border-color: var(--pk-sys-border-strong);
-  background: var(--pk-sys-bg-default);
-}
-
-/* Desktop: filled cell, no border. Pale grey fill — no --pk-sys-surface-*
-   token lands on this exact tone, --pk-ref-black-06 is the confirmed
-   closest match against the source file's screenshot. */
-.pk-input-otp[data-screen='desktop'] .pk-input-otp__cell {
-  background: var(--pk-ref-black-06);
-}
-
-/* Kiosk: dark fill on the dark kiosk backdrop — Surface/Inverse is built
-   for exactly this ("subtle surface overlay on dark"). */
-.pk-input-otp[data-screen='kiosk'] .pk-input-otp__cell {
-  background: var(--pk-sys-surface-inverse);
-  color: var(--pk-sys-text-inverse);
+  caret-color: var(--pk-sys-text-magenta); /* Figma: Active state = blinking magenta cursor, "$Text + Icon/Magenta" */
+  transition: border-color 120ms ease, background-color 120ms ease, color 120ms ease;
 }
 
 .pk-input-otp__cell:focus-visible {
@@ -97,8 +78,15 @@
   outline-offset: 2px;
 }
 
+/* Figma: `Color` = Inverse — dark surface, independent of Mode/size.
+   Matches --pk-sys-surface-inverse exactly ("$Surface/Inverse@2%"). */
+.pk-input-otp--inverse .pk-input-otp__cell {
+  background: var(--pk-sys-surface-inverse);
+  color: var(--pk-sys-text-inverse);
+}
+
 /* Error is component-level: every cell takes the error border together,
-   never just the offending one. */
+   never just the offending one. Figma: 2px stroke ("$border-width/medium"). */
 .pk-input-otp--error .pk-input-otp__cell {
   border-color: var(--pk-sys-error-border);
 }

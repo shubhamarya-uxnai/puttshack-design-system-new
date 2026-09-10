@@ -1,0 +1,12 @@
+/* ============================================================================
+   Logo — Figma component "Company Logo" (node 2003:135458), page "LOGO".
+   A single fixed lockup with no variant properties, filled with the `White`
+   color variable — meant to sit on the branded/dark screen backdrop, not a
+   white card.
+   ========================================================================== */
+
+.pk-logo {
+  display: inline-block;
+  color: var(--pk-sys-text-white);
+  flex-shrink: 0;
+}
