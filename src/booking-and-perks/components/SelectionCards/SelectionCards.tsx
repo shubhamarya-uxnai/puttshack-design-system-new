@@ -8,7 +8,7 @@ import './SelectionCards.css'
  * Composition scaffold for "Selection Cards" (Figma: booking-and-perks
  * snapshot, loc "Web / Cards", node 4435:179395).
  *
- * A radio-selectable pricing/option card: DS `RadioButton` (tooltip on,
+ * A radio-selectable pricing/option card: DS `RadioButton` (tick variant,
  * label off — the card itself carries the label), an optional "Popular"
  * `Chip` (yellow), a title/content pair, and an optional per-person price
  * breakdown with a total.
@@ -72,7 +72,6 @@ export function SelectionCards({
             name={name}
             checked={selected}
             onChange={onSelect}
-            tooltipIcon
             tick
             className="pk-oct-selection-card__radio"
           />
