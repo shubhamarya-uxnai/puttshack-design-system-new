@@ -21,7 +21,9 @@
   flex-direction: column;
   border-radius: 20px;
   overflow: hidden;
-  background: none;
+  /* Figma: "Surface/Inverse" (rgba(255,255,255,0.02)) — a faint fill every card carries on its own,
+     selected or not, so its rounded edge stays visible against a same-toned dark card behind it. */
+  background: var(--pk-sys-surface-inverse);
   border: none;
   padding: 0;
   text-align: left;
