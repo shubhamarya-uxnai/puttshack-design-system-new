@@ -1,0 +1,106 @@
+/* Tokens: Web/Border Selected -> 3-layer inset magenta shadow (same effect as Date Picker Card),
+   Background/Magenta Dark 3 -> --pk-sys-bg-card, Surface/Selected (#FFC629) is a one-off literal —
+   no existing ref token matches it and it's only used for this chip so far. */
+
+.pk-experience-selector {
+  display: flex;
+  gap: var(--pk-sys-gap-sm);
+  overflow-x: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.pk-experience-selector::-webkit-scrollbar {
+  display: none;
+}
+
+.pk-experience-selector__card {
+  flex: 0 0 auto;
+  width: 272px;
+  display: flex;
+  flex-direction: column;
+  border-radius: 20px;
+  overflow: hidden;
+  background: none;
+  border: none;
+  padding: 0;
+  text-align: left;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.24);
+}
+
+.pk-experience-selector__card--selected {
+  box-shadow:
+    inset 0 0 0 3px var(--pk-ref-magenta-100),
+    inset 0 0 0 6px var(--pk-ref-magenta-300),
+    inset 0 0 0 9px var(--pk-ref-magenta-500),
+    0 2px 8px rgba(0, 0, 0, 0.24);
+}
+
+.pk-experience-selector__photo {
+  position: relative;
+  height: 216px;
+  flex-shrink: 0;
+}
+
+.pk-experience-selector__photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.pk-experience-selector__chip {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  padding: var(--pk-sys-gap-xs) var(--pk-sys-gap-md);
+  border-radius: var(--pk-ref-radius-full);
+  background: #ffc629;
+  border: var(--pk-ref-border-thin) solid var(--pk-sys-border-magenta);
+  color: var(--pk-sys-text-black);
+  font-family: var(--pk-sys-font-ui-bold);
+  font-weight: 700;
+  font-size: 10px;
+  line-height: 14px;
+}
+
+.pk-experience-selector__check {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: var(--pk-ref-radius-full);
+  background: var(--pk-sys-border-magenta);
+  border: 1px solid var(--pk-sys-text-inverse);
+  color: var(--pk-sys-text-inverse);
+  box-shadow: 0 4px 14px -3px rgba(14, 1, 21, 0.6);
+}
+
+.pk-experience-selector__body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--pk-sys-gap-xs);
+  padding: var(--pk-sys-gap-md);
+  background: var(--pk-sys-bg-default);
+  color: var(--pk-sys-text-primary);
+  flex: 1;
+}
+
+.pk-experience-selector__card--selected .pk-experience-selector__body {
+  background: var(--pk-sys-bg-card);
+  color: var(--pk-sys-text-inverse);
+}
+
+.pk-experience-selector__title {
+  margin: 0;
+}
+
+.pk-experience-selector__description {
+  margin: 0;
+  opacity: 0.9;
+}

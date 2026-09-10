@@ -1,8 +1,9 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { AppHeader } from '../src/booking-and-perks/components/AppHeader/AppHeader'
 import { BookingFooter } from '../src/booking-and-perks/components/BookingFooter/BookingFooter'
 import { PerksCard } from '../src/booking-and-perks/components/PerksCard/PerksCard'
 import { LocationPlayerPicker } from '../src/booking-and-perks/components/LocationPlayerPicker/LocationPlayerPicker'
+import { ExperienceSelector } from '../src/booking-and-perks/components/ExperienceSelector/ExperienceSelector'
 import './Screens.css'
 
 /**
@@ -13,8 +14,16 @@ import './Screens.css'
  * Card, Location & Player Picker (Stepper instance on this frame is
  * hidden). Content and copy below are read directly from that node via
  * Figma's design-context API, not guessed from a screenshot.
+ *
+ * "Experience selector" (node 4904:143453) is a real next step in this
+ * flow — the app reveals it once a date is picked in Location & Player
+ * Picker, matching the flow's own progressive-disclosure pattern (Select
+ * Date itself stays disabled until a player is added).
  */
 export function ConfigureScreen({ onCheckout }: { onCheckout: () => void }) {
+  const [selectedDate, setSelectedDate] = useState<string | undefined>(undefined)
+  const [selectedExperience, setSelectedExperience] = useState<string | undefined>(undefined)
+
   return (
     <div className="pk-proto-screen">
       <AppHeader />
@@ -28,7 +37,13 @@ export function ConfigureScreen({ onCheckout }: { onCheckout: () => void }) {
 
       <div className="pk-proto-screen__body">
         <PerksCard type="unlock" />
-        <LocationPlayerPicker />
+        <LocationPlayerPicker onDateSelect={setSelectedDate} />
+        {selectedDate && (
+          <div className="pk-proto-screen__section">
+            <h3 className="pk-proto-screen__section-heading pk-text-title-medium">Choose your experience</h3>
+            <ExperienceSelector value={selectedExperience} onChange={setSelectedExperience} />
+          </div>
+        )}
       </div>
 
       <BookingFooter variant="checkout" location="Chicago, IL" price="$0.00" checkoutDisabled onCheckout={onCheckout} />
