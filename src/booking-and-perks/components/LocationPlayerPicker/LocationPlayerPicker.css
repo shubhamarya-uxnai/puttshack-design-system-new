@@ -190,13 +190,17 @@
   color: var(--pk-sys-text-secondary);
 }
 
-/* "Active" (Property 1=Active) — translucent card + full-opacity white text + a magenta ring
-   (Figma effect style "Web/Border/Selected", sampled as magenta-100 #E96BB0). */
+/* "Active" (Property 1=Active) — translucent card + full-opacity white text + the real "Web/Border
+   Selected" effect: 3 stacked inset shadows (0 blur, spreads 3/6/9px, magenta-100/300/500), not a
+   plain outer ring — an outer box-shadow clips/distorts against the card's own overflow. */
 .pk-location-player-picker__date-card--selected {
   background: var(--pk-ref-white-06);
   border-color: transparent;
   color: var(--pk-sys-text-inverse);
-  box-shadow: 0 0 0 3px var(--pk-ref-magenta-100);
+  box-shadow:
+    inset 0 0 0 3px var(--pk-ref-magenta-100),
+    inset 0 0 0 6px var(--pk-ref-magenta-300),
+    inset 0 0 0 9px var(--pk-ref-magenta-500);
 }
 
 .pk-location-player-picker__date-card--selected .pk-location-player-picker__date-label {
