@@ -11,13 +11,16 @@ import './PerksCard.css'
  * `type='sign-in'` shows a sign-in prompt with a Primary "Sign in" DS
  * `Button`; `type='rewards'` shows either a "Join Perks" Secondary Button
  * (`isSignedIn=false`) or a rewards-available summary (`isSignedIn=true`,
- * `rewardsAvailable`).
+ * `rewardsAvailable`); `type='unlock'` is a third real capture (node
+ * 5000:149752, on the "Unlimited Round — Default Package Selection"
+ * screen) — a "UNLOCK YOUR PERKS" title + body copy with both the "Sign
+ * in" Primary and "Join Perks" Secondary buttons shown together.
  *
  * The Figma "Perks icon" instance isn't one of the 45 October Release
  * components and has no captured detail of its own — `Award` from the
  * Lucide set stands in for it here.
  */
-export type PerksCardType = 'sign-in' | 'rewards'
+export type PerksCardType = 'sign-in' | 'rewards' | 'unlock'
 
 export interface PerksCardProps {
   /** Figma variant: `Type` (Sign In/Rewards). @default 'sign-in' */
@@ -70,6 +73,25 @@ export function PerksCard({
             ? 'You have rewards available to redeem on this booking.'
             : "You're a Perks member — no rewards available right now."}
         </span>
+      )}
+
+      {type === 'unlock' && !isSignedIn && (
+        <>
+          <div className="pk-oct-perks-card__text">
+            <span className="pk-oct-perks-card__title pk-text-title-small-capital">Unlock your Perks</span>
+            <span className="pk-oct-perks-card__copy pk-text-body-small">
+              Sign in or join to earn rewards, unlock the good stuff, and breeze through checkout.
+            </span>
+          </div>
+          <div className="pk-oct-perks-card__actions">
+            <Button variant="primary" onClick={onSignIn}>
+              Sign in
+            </Button>
+            <Button variant="secondary" onClick={onJoinPerks}>
+              Join Perks
+            </Button>
+          </div>
+        </>
       )}
     </div>
   )

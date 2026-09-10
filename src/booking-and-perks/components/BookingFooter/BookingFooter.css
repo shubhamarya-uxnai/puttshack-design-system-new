@@ -1,7 +1,10 @@
-/* Tokens used in Figma capture: Background/Inverse, Border/Inverse,
-   Border/Magenta, Button/Default/Horizontal, Button/Default/Vertical,
-   GAP/Medium, GAP/X-Small, Interactive/Primary/Enabled, Level 2/Horizontal,
-   Level 3/Vertical, Text + Icon/Inverse, radius "full". */
+/* Tokens: the real captured render (node 5000:149758) is a WHITE footer
+   with a pink top border and dark text — not the dark "Background/Inverse"
+   fallback hex the design-context codegen printed for this node (the same
+   stale-fallback-vs-real-render gap seen on this screen's other captures,
+   e.g. Page Title Container's headline). Background/Magenta -> real pink
+   top border -> --pk-sys-border-magenta, Text + Icon/Inverse (on this
+   white footer) -> --pk-sys-text-primary. */
 
 .pk-booking-footer {
   box-sizing: border-box;
@@ -10,10 +13,10 @@
   justify-content: space-between;
   gap: var(--pk-sys-gap-md);
   width: 100%;
-  background: var(--pk-sys-bg-inverse);
-  border-top: 1px solid var(--pk-sys-border-inverse);
+  background: var(--pk-sys-bg-default);
+  border-top: 2px solid var(--pk-sys-border-magenta);
   padding: var(--pk-sys-level3-vertical) var(--pk-sys-level2-horizontal);
-  color: var(--pk-sys-text-inverse);
+  color: var(--pk-sys-text-primary);
 }
 
 .pk-booking-footer__badges {
@@ -21,6 +24,11 @@
   align-items: center;
   gap: var(--pk-sys-gap-xs);
   flex-wrap: wrap;
+}
+
+.pk-booking-footer__price {
+  color: var(--pk-sys-text-primary);
+  text-transform: uppercase;
 }
 
 .pk-booking-footer__separator {

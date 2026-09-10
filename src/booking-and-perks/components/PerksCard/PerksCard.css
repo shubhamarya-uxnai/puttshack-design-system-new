@@ -22,3 +22,21 @@
   min-width: 160px;
   color: var(--pk-sys-text-inverse); /* Figma token: Text + Icon/Primary — inverse used here since this card sits on the dark Magenta surface */
 }
+
+.pk-oct-perks-card__text {
+  display: flex;
+  flex-direction: column;
+  gap: var(--pk-sys-gap-xs);
+  flex: 1 0 0;
+  min-width: 200px;
+}
+
+.pk-oct-perks-card__title {
+  color: var(--pk-sys-text-inverse);
+}
+
+.pk-oct-perks-card__actions {
+  display: flex;
+  gap: var(--pk-sys-gap-sm);
+  flex-wrap: wrap;
+}

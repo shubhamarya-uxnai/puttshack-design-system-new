@@ -13,12 +13,20 @@ import './BookingFooter.css'
  * "You are in". `Property 2` is a constant "October" release tag, not
  * modeled.
  *
- * DS usage: 4× `Badge` (Figma: `Type=Icon + Text, Status=Linked-2` ->
+ * DS usage: up to 4× `Badge` (Figma: `Type=Icon + Text, Status=Linked-2` ->
  * closest DS `BadgeStatus` is `'linked-secondary'`) for Location, Time,
  * Age Group, and Bundle — Location and Age Group carry the captured
  * `Separator` prop (rendered here as a trailing divider), and 1× `Button`
  * (Figma: `Size=Default, Type=Primary, Label="CHECKOUT"`) for the
  * checkout CTA, shown only on the `checkout` variant.
+ *
+ * A second real capture of this component (node 5000:149758, on the
+ * "Unlimited Round — Default Package Selection" screen) shows a different
+ * real state before a time/party are chosen: only the Location badge, a
+ * headline-size running total in place of the Time/Age Group/Bundle
+ * badges, and the Checkout button disabled — modeled here via the
+ * optional `price` and `checkoutDisabled` props rather than a new variant,
+ * since the badge layout and CTA are otherwise identical.
  */
 export type BookingFooterVariant = 'default' | 'checkout' | 'you-are-in'
 
@@ -30,6 +38,10 @@ export interface BookingFooterProps extends React.HTMLAttributes<HTMLDivElement>
   ageGroup?: string
   /** Figma: `Bundle` badge — optional, only some bookings carry a bundle. */
   bundle?: string
+  /** Figma (node 5000:149758): running total, e.g. `"$0.00"`. Replaces the Time/Age Group/Bundle badges when set. */
+  price?: string
+  /** Figma (node 5000:149758): `Button` `State=Disabled` — true before a party size has been chosen. */
+  checkoutDisabled?: boolean
   onCheckout?: () => void
 }
 
@@ -39,6 +51,8 @@ export function BookingFooter({
   time = '5:00 PM',
   ageGroup = '4 Adults',
   bundle,
+  price,
+  checkoutDisabled = false,
   onCheckout,
   className,
   ...rest
@@ -49,23 +63,29 @@ export function BookingFooter({
         <Badge type="icon-text" status="linked-secondary" icon={<MapPin aria-hidden="true" />}>
           {location}
         </Badge>
-        <span className="pk-booking-footer__separator" aria-hidden="true" />
-        <Badge type="icon-text" status="linked-secondary" icon={<Clock aria-hidden="true" />}>
-          {time}
-        </Badge>
-        <Badge type="icon-text" status="linked-secondary" icon={<Users aria-hidden="true" />}>
-          {ageGroup}
-        </Badge>
-        <span className="pk-booking-footer__separator" aria-hidden="true" />
-        {bundle && (
-          <Badge type="icon-text" status="linked-secondary" icon={<Gift aria-hidden="true" />}>
-            {bundle}
-          </Badge>
+        {price ? (
+          <span className="pk-booking-footer__price pk-text-headline-medium">{price}</span>
+        ) : (
+          <>
+            <span className="pk-booking-footer__separator" aria-hidden="true" />
+            <Badge type="icon-text" status="linked-secondary" icon={<Clock aria-hidden="true" />}>
+              {time}
+            </Badge>
+            <Badge type="icon-text" status="linked-secondary" icon={<Users aria-hidden="true" />}>
+              {ageGroup}
+            </Badge>
+            <span className="pk-booking-footer__separator" aria-hidden="true" />
+            {bundle && (
+              <Badge type="icon-text" status="linked-secondary" icon={<Gift aria-hidden="true" />}>
+                {bundle}
+              </Badge>
+            )}
+          </>
         )}
       </div>
 
       {variant === 'checkout' && (
-        <Button variant="primary" onClick={onCheckout}>
+        <Button variant="primary" disabled={checkoutDisabled} onClick={onCheckout}>
           CHECKOUT
         </Button>
       )}

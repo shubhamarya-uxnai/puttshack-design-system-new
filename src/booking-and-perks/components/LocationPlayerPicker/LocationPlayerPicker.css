@@ -1,0 +1,196 @@
+/* Tokens: Web/Card Background (#290E3C) -> --pk-sys-bg-magenta-dark (closest semantic match, same
+   precedent as PromoCodeInput.css), Level 2/* -> --pk-sys-level2-*, Text+Icon/Primary and
+   Text+Icon/Secondary inside this dark card resolve visually as inverse (white-on-dark) per the
+   real screenshot, not the light-mode fallback hex the codegen printed -> --pk-sys-text-inverse /
+   --pk-sys-text-inverse-subtle. Type comes from the shared .pk-text-* classes (see text-styles.css)
+   applied in the component; this file only sets color + layout. */
+
+.pk-location-player-picker {
+  display: flex;
+  flex-direction: column;
+  gap: var(--pk-sys-gap-lg);
+  padding: var(--pk-sys-level2-horizontal);
+  border-radius: var(--pk-ref-radius-xl);
+  background: var(--pk-sys-bg-magenta-dark);
+  box-sizing: border-box;
+}
+
+.pk-location-player-picker__section {
+  display: flex;
+  flex-direction: column;
+  gap: var(--pk-sys-gap-md);
+}
+
+.pk-location-player-picker__heading {
+  margin: 0;
+  text-transform: uppercase;
+  color: var(--pk-sys-text-inverse);
+}
+
+.pk-location-player-picker__result {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--pk-sys-gap-sm);
+  padding: var(--pk-ref-space-16) 13px;
+  border-radius: var(--pk-ref-radius-md);
+  background: var(--pk-sys-bg-default);
+  border: var(--pk-ref-border-thin) solid var(--pk-sys-border-default);
+}
+
+.pk-location-player-picker__result-name {
+  display: flex;
+  align-items: center;
+  gap: var(--pk-sys-gap-xs);
+  color: var(--pk-sys-text-primary);
+}
+
+.pk-location-player-picker__result-address {
+  margin: 0;
+  color: var(--pk-sys-text-secondary);
+}
+
+.pk-location-player-picker__result-close {
+  display: inline-flex;
+  border: none;
+  background: none;
+  padding: 0;
+  cursor: pointer;
+  color: var(--pk-sys-error-text, #c0392b);
+}
+
+.pk-location-player-picker__group-label {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--pk-sys-gap-sm);
+}
+
+.pk-location-player-picker__group-help {
+  margin: 0;
+  color: var(--pk-sys-text-inverse-subtle);
+}
+
+.pk-location-player-picker__group-total {
+  margin: 0;
+  display: flex;
+  align-items: baseline;
+  gap: var(--pk-sys-gap-xs);
+  white-space: nowrap;
+  color: var(--pk-sys-text-inverse);
+}
+
+.pk-location-player-picker__group-total span {
+  color: var(--pk-sys-text-inverse-subtle);
+}
+
+.pk-location-player-picker__rows {
+  display: flex;
+  flex-direction: column;
+  gap: var(--pk-sys-gap-sm);
+}
+
+.pk-location-player-picker__row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--pk-sys-gap-sm);
+}
+
+.pk-location-player-picker__row-label {
+  display: flex;
+  align-items: baseline;
+  gap: var(--pk-sys-gap-sm);
+  color: var(--pk-sys-text-inverse);
+}
+
+.pk-location-player-picker__row-range {
+  color: var(--pk-sys-text-inverse-subtle);
+}
+
+.pk-location-player-picker__divider {
+  height: 1px;
+  background: var(--pk-sys-border-default);
+}
+
+.pk-location-player-picker__stepper {
+  display: flex;
+  align-items: center;
+  gap: var(--pk-sys-gap-xs);
+}
+
+.pk-location-player-picker__stepper-value {
+  width: 28px;
+  text-align: center;
+  color: var(--pk-sys-text-inverse);
+}
+
+.pk-location-player-picker__stepper-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: var(--pk-ref-radius-full);
+  cursor: pointer;
+}
+
+.pk-location-player-picker__stepper-btn--minus {
+  background: var(--pk-sys-disabled-cta-bg);
+  border: var(--pk-ref-border-thin) solid var(--pk-sys-disabled-border);
+  color: var(--pk-sys-text-inverse-subtle);
+}
+
+.pk-location-player-picker__stepper-btn--minus:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.pk-location-player-picker__stepper-btn--plus {
+  background: var(--pk-sys-bg-default);
+  border: var(--pk-ref-border-thin) solid var(--pk-sys-text-black);
+  color: var(--pk-sys-text-black);
+}
+
+.pk-location-player-picker__group-hint {
+  margin: 0;
+  color: var(--pk-sys-text-inverse-subtle);
+}
+
+.pk-location-player-picker__dates {
+  display: flex;
+  gap: var(--pk-sys-gap-sm);
+  overflow-x: auto;
+}
+
+.pk-location-player-picker__date-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--pk-sys-gap-xs);
+  min-width: 100px;
+  padding: 13px 9px;
+  border-radius: 14px;
+  background: var(--pk-sys-surface-disabled);
+  border: var(--pk-ref-border-thin) solid var(--pk-sys-text-disabled);
+  color: var(--pk-sys-text-disabled);
+  cursor: pointer;
+}
+
+.pk-location-player-picker__date-card:disabled {
+  cursor: not-allowed;
+}
+
+.pk-location-player-picker__date-label {
+  opacity: 0.7;
+}
+
+.pk-location-player-picker__date-day {
+  text-align: center;
+  white-space: pre-line;
+}
+
+.pk-location-player-picker__calendar-btn {
+  width: 100%;
+  justify-content: center;
+}
