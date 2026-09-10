@@ -178,27 +178,42 @@
   min-width: 100px;
   padding: 13px 9px;
   border-radius: 14px;
-  background: transparent;
-  border: var(--pk-ref-border-thin) solid var(--pk-sys-border-inverse);
-  color: var(--pk-sys-text-inverse);
+  /* "Inactive" (Figma: "Date Picker Card", node 4914:145128, Property 1=Inactive) — real default
+     look is a WHITE card with dark text, not a transparent outline. */
+  background: var(--pk-sys-bg-default);
+  border: var(--pk-ref-border-thin) solid rgba(255, 255, 255, 0.12);
+  color: var(--pk-sys-text-primary);
   cursor: pointer;
 }
 
-.pk-location-player-picker__date-card--selected {
-  background: var(--pk-sys-bg-default);
-  border-color: var(--pk-sys-bg-default);
-  color: var(--pk-sys-text-primary);
+.pk-location-player-picker__date-card .pk-location-player-picker__date-label {
+  color: var(--pk-sys-text-secondary);
 }
 
+/* "Active" (Property 1=Active) — translucent card + full-opacity white text + a magenta ring
+   (Figma effect style "Web/Border/Selected", sampled as magenta-100 #E96BB0). */
+.pk-location-player-picker__date-card--selected {
+  background: var(--pk-ref-white-06);
+  border-color: transparent;
+  color: var(--pk-sys-text-inverse);
+  box-shadow: 0 0 0 3px var(--pk-ref-magenta-100);
+}
+
+.pk-location-player-picker__date-card--selected .pk-location-player-picker__date-label {
+  color: var(--pk-sys-text-inverse-subtle);
+}
+
+/* "Disabled" (Property 1=Disabled) — same translucent card as Active, but muted text and no ring. */
 .pk-location-player-picker__date-card:disabled {
-  background: var(--pk-sys-surface-disabled);
-  border-color: var(--pk-sys-text-disabled);
-  color: var(--pk-sys-text-disabled);
+  background: var(--pk-ref-white-06);
+  border-color: transparent;
+  color: var(--pk-ref-white-24);
+  box-shadow: none;
   cursor: not-allowed;
 }
 
-.pk-location-player-picker__date-label {
-  opacity: 0.7;
+.pk-location-player-picker__date-card:disabled .pk-location-player-picker__date-label {
+  color: var(--pk-ref-white-24);
 }
 
 .pk-location-player-picker__date-day {
