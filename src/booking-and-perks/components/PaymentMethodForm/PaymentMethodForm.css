@@ -1,14 +1,15 @@
-/* Tokens: Background/Default -> --pk-sys-bg-default, Background/Inverse -> --pk-sys-bg-inverse,
-   Background/Overlay -> --pk-sys-bg-overlay, Border/Subtle -> --pk-sys-border-subtle,
-   Surface/Subtle -> --pk-sys-surface-subtle, Text + Icon/Black -> --pk-sys-text-black,
-   Level 2/* -> --pk-sys-level2-*, GAP/* -> --pk-sys-gap-*. */
+/* Real capture (node 4145:156714): dark "Web/Card Background" (--pk-sys-bg-card, #290E3C), real
+   Apple Pay/Google Pay buttons, an "OR PAY WITH CARD" divider, a "Cards" label, an "Add Debit/
+   Credit Card" row, and saved-card rows with a brand mark + masked number + a custom selection
+   indicator (not the DS RadioButton — a filled magenta circle with a check when selected, a plain
+   outline circle otherwise). */
 
 .pk-payment-method-form {
   display: flex;
   flex-direction: column;
   gap: var(--pk-sys-level2-gap);
   padding: var(--pk-sys-level2-vertical) var(--pk-sys-level2-horizontal);
-  background: var(--pk-sys-bg-card); /* real capture (node 4281:91149): "Web/Card Background" #290E3C, not white */
+  background: var(--pk-sys-bg-card);
   border-radius: var(--pk-ref-radius-xl);
   box-sizing: border-box;
 }
@@ -19,40 +20,127 @@
   text-transform: uppercase;
 }
 
-.pk-payment-method-form__saved-cards {
+.pk-payment-method-form__wallets {
   display: flex;
-  flex-direction: column;
+  flex-wrap: wrap;
   gap: var(--pk-sys-gap-sm);
-  color: var(--pk-sys-text-inverse);
 }
 
-/* RadioButton's label always defaults to dark text (no inverse mode of its own) — scoped override
-   since this form sits on the dark --pk-sys-bg-card fill. */
-.pk-payment-method-form__saved-cards .pk-radio__label {
-  color: var(--pk-sys-text-inverse);
+.pk-payment-method-form__wallet {
+  flex: 1 0 140px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--pk-sys-gap-xs);
+  min-height: 48px;
+  padding: var(--pk-sys-gap-sm) var(--pk-sys-gap-lg);
+  border-radius: var(--pk-ref-radius-full);
+  border: none;
+  cursor: pointer;
+  background: var(--pk-sys-bg-default);
+  color: var(--pk-sys-text-black);
+}
+
+.pk-payment-method-form__wallet--google {
+  border: 1.5px solid #dacece;
 }
 
 .pk-payment-method-form__divider {
   display: flex;
   align-items: center;
-  gap: var(--pk-sys-gap-sm);
-  border-top: 1px solid var(--pk-sys-border-inverse);
-  padding-top: var(--pk-sys-gap-sm);
+  gap: var(--pk-sys-gap-md);
   color: var(--pk-sys-text-inverse-subtle);
   width: 100%;
 }
 
-.pk-payment-method-form__add-toggle {
-  display: inline-flex;
+.pk-payment-method-form__divider::before,
+.pk-payment-method-form__divider::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--pk-ref-white-12);
+}
+
+.pk-payment-method-form__divider span {
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.pk-payment-method-form__cards-section {
+  display: flex;
+  flex-direction: column;
+  gap: var(--pk-sys-gap-md);
+}
+
+.pk-payment-method-form__cards-label {
+  color: var(--pk-sys-text-inverse);
+}
+
+.pk-payment-method-form__hr {
+  height: 1px;
+  background: var(--pk-ref-white-12);
+  width: 100%;
+}
+
+.pk-payment-method-form__row {
+  display: flex;
   align-items: center;
-  gap: var(--pk-sys-gap-sm);
-  border: none;
+  gap: var(--pk-sys-gap-md);
+  width: 100%;
+  padding: var(--pk-sys-gap-md);
+  border-radius: 8px;
+  border: var(--pk-ref-border-thin) solid var(--pk-ref-white-06);
   background: var(--pk-ref-white-06);
   color: var(--pk-sys-text-inverse);
-  padding: var(--pk-sys-button-default-v) var(--pk-sys-button-default-h);
-  border-radius: 8px;
   cursor: pointer;
-  align-self: flex-start;
+  box-sizing: border-box;
+}
+
+.pk-payment-method-form__row-icon {
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 5px;
+  color: var(--pk-sys-text-black);
+}
+
+.pk-payment-method-form__row-icon--white {
+  background: var(--pk-sys-bg-default);
+}
+
+.pk-payment-method-form__row-label {
+  flex: 1;
+  text-align: left;
+  color: var(--pk-sys-text-inverse);
+}
+
+.pk-payment-method-form__visa-mark {
+  font-family: var(--pk-sys-font-ui-bold);
+  font-weight: 700;
+  font-style: italic;
+  font-size: 10px;
+  color: #1a1f71;
+}
+
+.pk-payment-method-form__radio {
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  border-radius: var(--pk-ref-radius-full);
+  border: var(--pk-ref-border-thin) solid var(--pk-sys-text-inverse);
+  color: var(--pk-sys-text-inverse);
+}
+
+.pk-payment-method-form__radio--selected {
+  background: var(--pk-sys-bg-magenta-light);
+  border-color: var(--pk-sys-bg-magenta-light);
+  color: var(--pk-sys-text-white);
 }
 
 .pk-payment-method-form__new-card {
@@ -61,11 +149,11 @@
   gap: var(--pk-sys-gap-md);
 }
 
-.pk-payment-method-form__row {
+.pk-payment-method-form__new-card-row {
   display: flex;
   gap: var(--pk-sys-gap-sm);
 }
 
-.pk-payment-method-form__row > * {
+.pk-payment-method-form__new-card-row > * {
   flex: 1;
 }
