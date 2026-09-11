@@ -33,3 +33,75 @@
 .pk-promo-code-input--desktop .pk-promo-code-input__row {
   max-width: 420px;
 }
+
+/* "Applied" state (Property 1=Applied) — replaces the input+Apply row with a real chip: a magenta
+   icon badge, the code/card text, a colored discount/balance badge, and a close button. */
+.pk-promo-code-input__field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--pk-sys-gap-xs);
+  width: 100%;
+}
+
+.pk-promo-code-input__field-label {
+  color: var(--pk-sys-text-inverse);
+  text-transform: uppercase;
+}
+
+.pk-promo-code-input__applied {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--pk-sys-gap-lg);
+  width: 100%;
+  padding: var(--pk-sys-gap-md);
+  border-radius: 8px;
+  background: var(--pk-sys-bg-default);
+  border: var(--pk-ref-border-thin) solid var(--pk-sys-text-magenta);
+  box-sizing: border-box;
+}
+
+.pk-promo-code-input__applied-content {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--pk-sys-gap-md);
+}
+
+.pk-promo-code-input__applied-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 4px;
+  background: var(--pk-sys-text-magenta);
+  color: var(--pk-sys-text-white);
+  flex-shrink: 0;
+}
+
+.pk-promo-code-input__applied-value {
+  color: var(--pk-sys-text-black);
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.pk-promo-code-input__applied-badge {
+  padding: var(--pk-sys-gap-xs) var(--pk-sys-gap-md);
+  border-radius: var(--pk-ref-radius-full);
+  background: var(--pk-sys-bg-magenta-dark);
+  border: var(--pk-ref-border-thin) solid var(--pk-sys-border-strong);
+  color: var(--pk-sys-text-white);
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.pk-promo-code-input__applied-close {
+  flex-shrink: 0;
+  display: inline-flex;
+  border: none;
+  background: none;
+  padding: 0;
+  cursor: pointer;
+  color: var(--pk-sys-text-black);
+}

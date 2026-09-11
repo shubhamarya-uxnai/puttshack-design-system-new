@@ -11,7 +11,3 @@ export default meta
 type Story = StoryObj<typeof meta>
 
 export const Playground: Story = {}
-
-export const Applied: Story = {
-  args: { state: 'applied' },
-}
