@@ -5,6 +5,21 @@
   background: var(--pk-sys-bg-inverse);
 }
 
+/* App Header stays pinned to the top and Booking Footer to the bottom of the phone's scroll area
+   (.pk-proto-phone__screen) while everything between them scrolls — scoped to this screen instead
+   of baked into those components themselves, since they're also used standalone in Storybook. */
+.pk-proto-screen > .pk-app-header {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+}
+
+.pk-proto-screen > .pk-booking-footer {
+  position: sticky;
+  bottom: 0;
+  z-index: 20;
+}
+
 .pk-proto-screen__hero {
   display: flex;
   flex-direction: column;
