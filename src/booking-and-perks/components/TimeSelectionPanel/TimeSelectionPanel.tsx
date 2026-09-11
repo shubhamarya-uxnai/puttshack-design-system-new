@@ -10,7 +10,9 @@ const PERIODS: TimeSelectionPeriod[] = ['morning', 'afternoon', 'evening']
 
 export interface TimeSlot {
   time: string
-  state?: TimeSlotChipState
+  /** `'disabled'` for sold-out slots — omit `state` on any selectable slot and drive selection via
+   * `selectedTime`/`onSelectTime` instead of baking `'selected'` into the data. */
+  state?: Exclude<TimeSlotChipState, 'selected'>
   badge?: string
 }
 
@@ -18,15 +20,18 @@ export interface TimeSelectionPanelProps {
   /** Figma: `Property 1` on the parent Time Slot Picker (Morning/Afternoon/Evening). @default 'afternoon' */
   period?: TimeSelectionPeriod
   onPeriodChange?: (period: TimeSelectionPeriod) => void
-  /** Real captured Afternoon list by default: 1:00 PM ("Best Value"), 2:00 PM (selected),
-   * 2:30/3:00/4:00 PM (open), 5:00 PM (disabled — sold out). */
+  /** Real captured Afternoon list by default: 1:00 PM ("Best Value"), 2:00 PM, 2:30/3:00/4:00 PM
+   * (all open), 5:00 PM (disabled — sold out). */
   slots?: TimeSlot[]
+  /** The currently-picked time, e.g. `'2:00 PM'` — matches a `slots[].time`. */
+  selectedTime?: string
+  onSelectTime?: (time: string) => void
   className?: string
 }
 
 const DEFAULT_SLOTS: TimeSlot[] = [
   { time: '1:00 PM', badge: 'Best Value' },
-  { time: '2:00 PM', state: 'selected' },
+  { time: '2:00 PM' },
   { time: '2:30 PM' },
   { time: '3:00 PM' },
   { time: '4:00 PM' },
@@ -45,6 +50,8 @@ export function TimeSelectionPanel({
   period = 'afternoon',
   onPeriodChange,
   slots = DEFAULT_SLOTS,
+  selectedTime,
+  onSelectTime,
   className,
 }: TimeSelectionPanelProps) {
   return (
@@ -62,7 +69,13 @@ export function TimeSelectionPanel({
         </span>
         <div className="pk-time-selection-panel__grid">
           {slots.map((slot, i) => (
-            <TimeSlotChip key={`${slot.time}-${i}`} time={slot.time} state={slot.state} badge={slot.badge} />
+            <TimeSlotChip
+              key={`${slot.time}-${i}`}
+              time={slot.time}
+              state={slot.state === 'disabled' ? 'disabled' : slot.time === selectedTime ? 'selected' : 'default'}
+              badge={slot.badge}
+              onClick={() => onSelectTime?.(slot.time)}
+            />
           ))}
         </div>
       </div>

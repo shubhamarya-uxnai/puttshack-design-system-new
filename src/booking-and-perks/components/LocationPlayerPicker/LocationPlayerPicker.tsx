@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { InputField } from '../../../components/InputField/InputField'
 import { Button } from '../../../components/Button/Button'
 import { LocateFixed, MapPin, X, Minus, Plus } from '../../../icons'
@@ -21,6 +21,8 @@ export interface LocationPlayerPickerProps {
   disabledDate?: string
   /** Fires with the picked day whenever a date card is selected. */
   onDateSelect?: (day: string) => void
+  /** Fires whenever the group-size counts change. */
+  onGuestsChange?: (guests: { adults: number; youngAdults: number; juniors: number }) => void
   className?: string
 }
 
@@ -52,6 +54,7 @@ export function LocationPlayerPicker({
   dates = DEFAULT_DATES,
   disabledDate,
   onDateSelect,
+  onGuestsChange,
   className,
 }: LocationPlayerPickerProps) {
   const [adults, setAdults] = useState(0)
@@ -59,6 +62,11 @@ export function LocationPlayerPicker({
   const [juniors, setJuniors] = useState(0)
   const [location, setLocation] = useState(selectedLocation)
   const [selectedDate, setSelectedDate] = useState<string | undefined>(undefined)
+
+  useEffect(() => {
+    onGuestsChange?.({ adults, youngAdults, juniors })
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [adults, youngAdults, juniors])
 
   const unavailableDay = disabledDate ?? dates[dates.length - 1]?.day
 

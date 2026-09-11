@@ -8,10 +8,10 @@
 .pk-time-slot-chip {
   position: relative;
   display: inline-flex;
-  flex: 1 0 0;
+  width: 100%;
+  min-width: 0;
   align-items: center;
   justify-content: center;
-  min-width: 96px;
   height: 50px;
   padding: var(--pk-sys-gap-md) var(--pk-sys-gap-lg);
   border-radius: 8px;

@@ -2,9 +2,10 @@
    GAP/Large, Interactive/Primary/Border, S1, S3, S5, Text + Icon/Primary. */
 
 .pk-tab-group {
-  display: inline-flex;
+  display: flex;
   align-items: center;
-  gap: var(--pk-sys-gap-lg);
+  width: 100%;
+  box-sizing: border-box;
   background: var(--pk-sys-bg-overlay);
   border: 1px solid var(--pk-sys-primary-border);
   border-radius: var(--pk-ref-radius-full);

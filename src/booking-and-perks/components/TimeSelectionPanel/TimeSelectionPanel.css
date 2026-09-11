@@ -26,7 +26,7 @@
 }
 
 .pk-time-selection-panel__grid {
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
   gap: var(--pk-sys-gap-md);
 }

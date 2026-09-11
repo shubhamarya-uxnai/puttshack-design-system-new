@@ -10,6 +10,8 @@ export interface TimeSlotPickerProps {
   period?: TimeSelectionPeriod
   onPeriodChange?: (period: TimeSelectionPeriod) => void
   slots?: TimeSlot[]
+  selectedTime?: string
+  onSelectTime?: (time: string) => void
   onViewAllTimes?: () => void
   className?: string
 }
@@ -23,10 +25,24 @@ export interface TimeSlotPickerProps {
  * header and per-round wrapping weren't real, since this node wasn't
  * scannable yet at the time.
  */
-export function TimeSlotPicker({ period = 'afternoon', onPeriodChange, slots, onViewAllTimes, className }: TimeSlotPickerProps) {
+export function TimeSlotPicker({
+  period = 'afternoon',
+  onPeriodChange,
+  slots,
+  selectedTime,
+  onSelectTime,
+  onViewAllTimes,
+  className,
+}: TimeSlotPickerProps) {
   return (
     <section className={cx('pk-time-slot-picker', className)}>
-      <TimeSelectionPanel period={period} onPeriodChange={onPeriodChange} slots={slots} />
+      <TimeSelectionPanel
+        period={period}
+        onPeriodChange={onPeriodChange}
+        slots={slots}
+        selectedTime={selectedTime}
+        onSelectTime={onSelectTime}
+      />
       <Button variant="tertiary" inverse trailingIcon={<ChevronDown aria-hidden="true" />} onClick={onViewAllTimes}>
         See all times
       </Button>

@@ -1,17 +1,14 @@
-/* Tokens: the real captured render (node 5000:149758) is a WHITE footer
-   with a pink top border and dark text — not the dark "Background/Inverse"
-   fallback hex the design-context codegen printed for this node (the same
-   stale-fallback-vs-real-render gap seen on this screen's other captures,
-   e.g. Page Title Container's headline). Background/Magenta -> real pink
-   top border -> --pk-sys-border-magenta, Text + Icon/Inverse (on this
-   white footer) -> --pk-sys-text-primary. */
+/* Tokens: real captured render (node 4437:180396, Property 1=Default) is a WHITE footer with a pink
+   top border and dark text — not the dark "Background/Inverse" fallback hex the design-context
+   codegen printed for this node (the same stale-fallback-vs-render gap seen elsewhere on this
+   screen). Background/Magenta -> real pink top border -> --pk-sys-border-magenta,
+   Text + Icon/Inverse (on this white footer) -> --pk-sys-text-primary. */
 
 .pk-booking-footer {
   box-sizing: border-box;
   display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: var(--pk-sys-gap-md);
+  flex-direction: column;
+  gap: 9px;
   width: 100%;
   background: var(--pk-sys-bg-default);
   border-top: 2px solid var(--pk-sys-border-magenta);
@@ -19,11 +16,29 @@
   color: var(--pk-sys-text-primary);
 }
 
-.pk-booking-footer__badges {
+.pk-booking-footer__details {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.pk-booking-footer__row {
   display: flex;
   align-items: center;
-  gap: var(--pk-sys-gap-xs);
+  gap: var(--pk-sys-gap-md);
   flex-wrap: wrap;
+}
+
+.pk-booking-footer__divider {
+  height: 1px;
+  background: var(--pk-sys-border-default);
+}
+
+.pk-booking-footer__price-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--pk-sys-gap-md);
 }
 
 .pk-booking-footer__price {
@@ -31,9 +46,9 @@
   text-transform: uppercase;
 }
 
-/* "Footer Chips" (Figma node 5672:151357) — replaced the old filled Badge
-   pill: plain bold text + a small dot, no background. `venue` (Location)
-   is magenta; `experience` (Time/Age Group/Bundle) is uppercase black/64%. */
+/* "Footer Chips" (Figma node 5672:151357) — plain bold text + a small dot, no background.
+   `booking` (Location/Date/Time) is magenta; `experience` (Guests/Experience/Setup/Duration/Bundle)
+   is uppercase black/64%. */
 .pk-booking-footer__chip {
   display: inline-flex;
   align-items: center;
@@ -44,16 +59,17 @@
   white-space: nowrap;
 }
 
-.pk-booking-footer__chip--venue .pk-booking-footer__chip-label {
+.pk-booking-footer__chip--booking .pk-booking-footer__chip-label {
   color: var(--pk-sys-text-magenta);
 }
 
-.pk-booking-footer__chip--venue .pk-booking-footer__chip-dot {
+.pk-booking-footer__chip--booking .pk-booking-footer__chip-dot {
   background: var(--pk-sys-text-magenta);
 }
 
 .pk-booking-footer__chip--experience .pk-booking-footer__chip-label {
   color: var(--pk-sys-text-secondary);
+  text-transform: uppercase;
 }
 
 .pk-booking-footer__chip--experience .pk-booking-footer__chip-dot {
@@ -70,13 +86,4 @@
 .pk-booking-footer__cta {
   border-radius: var(--pk-ref-radius-full);
   flex-shrink: 0;
-}
-
-.pk-booking-footer__status {
-  color: var(--pk-sys-text-inverse);
-  flex-shrink: 0;
-}
-
-.pk-booking-footer--you-are-in {
-  background: var(--pk-sys-bg-inverse);
 }
