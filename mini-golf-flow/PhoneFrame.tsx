@@ -7,10 +7,18 @@ export interface PhoneFrameProps {
 }
 
 /**
- * Shared prototype scaffold — a solid-color backdrop with an iPhone 14
- * shaped device frame (390×844pt, Dynamic Island, home indicator) around
- * the screen content. Built once; every screen in this flow renders inside
- * it rather than each screen re-implementing its own frame.
+ * Shared prototype scaffold — a solid-color backdrop with an iPhone-shaped
+ * device frame (402×874pt screen, home indicator) around the screen
+ * content. The frame markup/dimensions are ported from the real reference
+ * mockup at https://takoha-test.com/squad-up-armory/ (scraped via its
+ * inline styles: a solid-black 412×872 shell at `border-radius: 52px` with
+ * `padding: 11px`, a `0 40px 120px rgba(0,0,0,.6)` drop shadow plus a
+ * `0 0 0 2px rgb(42,43,46)` hairline edge ring, wrapping a 390×850 inner
+ * screen at `border-radius: 42px` — scaled up proportionally to this flow's
+ * 402×874 screen size). That reference has no Dynamic Island or visible
+ * side buttons, just the plain status-bar text baked into each screen, so
+ * this frame doesn't render either. Built once; every screen in this flow
+ * renders inside it rather than each screen re-implementing its own frame.
  *
  * Owns the light/dark toggle for the whole demo — sets `data-theme` on the
  * phone itself so every --pk-sys-* token inside (tokens.css's real
@@ -36,10 +44,11 @@ export function PhoneFrame({ children }: PhoneFrameProps) {
         <span>{theme === 'light' ? 'Dark mode' : 'Light mode'}</span>
       </button>
 
-      <div className="pk-proto-phone" data-theme={theme}>
-        <div className="pk-proto-phone__island" aria-hidden="true" />
-        <div className="pk-proto-phone__screen">{children}</div>
-        <div className="pk-proto-phone__home-indicator" aria-hidden="true" />
+      <div className="pk-proto-phone-shell">
+        <div className="pk-proto-phone" data-theme={theme}>
+          <div className="pk-proto-phone__screen">{children}</div>
+          <div className="pk-proto-phone__home-indicator" aria-hidden="true" />
+        </div>
       </div>
     </div>
   )

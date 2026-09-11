@@ -286,7 +286,7 @@
   --pk-sys-info-pressed: var(--pk-ref-info-blue-500);
 
   /* --- Spacing- Semantic (Desktop-equivalent; see file header) ---------------------- */
-  --pk-sys-container-horizontal:   var(--pk-ref-space-24);
+  --pk-sys-container-horizontal:   var(--pk-ref-space-16);
   --pk-sys-container-top:          var(--pk-ref-space-24);
   --pk-sys-container-bottom:       var(--pk-ref-space-32);
   --pk-sys-container-gap:          var(--pk-ref-space-16);
