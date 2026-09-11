@@ -1,18 +1,32 @@
-/* Tokens: Background/Default -> --pk-sys-bg-default, Background/Magenta Dark -> --pk-sys-bg-magenta-dark,
-   Level 3/Gap -> --pk-sys-level3-gap, GAP/Large -> --pk-sys-gap-lg, GAP/X-Large -> --pk-sys-gap-xl,
-   Surface/Subtle -> --pk-sys-surface-subtle, Text + Icon/Primary -> --pk-sys-text-primary. */
+/* Tokens: this panel has no card background of its own — it sits directly on its parent Time Slot
+   Picker's dark card (the earlier placeholder guessed a white wrapper before this was scannable).
+   GAP/Large -> --pk-sys-gap-lg, GAP/X-Large -> --pk-sys-gap-xl, Level 3/Gap -> --pk-sys-level3-gap. */
 
 .pk-time-selection-panel {
   display: flex;
   flex-direction: column;
   gap: var(--pk-sys-gap-md);
-  background: var(--pk-sys-bg-default);
-  padding: var(--pk-sys-gap-lg);
-  border-radius: 16px;
+  width: 100%;
+}
+
+.pk-time-selection-panel__heading {
+  margin: 0;
+  color: var(--pk-sys-text-inverse);
+  text-transform: uppercase;
+}
+
+.pk-time-selection-panel__picks {
+  display: flex;
+  flex-direction: column;
+  gap: var(--pk-sys-gap-md);
+}
+
+.pk-time-selection-panel__picks-label {
+  color: var(--pk-sys-text-inverse);
 }
 
 .pk-time-selection-panel__grid {
   display: flex;
   flex-wrap: wrap;
-  gap: var(--pk-sys-level3-gap);
+  gap: var(--pk-sys-gap-md);
 }

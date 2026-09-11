@@ -13,10 +13,10 @@ type Story = StoryObj<typeof meta>
 
 export const Playground: Story = {}
 
-export const TwoRoundsSelector: Story = {
-  args: { twoRoundsSelector: true },
+export const Morning: Story = {
+  args: { period: 'morning' },
 }
 
-export const Empty: Story = {
-  args: { twoRoundsEmpty: true },
+export const Evening: Story = {
+  args: { period: 'evening' },
 }

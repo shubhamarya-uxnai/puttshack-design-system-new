@@ -1,68 +1,71 @@
 import React from 'react'
 import { cx } from '../../../lib/cx'
-import { Button } from '../../../components/Button/Button'
+import { TabGroup } from '../TabGroup/TabGroup'
 import { TimeSlotChip, type TimeSlotChipState } from '../TimeSlotChip/TimeSlotChip'
 import './TimeSelectionPanel.css'
+
+export type TimeSelectionPeriod = 'morning' | 'afternoon' | 'evening'
+
+const PERIODS: TimeSelectionPeriod[] = ['morning', 'afternoon', 'evening']
 
 export interface TimeSlot {
   time: string
   state?: TimeSlotChipState
-  ageLimit?: boolean
-  hasValue?: boolean
+  badge?: string
 }
 
 export interface TimeSelectionPanelProps {
-  /** Figma: `See all times#1116:1` boolean — shows the "See All Times" tertiary DS Button. @default false */
-  seeAllTimes?: boolean
-  /**
-   * The captured instance list shows repeated `Time Slot Chip` instances at
-   * 1:00 PM, 2:00 PM, 2:30 PM, 3:00 PM, 4:00 PM and 5:00 PM (some rows
-   * appearing more than once — Figma auto-layout doesn't capture a data
-   * source, so a representative default list is used here).
-   */
+  /** Figma: `Property 1` on the parent Time Slot Picker (Morning/Afternoon/Evening). @default 'afternoon' */
+  period?: TimeSelectionPeriod
+  onPeriodChange?: (period: TimeSelectionPeriod) => void
+  /** Real captured Afternoon list by default: 1:00 PM ("Best Value"), 2:00 PM (selected),
+   * 2:30/3:00/4:00 PM (open), 5:00 PM (disabled — sold out). */
   slots?: TimeSlot[]
   className?: string
 }
 
 const DEFAULT_SLOTS: TimeSlot[] = [
-  { time: '1:00 PM', state: 'selected' },
+  { time: '1:00 PM', badge: 'Best Value' },
   { time: '2:00 PM', state: 'selected' },
   { time: '2:30 PM' },
   { time: '3:00 PM' },
   { time: '4:00 PM' },
-  { time: '5:00 PM' },
+  { time: '5:00 PM', state: 'disabled' },
 ]
 
 /**
- * Booking-and-Perks composite (Figma: "Time Selection Panel/October").
- * Composes the DS `Button` (tertiary, "See All Times") with this batch's
- * `TimeSlotChip` grid. The captured `Tab Group` instance is a separate
- * October Release component being built by another agent in this batch run
- * — placeholdered here rather than guessed at.
+ * Booking-and-Perks composite (Figma: "Time Selection Panel/October",
+ * inside "Time Slot Picker" node 4435:179396). "SELECT YOUR TIME" heading
+ * + a real `TabGroup` (Morning/Afternoon/Evening) + a "TOP PICKS FOR
+ * {period}" label + a grid of real `TimeSlotChip`s. Sits directly on its
+ * parent's dark card background — has none of its own (the earlier
+ * placeholder guessed a white card wrapper before this was scannable).
  */
-export function TimeSelectionPanel({ seeAllTimes = false, slots = DEFAULT_SLOTS, className }: TimeSelectionPanelProps) {
+export function TimeSelectionPanel({
+  period = 'afternoon',
+  onPeriodChange,
+  slots = DEFAULT_SLOTS,
+  className,
+}: TimeSelectionPanelProps) {
   return (
     <section className={cx('pk-time-selection-panel', className)}>
-      {/* TODO: replace with <TabGroup> from booking-and-perks/components once built */}
-      <div className="pk-placeholder">Tab Group</div>
+      <h3 className="pk-time-selection-panel__heading pk-text-title-medium">Select your time</h3>
 
-      <div className="pk-time-selection-panel__grid">
-        {slots.map((slot, i) => (
-          <TimeSlotChip
-            key={`${slot.time}-${i}`}
-            time={slot.time}
-            state={slot.state}
-            ageLimit={slot.ageLimit}
-            hasValue={slot.hasValue}
-          />
-        ))}
+      <TabGroup
+        items={PERIODS.map((p) => ({ label: p, state: p === period ? 'selected' : 'default' }))}
+        onSelectTab={(i) => onPeriodChange?.(PERIODS[i])}
+      />
+
+      <div className="pk-time-selection-panel__picks">
+        <span className="pk-time-selection-panel__picks-label pk-text-label-x-small">
+          Top picks for {period}
+        </span>
+        <div className="pk-time-selection-panel__grid">
+          {slots.map((slot, i) => (
+            <TimeSlotChip key={`${slot.time}-${i}`} time={slot.time} state={slot.state} badge={slot.badge} />
+          ))}
+        </div>
       </div>
-
-      {seeAllTimes && (
-        <Button variant="tertiary" onlyIcon>
-          See All Times
-        </Button>
-      )}
     </section>
   )
 }

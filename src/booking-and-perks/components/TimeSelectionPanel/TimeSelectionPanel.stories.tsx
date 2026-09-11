@@ -5,7 +5,6 @@ const meta = {
   title: 'Booking & Perks/TimeSelectionPanel',
   component: TimeSelectionPanel,
   parameters: { layout: 'padded' },
-  args: { seeAllTimes: true },
 } satisfies Meta<typeof TimeSelectionPanel>
 
 export default meta

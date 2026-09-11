@@ -1,6 +1,7 @@
 import React from 'react'
 import { SelectionCards } from '../SelectionCards/SelectionCards'
 import { ExperienceSelector, ExperienceSelectorOption } from '../ExperienceSelector/ExperienceSelector'
+import { DiningPromptCard } from '../DiningPromptCard/DiningPromptCard'
 import './ExperienceTypeSelector.css'
 
 /**
@@ -55,6 +56,11 @@ export interface ExperienceTypeSelectorProps {
   optionGroups?: ExperienceTypeSelectorOptionGroup[]
   /** Forwarded to each `SelectionCards`' own `onDarkBackground` — set true when this sits on a dark/branded page background. @default false */
   onDarkBackground?: boolean
+  /** Shows the standalone `DiningPromptCard` below this section — the caller decides when it's
+   * relevant (e.g. once "Dining Only" is the chosen `ExperienceSelector` option), the same pattern
+   * as `showOptions`. @default false */
+  showDiningPrompt?: boolean
+  onViewMenu?: () => void
 }
 
 /** Real "HOW MANY ROUNDS?" data for Interactive Mini Golf — exported so a consumer can supply its
@@ -124,44 +130,50 @@ export function ExperienceTypeSelector({
   optionsHeading = 'How many rounds?',
   optionGroups = MINI_GOLF_ROUND_OPTION_GROUPS,
   onDarkBackground = false,
+  showDiningPrompt = false,
+  onViewMenu,
 }: ExperienceTypeSelectorProps) {
   return (
-    <div className="pk-oct-experience-selector">
-      <div className="pk-oct-experience-selector__section">
-        <h3 className="pk-oct-experience-selector__heading pk-text-title-medium">Choose your experience</h3>
-        <ExperienceSelector options={experienceOptions} value={experienceValue} onChange={onExperienceChange} />
+    <>
+      <div className="pk-oct-experience-selector">
+        <div className="pk-oct-experience-selector__section">
+          <h3 className="pk-oct-experience-selector__heading pk-text-title-medium">Choose your experience</h3>
+          <ExperienceSelector options={experienceOptions} value={experienceValue} onChange={onExperienceChange} />
+        </div>
+
+        {showOptions && (
+          <div className="pk-oct-experience-selector__section">
+            <h3 className="pk-oct-experience-selector__heading pk-text-title-medium">{optionsHeading}</h3>
+            {optionGroups.map((group, g) => (
+              <React.Fragment key={group.name}>
+                {g > 0 && <div className="pk-oct-experience-selector__group-divider" />}
+                <div className="pk-oct-experience-selector__cards">
+                  {group.options.map((opt, i) => (
+                    <SelectionCards
+                      key={opt.title}
+                      name={group.name}
+                      title={opt.title}
+                      content={opt.content}
+                      showDetails={Boolean(opt.content)}
+                      badge={opt.badge}
+                      showPriceBreakdown={Boolean(opt.adultPrice || opt.juniorPrice)}
+                      adultPrice={opt.adultPrice}
+                      juniorPrice={opt.juniorPrice}
+                      showTotalPrice={Boolean(opt.totalPrice)}
+                      totalPrice={opt.totalPrice}
+                      selected={group.selectedIndex === i}
+                      onSelect={() => group.onSelect?.(i)}
+                      onDarkBackground={onDarkBackground}
+                    />
+                  ))}
+                </div>
+              </React.Fragment>
+            ))}
+          </div>
+        )}
       </div>
 
-      {showOptions && (
-        <div className="pk-oct-experience-selector__section">
-          <h3 className="pk-oct-experience-selector__heading pk-text-title-medium">{optionsHeading}</h3>
-          {optionGroups.map((group, g) => (
-            <React.Fragment key={group.name}>
-              {g > 0 && <div className="pk-oct-experience-selector__group-divider" />}
-              <div className="pk-oct-experience-selector__cards">
-                {group.options.map((opt, i) => (
-                  <SelectionCards
-                    key={opt.title}
-                    name={group.name}
-                    title={opt.title}
-                    content={opt.content}
-                    showDetails={Boolean(opt.content)}
-                    badge={opt.badge}
-                    showPriceBreakdown={Boolean(opt.adultPrice || opt.juniorPrice)}
-                    adultPrice={opt.adultPrice}
-                    juniorPrice={opt.juniorPrice}
-                    showTotalPrice={Boolean(opt.totalPrice)}
-                    totalPrice={opt.totalPrice}
-                    selected={group.selectedIndex === i}
-                    onSelect={() => group.onSelect?.(i)}
-                    onDarkBackground={onDarkBackground}
-                  />
-                ))}
-              </div>
-            </React.Fragment>
-          ))}
-        </div>
-      )}
-    </div>
+      {showDiningPrompt && <DiningPromptCard onViewMenu={onViewMenu} />}
+    </>
   )
 }

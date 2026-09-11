@@ -8,7 +8,8 @@ import {
   MINI_GOLF_ROUND_OPTION_GROUPS,
   PUTTCADE_SETUP_OPTION_GROUPS,
 } from '../src/booking-and-perks/components/ExperienceTypeSelector/ExperienceTypeSelector'
-import { DiningPromptCard } from '../src/booking-and-perks/components/DiningPromptCard/DiningPromptCard'
+import { TimeSlotPicker } from '../src/booking-and-perks/components/TimeSlotPicker/TimeSlotPicker'
+import type { TimeSelectionPeriod } from '../src/booking-and-perks/components/TimeSelectionPanel/TimeSelectionPanel'
 import './Screens.css'
 
 /**
@@ -24,14 +25,12 @@ import './Screens.css'
  * step in this flow — the app reveals it once a date is picked in
  * Location & Player Picker, matching the flow's own progressive-
  * disclosure pattern (Select Date itself stays disabled until a player
- * is added). Both Interactive Mini Golf's "HOW MANY ROUNDS?" (the
- * component's own default `optionGroups`) and Puttcade's "CHOOSE YOUR
- * SETUP" (bay count + duration, `PUTTCADE_SETUP_OPTION_GROUPS`) reuse the
- * same `ExperienceTypeSelector`/`SelectionCards` — only the heading and
- * option data change per experience. Dining Only has no pricing-tier
- * list of its own — instead a standalone `DiningPromptCard` ("Just here
- * to eat?" + a View Menu button) appears, a distinct real card rather
- * than another `ExperienceTypeSelector` variant.
+ * is added). Mini Golf's "HOW MANY ROUNDS?", Puttcade's "CHOOSE YOUR
+ * SETUP", and Dining Only's `DiningPromptCard` all live inside the same
+ * `ExperienceTypeSelector` now, switched by which real props ConfigureScreen
+ * passes in for the chosen experience. Once a round (or both bay + duration
+ * for Puttcade) is picked, "Time Slot Picker" (node 4435:179396) reveals —
+ * the same progressive-disclosure pattern continued one step further.
  */
 export function ConfigureScreen({ onCheckout }: { onCheckout: () => void }) {
   const [selectedDate, setSelectedDate] = useState<string | undefined>(undefined)
@@ -39,6 +38,10 @@ export function ConfigureScreen({ onCheckout }: { onCheckout: () => void }) {
   const [selectedRound, setSelectedRound] = useState<number | undefined>(undefined)
   const [selectedBay, setSelectedBay] = useState<number | undefined>(undefined)
   const [selectedDuration, setSelectedDuration] = useState<number | undefined>(undefined)
+  const [period, setPeriod] = useState<TimeSelectionPeriod>('afternoon')
+
+  const isPuttcade = selectedExperience === 'puttcade'
+  const readyForTime = isPuttcade ? selectedBay !== undefined && selectedDuration !== undefined : selectedRound !== undefined
 
   return (
     <div className="pk-proto-screen">
@@ -54,28 +57,28 @@ export function ConfigureScreen({ onCheckout }: { onCheckout: () => void }) {
       <div className="pk-proto-screen__body">
         <PerksCard type="unlock" />
         <LocationPlayerPicker onDateSelect={setSelectedDate} />
-        {selectedDate && selectedExperience !== 'puttcade' && (
+        {selectedDate && (
           <ExperienceTypeSelector
             experienceValue={selectedExperience}
             onExperienceChange={setSelectedExperience}
-            showOptions={selectedExperience === 'mini-golf'}
-            optionGroups={[
-              { ...MINI_GOLF_ROUND_OPTION_GROUPS[0], selectedIndex: selectedRound, onSelect: setSelectedRound },
-            ]}
+            showOptions={selectedExperience === 'mini-golf' || isPuttcade}
+            optionsHeading={isPuttcade ? 'Choose your setup' : 'How many rounds?'}
+            optionGroups={
+              isPuttcade
+                ? [
+                    { ...PUTTCADE_SETUP_OPTION_GROUPS[0], selectedIndex: selectedBay, onSelect: setSelectedBay },
+                    {
+                      ...PUTTCADE_SETUP_OPTION_GROUPS[1],
+                      selectedIndex: selectedDuration,
+                      onSelect: setSelectedDuration,
+                    },
+                  ]
+                : [{ ...MINI_GOLF_ROUND_OPTION_GROUPS[0], selectedIndex: selectedRound, onSelect: setSelectedRound }]
+            }
+            showDiningPrompt={selectedExperience === 'dining'}
           />
         )}
-        {selectedDate && selectedExperience === 'puttcade' && (
-          <ExperienceTypeSelector
-            experienceValue={selectedExperience}
-            onExperienceChange={setSelectedExperience}
-            optionsHeading="Choose your setup"
-            optionGroups={[
-              { ...PUTTCADE_SETUP_OPTION_GROUPS[0], selectedIndex: selectedBay, onSelect: setSelectedBay },
-              { ...PUTTCADE_SETUP_OPTION_GROUPS[1], selectedIndex: selectedDuration, onSelect: setSelectedDuration },
-            ]}
-          />
-        )}
-        {selectedDate && selectedExperience === 'dining' && <DiningPromptCard />}
+        {readyForTime && <TimeSlotPicker period={period} onPeriodChange={setPeriod} />}
       </div>
 
       <BookingFooter variant="checkout" location="Chicago, IL" price="$0.00" checkoutDisabled onCheckout={onCheckout} />

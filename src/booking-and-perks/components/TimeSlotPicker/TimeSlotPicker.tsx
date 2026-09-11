@@ -1,55 +1,35 @@
 import React from 'react'
 import { cx } from '../../../lib/cx'
+import { ChevronDown } from '../../../icons'
 import { Button } from '../../../components/Button/Button'
-import { TimeSelectionPanel } from '../TimeSelectionPanel/TimeSelectionPanel'
+import { TimeSelectionPanel, type TimeSelectionPeriod, type TimeSlot } from '../TimeSelectionPanel/TimeSelectionPanel'
 import './TimeSlotPicker.css'
 
-/** Figma variant property `Property 1`. `Property 2` ("October") is a constant release tag, not modeled. */
-export type TimeSlotPickerPeriod = 'afternoon' | 'evening'
-
 export interface TimeSlotPickerProps {
-  /** Figma: `Property 1`. @default 'afternoon' */
-  period?: TimeSlotPickerPeriod
-  /** Figma: `2 Rounds - Empty#4435:15` boolean — shows an empty-state message instead of the panel. */
-  twoRoundsEmpty?: boolean
-  /** Figma: `2 Rounds - Selector#4435:16` boolean — shows a second-round selector alongside the panel. */
-  twoRoundsSelector?: boolean
+  /** Figma: `Property 1` (Morning/Afternoon/Evening). @default 'afternoon' */
+  period?: TimeSelectionPeriod
+  onPeriodChange?: (period: TimeSelectionPeriod) => void
+  slots?: TimeSlot[]
+  onViewAllTimes?: () => void
   className?: string
 }
 
 /**
- * Booking-and-Perks composite (Figma: "Time Slot Picker"). NOT the DS
- * `Chip`/pure atom set — this wraps this batch's own `TimeSelectionPanel`
- * (which itself composes `TimeSlotChip`) with a period switch and the
- * "see all times" DS Button, matching the captured instance list.
+ * Booking-and-Perks composite (Figma: "Time Slot Picker", node
+ * 4435:179396, https://www.figma.com/design/X5YJsGIXBKazkrUaxk0jR9/Booking-and-Perks-Flow?node-id=4435-179396).
+ * The real captured instance is just the dark card wrapper (--pk-sys-bg-card)
+ * around a `TimeSelectionPanel` and a "SEE ALL TIMES" tertiary `Button`
+ * with a chevron-down icon — the earlier placeholder's own period-label
+ * header and per-round wrapping weren't real, since this node wasn't
+ * scannable yet at the time.
  */
-export function TimeSlotPicker({
-  period = 'afternoon',
-  twoRoundsEmpty = false,
-  twoRoundsSelector = false,
-  className,
-}: TimeSlotPickerProps) {
+export function TimeSlotPicker({ period = 'afternoon', onPeriodChange, slots, onViewAllTimes, className }: TimeSlotPickerProps) {
   return (
-    <section className={cx('pk-time-slot-picker', className)} data-period={period}>
-      <div className="pk-time-slot-picker__header">
-        <span className="pk-time-slot-picker__period pk-text-title-small-capital">{period}</span>
-        <Button variant="tertiary" onlyIcon>
-          see all times
-        </Button>
-      </div>
-
-      {twoRoundsEmpty ? (
-        <p className="pk-time-slot-picker__empty pk-text-body-small">No times available for this round yet.</p>
-      ) : (
-        <TimeSelectionPanel />
-      )}
-
-      {twoRoundsSelector && !twoRoundsEmpty && (
-        <div className="pk-time-slot-picker__round-2">
-          <span className="pk-text-title-small-capital">Round 2</span>
-          <TimeSelectionPanel />
-        </div>
-      )}
+    <section className={cx('pk-time-slot-picker', className)}>
+      <TimeSelectionPanel period={period} onPeriodChange={onPeriodChange} slots={slots} />
+      <Button variant="tertiary" inverse trailingIcon={<ChevronDown aria-hidden="true" />} onClick={onViewAllTimes}>
+        See all times
+      </Button>
     </section>
   )
 }
