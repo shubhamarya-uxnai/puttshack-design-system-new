@@ -24,8 +24,8 @@ export interface PromoCodeInputProps {
 
 /**
  * Booking-and-Perks composite (Figma: "Promo Code Input"). Two DS
- * `InputField` + DS `Button` (tertiary, onlyIcon "Apply") pairs — one for a
- * promo code, one for a gift card number — matching the captured instances.
+ * `InputField` + DS `Button` (tertiary, "Apply") pairs — one for a promo
+ * code, one for a gift card number — matching the captured instances.
  */
 export function PromoCodeInput({
   state = 'default',
@@ -50,14 +50,14 @@ export function PromoCodeInput({
           state={applied ? 'disabled' : 'default'}
           inverse
         />
-        <Button variant="tertiary" inverse onlyIcon onClick={onApplyPromo} disabled={applied}>
+        <Button variant="tertiary" inverse onClick={onApplyPromo} disabled={applied}>
           Apply
         </Button>
       </div>
 
       <div className="pk-promo-code-input__row">
         <InputField label="Gift card" required defaultValue={giftCardValue} inverse />
-        <Button variant="tertiary" inverse onlyIcon onClick={onApplyGiftCard}>
+        <Button variant="tertiary" inverse onClick={onApplyGiftCard}>
           Apply
         </Button>
       </div>
