@@ -16,3 +16,114 @@
   color: var(--pk-sys-text-inverse);
   text-transform: uppercase;
 }
+
+/* Real capture (node 4123:151405, isSignedIn=False): phone field pairs with a cyan "Verify"
+   button (Figma "Cool Blue" #00C1DE, --pk-ref-blue-100 — distinct from the Feedback/Info blue
+   the DS Button's `info` variant uses, so this is a one-off override rather than that variant). */
+.pk-contact-info-form__phone-row {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--pk-sys-gap-md);
+  width: 100%;
+}
+
+.pk-contact-info-form__phone-row > :first-child {
+  flex: 1;
+  min-width: 0;
+}
+
+.pk-contact-info-form__verify {
+  align-self: flex-end;
+  background: var(--pk-ref-blue-100);
+  color: var(--pk-sys-text-primary);
+  border-color: transparent;
+  white-space: nowrap;
+}
+
+.pk-contact-info-form__verify:hover:not(:disabled) {
+  background: var(--pk-ref-blue-100);
+  opacity: 0.9;
+}
+
+/* "Join Perks" card — gold-bordered gradient panel (Figma "Perks/Card Gradient" +
+   "Perks/Border"), only shown when not signed in. */
+.pk-contact-info-form__perks-card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--pk-sys-gap-md);
+  width: 100%;
+  padding: var(--pk-sys-level2-vertical) var(--pk-sys-level2-horizontal);
+  border-radius: var(--pk-ref-radius-xl);
+  border: 1px solid #bc841f;
+  background: linear-gradient(253deg, var(--pk-ref-magenta-300) 1.66%, var(--pk-sys-bg-magenta-dark) 100%);
+  box-sizing: border-box;
+}
+
+.pk-contact-info-form__perks-card-top {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--pk-sys-gap-sm);
+  width: 100%;
+}
+
+.pk-contact-info-form__perks-checkbox {
+  pointer-events: none;
+}
+
+.pk-contact-info-form__perks-heading-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--pk-sys-gap-xs) var(--pk-sys-gap-md);
+}
+
+.pk-contact-info-form__perks-title {
+  color: var(--pk-sys-text-white);
+}
+
+.pk-contact-info-form__perks-badge {
+  padding: var(--pk-sys-gap-xs);
+  border-radius: var(--pk-ref-radius-full);
+  background: var(--pk-sys-bg-magenta-light);
+  border: 1px solid var(--pk-sys-border-strong);
+  color: var(--pk-sys-text-white);
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.pk-contact-info-form__perks-copy {
+  margin: 0;
+  color: var(--pk-sys-text-white);
+}
+
+/* "Preferred Location" / consent block — Figma "Surface/Subtle" fill. */
+.pk-contact-info-form__subtle-surface {
+  display: flex;
+  flex-direction: column;
+  gap: var(--pk-sys-level2-gap);
+  width: 100%;
+  padding: var(--pk-sys-level2-vertical) var(--pk-sys-level2-horizontal);
+  border-radius: var(--pk-ref-radius-md);
+  background: var(--pk-ref-white-06);
+  box-sizing: border-box;
+}
+
+/* Real render (node 4123:151405) shows white checkbox labels here despite the codegen's literal
+   dark "text+icon/primary" fallback — the established stale-fallback pattern for this file, so the
+   screenshot wins. */
+.pk-contact-info-form__subtle-surface .pk-checkbox__label {
+  color: var(--pk-sys-text-inverse);
+}
+
+.pk-contact-info-form__consent {
+  margin: 0;
+  color: var(--pk-sys-text-inverse);
+}
+
+.pk-contact-info-form__consent-link {
+  color: var(--pk-sys-text-magenta);
+}
+
+.pk-contact-info-form__create-account {
+  width: 100%;
+}
