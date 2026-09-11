@@ -1,0 +1,21 @@
+.pk-status-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  box-sizing: border-box;
+  padding: var(--pk-sys-gap-sm) var(--pk-sys-gap-lg) var(--pk-sys-gap-xs);
+  color: var(--pk-sys-text-black);
+}
+
+.pk-status-bar__time {
+  font-family: var(--pk-sys-font-ui-bold);
+  font-weight: 700;
+  font-size: 15px;
+}
+
+.pk-status-bar__icons {
+  display: flex;
+  align-items: center;
+  gap: var(--pk-sys-gap-xs);
+}

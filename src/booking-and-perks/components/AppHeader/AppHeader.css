@@ -9,13 +9,15 @@
   color: var(--pk-sys-text-black);
 }
 
-.pk-app-header__status-bar {
-  width: 100%;
-}
-
 .pk-app-header__content {
   display: flex;
   align-items: center;
-  justify-content: center;
-  padding-block: var(--pk-sys-gap-sm);
+  justify-content: flex-start;
+  padding: var(--pk-sys-gap-md) var(--pk-sys-gap-lg);
+}
+
+/* `Logo` defaults to white (meant for a dark backdrop) — this header's real capture (node
+   333:21199) sits on the white card itself, with a dark wordmark. */
+.pk-app-header__content .pk-logo {
+  color: var(--pk-sys-text-black);
 }
