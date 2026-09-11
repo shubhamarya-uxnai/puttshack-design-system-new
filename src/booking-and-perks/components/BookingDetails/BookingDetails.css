@@ -1,30 +1,77 @@
-/* Composition scaffold CSS for "Booking details" (see BookingDetails.tsx
-   header comment for the Figma source). No token list was captured on this
-   record beyond what's implied by its children (Badge/Button/ModalHeadings
-   each carry their own tokens) — spacing/surface values below follow this
-   batch's established rhythm (Level 2 padding, Gap Small/Medium). */
+/* Real capture (node 4281:91153): white card, rounded-xl (24px), Level 2 padding/gap. */
 
 .pk-oct-booking-details {
   display: flex;
   flex-direction: column;
-  gap: var(--pk-sys-gap-md);
-  background: var(--pk-sys-surface-default);
-  border-radius: var(--pk-ref-radius-md);
+  gap: var(--pk-sys-gap-lg);
+  background: var(--pk-sys-bg-default);
+  border-radius: var(--pk-ref-radius-xl);
   padding: var(--pk-sys-level2-vertical) var(--pk-sys-level2-horizontal);
+  box-sizing: border-box;
 }
 
 .pk-oct-booking-details__label {
-  color: var(--pk-sys-text-secondary);
+  color: var(--pk-sys-text-primary);
 }
 
 .pk-oct-booking-details__banner {
+  position: relative;
   width: 100%;
+  height: 130px;
+  border-radius: 14px;
+  overflow: hidden;
+}
+
+.pk-oct-booking-details__banner-img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.pk-oct-booking-details__banner-gradient {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    90deg,
+    rgba(14, 1, 21, 0.72) 0%,
+    rgba(14, 1, 21, 0.55) 28%,
+    rgba(14, 1, 21, 0.18) 60%,
+    rgba(14, 1, 21, 0) 85%
+  );
+}
+
+.pk-oct-booking-details__banner-content {
+  position: absolute;
+  left: 14px;
+  right: 14px;
+  bottom: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: var(--pk-sys-gap-xs);
+  align-items: flex-start;
+}
+
+.pk-oct-booking-details__banner-badge {
+  padding: var(--pk-sys-gap-xs) var(--pk-sys-gap-sm);
+  border-radius: var(--pk-ref-radius-full);
+  background: var(--pk-sys-bg-magenta-light);
+  border: var(--pk-ref-border-thin) solid var(--pk-sys-border-strong);
+  color: var(--pk-sys-text-white);
+  text-transform: uppercase;
+}
+
+.pk-oct-booking-details__banner-title {
+  color: var(--pk-sys-text-white);
+  text-transform: uppercase;
+  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.35);
 }
 
 .pk-oct-booking-details__rows {
   display: flex;
   flex-direction: column;
-  gap: var(--pk-sys-gap-sm);
+  gap: 0;
   margin: 0;
 }
 
@@ -35,8 +82,11 @@
 
 .pk-oct-detail-row {
   display: flex;
-  align-items: center;
-  gap: var(--pk-sys-gap-sm);
+  align-items: flex-start;
+  gap: var(--pk-sys-gap-md);
+  padding: 8px 0 9px;
+  border-bottom: var(--pk-ref-border-thin) solid var(--pk-sys-border-default);
+  width: 100%;
 }
 
 .pk-oct-detail-row--compact {
@@ -45,40 +95,59 @@
 
 .pk-oct-detail-row__icon {
   display: inline-flex;
-  width: var(--pk-sys-icon-m);
-  height: var(--pk-sys-icon-m);
-  color: var(--pk-sys-text-secondary);
+  width: 20px;
+  height: 20px;
   flex-shrink: 0;
+  color: var(--pk-sys-text-primary);
 }
 
 .pk-oct-detail-row__text {
   display: flex;
   flex-direction: column;
+  gap: 2px;
+  flex: 1;
 }
 
 .pk-oct-detail-row__label {
   color: var(--pk-sys-text-secondary);
+  text-transform: uppercase;
 }
 
 .pk-oct-detail-row__value-line {
   display: flex;
   align-items: baseline;
-  gap: var(--pk-sys-gap-xs);
+  justify-content: space-between;
+  gap: var(--pk-sys-gap-sm);
 }
 
 .pk-oct-detail-row__value {
   color: var(--pk-sys-text-primary);
+  text-transform: uppercase;
 }
 
 .pk-oct-detail-row__secondary {
-  color: var(--pk-sys-text-tertiary);
+  color: var(--pk-sys-text-secondary);
+  white-space: nowrap;
 }
 
 .pk-oct-booking-details__price {
   display: flex;
   align-items: center;
-  gap: var(--pk-sys-gap-xs);
+  justify-content: space-between;
   width: 100%;
+  padding: var(--pk-sys-gap-md) var(--pk-sys-gap-lg);
+  border-radius: 8px;
+  background: var(--pk-sys-surface-inverse);
+  box-sizing: border-box;
+}
+
+.pk-oct-booking-details__price-label {
+  color: var(--pk-sys-text-primary);
+  text-transform: uppercase;
+}
+
+.pk-oct-booking-details__price-value {
+  color: var(--pk-sys-text-magenta);
 }
 
 .pk-oct-booking-details__actions {

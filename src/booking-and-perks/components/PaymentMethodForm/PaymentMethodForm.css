@@ -8,23 +8,38 @@
   flex-direction: column;
   gap: var(--pk-sys-level2-gap);
   padding: var(--pk-sys-level2-vertical) var(--pk-sys-level2-horizontal);
-  background: var(--pk-sys-bg-default);
-  border-radius: 16px;
+  background: var(--pk-sys-bg-card); /* real capture (node 4281:91149): "Web/Card Background" #290E3C, not white */
+  border-radius: var(--pk-ref-radius-xl);
+  box-sizing: border-box;
+}
+
+.pk-payment-method-form__heading {
+  margin: 0;
+  color: var(--pk-sys-text-inverse);
+  text-transform: uppercase;
 }
 
 .pk-payment-method-form__saved-cards {
   display: flex;
   flex-direction: column;
   gap: var(--pk-sys-gap-sm);
+  color: var(--pk-sys-text-inverse);
+}
+
+/* RadioButton's label always defaults to dark text (no inverse mode of its own) — scoped override
+   since this form sits on the dark --pk-sys-bg-card fill. */
+.pk-payment-method-form__saved-cards .pk-radio__label {
+  color: var(--pk-sys-text-inverse);
 }
 
 .pk-payment-method-form__divider {
   display: flex;
   align-items: center;
   gap: var(--pk-sys-gap-sm);
-  border-top: 1px solid var(--pk-sys-border-subtle);
+  border-top: 1px solid var(--pk-sys-border-inverse);
   padding-top: var(--pk-sys-gap-sm);
-  color: var(--pk-sys-text-secondary);
+  color: var(--pk-sys-text-inverse-subtle);
+  width: 100%;
 }
 
 .pk-payment-method-form__add-toggle {
@@ -32,8 +47,8 @@
   align-items: center;
   gap: var(--pk-sys-gap-sm);
   border: none;
-  background: var(--pk-sys-surface-subtle);
-  color: var(--pk-sys-text-black);
+  background: var(--pk-ref-white-06);
+  color: var(--pk-sys-text-inverse);
   padding: var(--pk-sys-button-default-v) var(--pk-sys-button-default-h);
   border-radius: 8px;
   cursor: pointer;

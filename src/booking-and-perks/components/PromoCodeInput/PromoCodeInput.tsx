@@ -17,8 +17,6 @@ export interface PromoCodeInputProps {
   mode?: PromoCodeInputMode
   promoValue?: string
   giftCardValue?: string
-  /** Forwarded to both `InputField`s' own `inverse` — set true when this sits on a dark/branded page background. @default false */
-  inverse?: boolean
   onApplyPromo?: () => void
   onApplyGiftCard?: () => void
   className?: string
@@ -34,7 +32,6 @@ export function PromoCodeInput({
   mode = 'mobile',
   promoValue = 'Promo code',
   giftCardValue = 'Gift card number',
-  inverse = false,
   onApplyPromo,
   onApplyGiftCard,
   className,
@@ -43,22 +40,24 @@ export function PromoCodeInput({
 
   return (
     <div className={cx('pk-promo-code-input', `pk-promo-code-input--${mode}`, className)}>
+      <h3 className="pk-promo-code-input__heading pk-text-title-small-capital">Promo &amp; gift cards</h3>
+
       <div className="pk-promo-code-input__row">
         <InputField
           label="Promo code"
           required
           defaultValue={promoValue}
           state={applied ? 'disabled' : 'default'}
-          inverse={inverse}
+          inverse
         />
-        <Button variant="tertiary" onlyIcon onClick={onApplyPromo} disabled={applied}>
+        <Button variant="tertiary" inverse onlyIcon onClick={onApplyPromo} disabled={applied}>
           Apply
         </Button>
       </div>
 
       <div className="pk-promo-code-input__row">
-        <InputField label="Gift card" required defaultValue={giftCardValue} inverse={inverse} />
-        <Button variant="tertiary" onlyIcon onClick={onApplyGiftCard}>
+        <InputField label="Gift card" required defaultValue={giftCardValue} inverse />
+        <Button variant="tertiary" inverse onlyIcon onClick={onApplyGiftCard}>
           Apply
         </Button>
       </div>

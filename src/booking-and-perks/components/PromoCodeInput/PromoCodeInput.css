@@ -1,6 +1,6 @@
-/* Tokens: Background/Magenta Dark 3 (Figma style "Web/Card Background", #290E3C) -> --pk-sys-bg-card
-   — this component doesn't paint its own card background (the parent card surface does), noted here
-   only because the captured instance sits on that fill. Level 2/* -> --pk-sys-level2-*,
+/* Tokens: Background/Magenta Dark 3 (Figma style "Web/Card Background", #290E3C) -> --pk-sys-bg-card.
+   Real capture (node 4281:91148) confirms this component DOES paint its own card background — the
+   earlier assumption that the parent surface provided it was wrong. Level 2/* -> --pk-sys-level2-*,
    Interactive/Tertiary/Border -> --pk-sys-tertiary-border, Button/Default/* -> --pk-sys-button-default-*,
    GAP/Large -> --pk-sys-gap-lg, GAP/Small -> --pk-sys-gap-sm. */
 
@@ -8,6 +8,16 @@
   display: flex;
   flex-direction: column;
   gap: var(--pk-sys-level2-gap);
+  background: var(--pk-sys-bg-card);
+  padding: var(--pk-sys-level2-vertical) var(--pk-sys-level2-horizontal);
+  border-radius: var(--pk-ref-radius-xl);
+  box-sizing: border-box;
+}
+
+.pk-promo-code-input__heading {
+  margin: 0;
+  color: var(--pk-sys-text-inverse);
+  text-transform: uppercase;
 }
 
 .pk-promo-code-input__row {

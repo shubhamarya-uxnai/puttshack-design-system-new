@@ -1,17 +1,18 @@
-/* Tokens: Background/Default -> --pk-sys-bg-default, Background/Magenta Dark 3 -> --pk-sys-bg-magenta-dark
-   (no numbered "Dark 3" tier exists — closest semantic match), Level 2/* -> --pk-sys-level2-*,
-   GAP/Medium -> --pk-sys-gap-md, GAP/Small -> --pk-sys-gap-sm, GAP/X-Large -> --pk-sys-gap-xl,
-   Text + Icon/Primary -> --pk-sys-text-primary. */
+/* Tokens: real capture (node 4281:91147) confirms this is the dark "Web/Card Background" fill
+   (--pk-sys-bg-card, #290E3C), not white — was --pk-sys-bg-default. Level 2/* -> --pk-sys-level2-*,
+   GAP/Medium -> --pk-sys-gap-md, GAP/Small -> --pk-sys-gap-sm, GAP/X-Large -> --pk-sys-gap-xl. */
 
 .pk-contact-info-form {
   display: flex;
   flex-direction: column;
   gap: var(--pk-sys-level2-gap);
   padding: var(--pk-sys-level2-vertical) var(--pk-sys-level2-horizontal);
-  background: var(--pk-sys-bg-default);
-  border-radius: 16px;
+  background: var(--pk-sys-bg-card);
+  border-radius: var(--pk-ref-radius-xl);
+  box-sizing: border-box;
 }
 
 .pk-contact-info-form__heading {
-  color: var(--pk-sys-text-primary);
+  color: var(--pk-sys-text-inverse);
+  text-transform: uppercase;
 }

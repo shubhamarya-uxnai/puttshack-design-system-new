@@ -27,6 +27,12 @@
   padding: var(--pk-sys-container-top) var(--pk-sys-container-horizontal) 0;
 }
 
+.pk-proto-screen__back-button {
+  align-self: flex-start;
+  padding-left: 0;
+  margin-bottom: var(--pk-sys-gap-xs);
+}
+
 .pk-proto-screen__hero-title {
   margin: 0;
   color: var(--pk-sys-text-inverse);

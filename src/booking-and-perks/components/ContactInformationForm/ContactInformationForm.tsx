@@ -48,6 +48,7 @@ export function ContactInformationForm({
       <InputField
         label="Full Name"
         required
+        inverse
         leadingIcon={<User aria-hidden="true" />}
         defaultValue={fullName}
         readOnly={isSignedIn}
@@ -55,6 +56,7 @@ export function ContactInformationForm({
       <InputField
         label="Display Name"
         required
+        inverse
         leadingIcon={<User aria-hidden="true" />}
         helperText="Shows up on the leaderboard during play."
         defaultValue={displayName}
@@ -65,6 +67,7 @@ export function ContactInformationForm({
           <InputField
             label="Email"
             required
+            inverse
             leadingIcon={<AtSign aria-hidden="true" />}
             defaultValue={email}
             readOnly={isSignedIn}
@@ -72,12 +75,14 @@ export function ContactInformationForm({
           <InputField
             label="Phone number"
             required
+            inverse
             leadingIcon={<Phone aria-hidden="true" />}
             helperText="Verify your number — we'll text booking updates and your party's check-in code."
             defaultValue={phone}
           />
           <InputField
             label="Date of birth"
+            inverse
             leadingIcon={<Calendar aria-hidden="true" />}
             defaultValue={dateOfBirth}
           />
