@@ -28,6 +28,73 @@
   color: var(--pk-sys-text-inverse);
 }
 
+.pk-location-player-picker__location-field {
+  position: relative;
+}
+
+.pk-location-player-picker__locate-btn {
+  display: inline-flex;
+  border: none;
+  background: none;
+  padding: 0;
+  cursor: pointer;
+  color: inherit;
+}
+
+/* Demo suggestions dropdown — no real places API backs this app, so this is a fixed
+   sample list, not a captured Figma instance. Fixed dark text/borders (not the
+   theme-toggling --pk-sys-text-primary/border-default/surface-hover) since this card
+   is always white regardless of the app's light/dark demo toggle, same as every other
+   always-white surface fixed this session. */
+.pk-location-player-picker__suggestions {
+  position: absolute;
+  top: calc(100% + var(--pk-sys-gap-xs));
+  left: 0;
+  right: 0;
+  z-index: 10;
+  margin: 0;
+  padding: var(--pk-sys-gap-xs);
+  list-style: none;
+  background: var(--pk-ref-white);
+  border: var(--pk-ref-border-thin) solid var(--pk-ref-black-12);
+  border-radius: var(--pk-ref-radius-md);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.24);
+  box-sizing: border-box;
+}
+
+.pk-location-player-picker__suggestion {
+  display: flex;
+  align-items: center;
+  gap: var(--pk-sys-gap-sm);
+  width: 100%;
+  padding: var(--pk-sys-gap-sm);
+  border: none;
+  border-radius: var(--pk-ref-radius-sm);
+  background: none;
+  color: var(--pk-ref-purple-midnight);
+  text-align: left;
+  cursor: pointer;
+}
+
+.pk-location-player-picker__suggestion:hover {
+  background: var(--pk-ref-black-06);
+}
+
+.pk-location-player-picker__suggestion svg {
+  flex-shrink: 0;
+  color: var(--pk-ref-black-64);
+}
+
+.pk-location-player-picker__suggestion-name {
+  display: block;
+  color: var(--pk-ref-purple-midnight);
+}
+
+.pk-location-player-picker__suggestion-address {
+  display: block;
+  color: var(--pk-ref-black-64);
+}
+
 .pk-location-player-picker__result {
   display: flex;
   align-items: center;
@@ -35,20 +102,20 @@
   gap: var(--pk-sys-gap-sm);
   padding: var(--pk-ref-space-16) 13px;
   border-radius: var(--pk-ref-radius-md);
-  background: var(--pk-sys-bg-default);
-  border: var(--pk-ref-border-thin) solid var(--pk-sys-border-default);
+  background: var(--pk-ref-white);
+  border: var(--pk-ref-border-thin) solid var(--pk-ref-black-12);
 }
 
 .pk-location-player-picker__result-name {
   display: flex;
   align-items: center;
   gap: var(--pk-sys-gap-xs);
-  color: var(--pk-sys-text-primary);
+  color: var(--pk-ref-purple-midnight);
 }
 
 .pk-location-player-picker__result-address {
   margin: 0;
-  color: var(--pk-sys-text-secondary);
+  color: var(--pk-ref-black-64);
 }
 
 .pk-location-player-picker__result-close {
@@ -136,26 +203,48 @@
   cursor: pointer;
 }
 
-.pk-location-player-picker__stepper-btn--minus {
-  background: var(--pk-sys-disabled-cta-bg);
-  border: var(--pk-ref-border-thin) solid var(--pk-sys-disabled-border);
-  color: var(--pk-sys-text-inverse-subtle);
-}
-
-.pk-location-player-picker__stepper-btn--minus:disabled {
-  cursor: not-allowed;
-  opacity: 0.6;
-}
-
+/* Real capture (node 4281:91078): Minus and Plus share the same active look
+   (white bg, black border/icon) — only a disabled control (Minus at 0, or
+   every Plus once the 12-guest cap is hit) switches to the grey disabled
+   tokens. The previous CSS styled Minus with the disabled tokens
+   unconditionally, so it never looked active even once its count was ≥1. */
+.pk-location-player-picker__stepper-btn--minus,
 .pk-location-player-picker__stepper-btn--plus {
   background: var(--pk-sys-bg-default);
   border: var(--pk-ref-border-thin) solid var(--pk-sys-text-black);
   color: var(--pk-sys-text-black);
 }
 
+.pk-location-player-picker__stepper-btn:disabled {
+  background: var(--pk-sys-disabled-cta-bg);
+  border-color: var(--pk-sys-disabled-border);
+  color: var(--pk-sys-text-inverse-subtle);
+  cursor: not-allowed;
+}
+
 .pk-location-player-picker__group-hint {
   margin: 0;
   color: var(--pk-sys-text-inverse-subtle);
+}
+
+/* Real capture (node 4281:91078): the "maxed out" copy is full-strength inverse text
+   (not the dimmer inverse-subtle the plain hint uses), and the button below it is the
+   same fixed-dark "interactive/secondary/enabled" pill used elsewhere in this app. */
+.pk-location-player-picker__group-hint--max {
+  color: var(--pk-sys-text-inverse);
+}
+
+.pk-location-player-picker__plan-event-btn {
+  width: 100%;
+  justify-content: center;
+  background: var(--pk-ref-purple-midnight);
+  color: var(--pk-ref-white);
+  border-color: transparent;
+}
+
+.pk-location-player-picker__plan-event-btn:hover:not(:disabled) {
+  background: var(--pk-ref-purple-midnight);
+  opacity: 0.9;
 }
 
 .pk-location-player-picker__dates {

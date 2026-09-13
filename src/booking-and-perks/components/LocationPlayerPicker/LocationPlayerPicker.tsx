@@ -9,10 +9,26 @@ export interface LocationPlayerPickerLocation {
   address: string
 }
 
+/** Figma: `Interactive/Disabled` on the Group Size stepper — 12 guests is the cap for a
+ * standard (non-event) booking (node 4281:91078: "You've reached the maximum amount of
+ * 12 guests for a standard booking" + a "Plan an event for 12+ guest" CTA). */
+const MAX_GUESTS = 12
+
+/** Demo-only location suggestions — this app has no real places API, so the dropdown
+ * (and the locate-icon's "nearest location") both resolve to fixed sample data. */
+const DEMO_LOCATIONS: LocationPlayerPickerLocation[] = [
+  { name: 'Chicago, IL', address: 'Oakbrook Center · 60523' },
+  { name: 'Chicago, IL', address: 'River North · 60654' },
+  { name: 'Schaumburg, IL', address: 'Woodfield Mall · 60173' },
+  { name: 'Naperville, IL', address: 'Downtown Naperville · 60540' },
+]
+
+const NEAREST_LOCATION = DEMO_LOCATIONS[0]
+
 export interface LocationPlayerPickerProps {
-  /** Figma: the "Location" `InputField`'s typed value. */
-  locationQuery?: string
-  /** Figma: the selected-location result card (`Container` under "Background+Border"). Pass `null` to hide it. */
+  /** Figma: the selected-location result card (`Container` under "Background+Border").
+   * @default null — no location is preselected; the guest picks one from the dropdown
+   * or taps the locate icon for the (demo) nearest location. */
   selectedLocation?: LocationPlayerPickerLocation | null
   onClearLocation?: () => void
   /** Figma: the 5 `Date Picker Card` instances — `{ day, label }` pairs, e.g. `{ day: 'APR 20', label: 'Today' }`. */
@@ -23,6 +39,8 @@ export interface LocationPlayerPickerProps {
   onDateSelect?: (day: string) => void
   /** Fires whenever the group-size counts change. */
   onGuestsChange?: (guests: { adults: number; youngAdults: number; juniors: number }) => void
+  /** Figma: "Plan an event for 12+ guest" — shown once the 12-guest cap is hit. */
+  onPlanEvent?: () => void
   className?: string
 }
 
@@ -36,31 +54,40 @@ const DEFAULT_DATES = [
 
 /**
  * Booking-and-Perks composite (Figma: "Location & Player Picker", node
- * 5000:149754 on the "Unlimited Round — Default Package Selection" screen).
- * DS `InputField` for the location search + a Group Size quantity-stepper
- * block + a row of Date Picker Cards, all on the dark magenta card surface.
- * Group size starts at 0/0/0; the Minus control stays disabled at 0 per the
- * Figma annotation and the "Add at least 1 player to check availability"
- * helper text. Date cards are all disabled while `total === 0`; once a
- * player is added they become enabled but nothing is pre-selected — the
- * visitor has to click one — except one date (`disabledDate`, no real
- * availability data exists yet so it defaults to the last one) which stays
- * unavailable regardless of group size.
+ * 5000:149754 on the "Unlimited Round — Default Package Selection" screen,
+ * and node 4281:91078 for the maxed-out Group Size state). DS `InputField`
+ * for the location search + a Group Size quantity-stepper block + a row of
+ * Date Picker Cards, all on the dark magenta card surface.
+ *
+ * Location starts empty (not preselected) and focused/typed-into shows a
+ * demo suggestions dropdown; picking one shows the real result card below
+ * with a working "X" to clear it, and the input's trailing locate icon
+ * jumps straight to a fixed "nearest location" — both real interactions,
+ * backed by demo data since this app has no real places API.
+ *
+ * Group size starts at 0/0/0; each row's Minus stays disabled at 0 (both
+ * Minus and Plus otherwise share the same real active look — a previous
+ * pass had Minus permanently styled with the disabled tokens, so it never
+ * looked active once incremented). Every row's Plus disables once the
+ * total hits the real 12-guest cap, and the real "maxed out" copy + "Plan
+ * an event for 12+ guest" button (node 4281:91078) appear in its place.
  */
 export function LocationPlayerPicker({
-  locationQuery = 'Chicago, IL',
-  selectedLocation = { name: 'Chicago, IL', address: 'Oakbrook Center · 60523' },
+  selectedLocation = null,
   onClearLocation,
   dates = DEFAULT_DATES,
   disabledDate,
   onDateSelect,
   onGuestsChange,
+  onPlanEvent,
   className,
 }: LocationPlayerPickerProps) {
   const [adults, setAdults] = useState(0)
   const [youngAdults, setYoungAdults] = useState(0)
   const [juniors, setJuniors] = useState(0)
   const [location, setLocation] = useState(selectedLocation)
+  const [query, setQuery] = useState(selectedLocation?.name ?? '')
+  const [showSuggestions, setShowSuggestions] = useState(false)
   const [selectedDate, setSelectedDate] = useState<string | undefined>(undefined)
 
   useEffect(() => {
@@ -72,6 +99,17 @@ export function LocationPlayerPicker({
 
   const total = adults + youngAdults + juniors
   const hasPlayers = total > 0
+  const atMaxGuests = total >= MAX_GUESTS
+
+  function selectLocation(next: LocationPlayerPickerLocation) {
+    setLocation(next)
+    setQuery(next.name)
+    setShowSuggestions(false)
+  }
+
+  const suggestions = DEMO_LOCATIONS.filter((l) =>
+    query.trim() ? l.name.toLowerCase().includes(query.trim().toLowerCase()) : true
+  )
 
   const rows: {
     key: string
@@ -89,14 +127,56 @@ export function LocationPlayerPicker({
     <div className={`pk-location-player-picker${className ? ` ${className}` : ''}`}>
       <div className="pk-location-player-picker__section">
         <h3 className="pk-location-player-picker__heading pk-text-title-medium">Where &amp; When</h3>
-        <InputField
-          label="LOCATION"
-          required
-          inverse
-          value={locationQuery}
-          readOnly
-          trailingIcon={<LocateFixed aria-hidden="true" />}
-        />
+        <div className="pk-location-player-picker__location-field">
+          <InputField
+            label="LOCATION"
+            required
+            inverse
+            placeholder="Search city, state, or zip"
+            value={query}
+            onChange={(e) => {
+              setQuery(e.target.value)
+              setShowSuggestions(true)
+            }}
+            onFocus={() => setShowSuggestions(true)}
+            onBlur={() => setTimeout(() => setShowSuggestions(false), 120)}
+            trailingIcon={
+              <button
+                type="button"
+                className="pk-location-player-picker__locate-btn"
+                aria-label="Use my current location"
+                onMouseDown={(e) => e.preventDefault()}
+                onClick={() => selectLocation(NEAREST_LOCATION)}
+              >
+                <LocateFixed aria-hidden="true" />
+              </button>
+            }
+          />
+          {showSuggestions && suggestions.length > 0 && (
+            <ul className="pk-location-player-picker__suggestions">
+              {suggestions.map((s) => (
+                <li key={`${s.name}-${s.address}`}>
+                  <button
+                    type="button"
+                    className="pk-location-player-picker__suggestion"
+                    onMouseDown={(e) => e.preventDefault()}
+                    onClick={() => selectLocation(s)}
+                  >
+                    <MapPin aria-hidden="true" size={16} />
+                    <span>
+                      <span className="pk-location-player-picker__suggestion-name pk-text-title-small">
+                        {s.name}
+                      </span>
+                      <span className="pk-location-player-picker__suggestion-address pk-text-body-small">
+                        {s.address}
+                      </span>
+                    </span>
+                  </button>
+                </li>
+              ))}
+            </ul>
+          )}
+        </div>
         {location && (
           <div className="pk-location-player-picker__result">
             <div>
@@ -112,6 +192,7 @@ export function LocationPlayerPicker({
               aria-label={`Remove ${location.name}`}
               onClick={() => {
                 setLocation(null)
+                setQuery('')
                 onClearLocation?.()
               }}
             >
@@ -155,7 +236,8 @@ export function LocationPlayerPicker({
                     type="button"
                     className="pk-location-player-picker__stepper-btn pk-location-player-picker__stepper-btn--plus"
                     aria-label={`Add one ${row.label}`}
-                    onClick={() => row.set((v) => v + 1)}
+                    disabled={atMaxGuests}
+                    onClick={() => row.set((v) => Math.min(MAX_GUESTS, v + 1))}
                   >
                     <Plus aria-hidden="true" size={18} />
                   </button>
@@ -165,7 +247,20 @@ export function LocationPlayerPicker({
             </React.Fragment>
           ))}
         </div>
-        <p className="pk-location-player-picker__group-hint pk-text-label-small">Add at least 1 player to check availability.</p>
+        {atMaxGuests ? (
+          <>
+            <p className="pk-location-player-picker__group-hint pk-location-player-picker__group-hint--max pk-text-body-small">
+              You&rsquo;ve reached the maximum amount of 12 guests for a standard booking
+            </p>
+            <Button variant="secondary" onClick={onPlanEvent} className="pk-location-player-picker__plan-event-btn">
+              Plan an event for 12+ guest
+            </Button>
+          </>
+        ) : (
+          <p className="pk-location-player-picker__group-hint pk-text-label-small">
+            Add at least 1 player to check availability.
+          </p>
+        )}
       </div>
 
       <div className="pk-location-player-picker__section">
