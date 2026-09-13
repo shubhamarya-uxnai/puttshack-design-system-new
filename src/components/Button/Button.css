@@ -46,6 +46,7 @@
   font-size: 18px;
   line-height: 20px;
   letter-spacing: 0;
+  text-transform: uppercase;
 }
 
 .pk-button__label--sr-only {
