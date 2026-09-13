@@ -38,6 +38,8 @@ export interface ModalProps {
   primaryLabel?: string
   onPrimaryAction?: () => void
   secondaryLabel?: string
+  /** Trailing icon on the secondary button (e.g. the "+" on "Add more player"). */
+  secondaryIcon?: React.ReactNode
   onSecondaryAction?: () => void
   /** The third, "ghost/link" button in the group — real capture default is "Cancel
    * changes", but plenty of real usages (e.g. the T&C overlay) only have 2 buttons,
@@ -89,6 +91,7 @@ export function Modal({
   toastMessage,
   primaryLabel = 'Pay $100.00 & confirm',
   secondaryLabel = 'Keep Editing',
+  secondaryIcon,
   onPrimaryAction,
   onSecondaryAction,
   linkLabel,
@@ -146,7 +149,7 @@ export function Modal({
             <Button variant="primary" onClick={onPrimaryAction}>
               {primaryLabel}
             </Button>
-            <Button variant="tertiary" onClick={onSecondaryAction}>
+            <Button variant="tertiary" trailingIcon={secondaryIcon} onClick={onSecondaryAction}>
               {secondaryLabel}
             </Button>
             {linkLabel && (

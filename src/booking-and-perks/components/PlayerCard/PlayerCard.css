@@ -1,22 +1,22 @@
-/* ============================================================================
-   Player Card — composition scaffold for Figma "Player Card" (node
-   4261:215484).
-   ========================================================================== */
+/* Player Card (real capture inside "Manage Your Party" modal, node 4281:90882).
+   Border/Inverse's literal white-based fallback would be invisible on this white
+   card — the visible line in the render is a subtle dark one. */
 
 .pk-player-card {
   box-sizing: border-box;
   display: flex;
   align-items: center;
-  justify-content: space-between;
   gap: var(--pk-sys-gap-md);
   padding: var(--pk-sys-level3-vertical) var(--pk-sys-level3-horizontal);
   background: var(--pk-sys-bg-default);
-  border: var(--pk-ref-border-thin) solid var(--pk-sys-border-magenta);
-  border-radius: var(--pk-ref-radius-full);
+  border: var(--pk-ref-border-thin) solid var(--pk-ref-black-12);
+  border-radius: var(--pk-ref-radius-md);
 }
 
 .pk-player-card__info {
   display: flex;
+  flex: 1;
+  min-width: 0;
   flex-direction: column;
   gap: var(--pk-sys-gap-xs);
 }
@@ -24,10 +24,28 @@
 .pk-player-card__name-row {
   display: flex;
   align-items: center;
-  gap: var(--pk-sys-gap-sm);
-  color: var(--pk-sys-text-primary); /* token: Text + Icon/Black */
+  gap: var(--pk-sys-gap-xs);
+  color: var(--pk-sys-text-black);
+}
+
+.pk-player-card__lock {
+  flex-shrink: 0;
+  color: var(--pk-sys-text-black-subtle, var(--pk-ref-black-64));
 }
 
 .pk-player-card__lead-chip {
   flex-shrink: 0;
+  margin-left: var(--pk-sys-gap-xs);
+}
+
+.pk-player-card__type {
+  color: var(--pk-sys-text-black);
+}
+
+.pk-player-card__action {
+  flex-shrink: 0;
+  border-radius: var(--pk-ref-radius-full);
+  width: 48px;
+  height: 48px;
+  padding: 0;
 }

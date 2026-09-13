@@ -1,5 +1,4 @@
 import type { Meta, StoryObj } from '@storybook/react-vite'
-import { RefreshCw } from '../../../icons'
 import { PlayerCard } from './PlayerCard'
 
 const meta = {
@@ -7,11 +6,10 @@ const meta = {
   component: PlayerCard,
   parameters: { layout: 'padded' },
   args: {
-    playerName: 'Alex Morgan',
+    playerName: 'Alex Parry',
+    playerType: 'Adult (21+)',
     isLead: true,
     registrationStatus: 'registered',
-    actionLabel: 'Change player',
-    actionIcon: <RefreshCw aria-hidden="true" />,
   },
 } satisfies Meta<typeof PlayerCard>
 
@@ -21,5 +19,5 @@ type Story = StoryObj<typeof meta>
 export const Default: Story = {}
 
 export const NotRegistered: Story = {
-  args: { isLead: false, registrationStatus: 'not-registered' },
+  args: { playerName: 'Player 2', isLead: false, registrationStatus: 'not-registered' },
 }

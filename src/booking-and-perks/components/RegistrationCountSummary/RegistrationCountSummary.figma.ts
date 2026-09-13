@@ -18,6 +18,7 @@ export default {
     <RegistrationCountSummary
       registeredCount={0}
       totalCount={0}
+      registrationLink="puttshack.com/register/XXXXXXXX"
     />
   `,
   imports: ['import { RegistrationCountSummary } from "./RegistrationCountSummary"'],

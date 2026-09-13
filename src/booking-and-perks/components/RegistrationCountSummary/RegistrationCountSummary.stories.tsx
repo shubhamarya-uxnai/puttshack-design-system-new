@@ -5,7 +5,7 @@ const meta = {
   title: 'Booking & Perks/RegistrationCountSummary',
   component: RegistrationCountSummary,
   parameters: { layout: 'padded' },
-  args: { registeredCount: 2, totalCount: 4 },
+  args: { registeredCount: 1, totalCount: 4, registrationLink: 'puttshack.com/register/PSK-P4381PB' },
 } satisfies Meta<typeof RegistrationCountSummary>
 
 export default meta

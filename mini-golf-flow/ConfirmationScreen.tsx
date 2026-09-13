@@ -1,7 +1,8 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { AppHeader } from '../src/booking-and-perks/components/AppHeader/AppHeader'
 import { ShareBookingLink } from '../src/booking-and-perks/components/ShareBookingLink/ShareBookingLink'
 import { BookingDetails } from '../src/booking-and-perks/components/BookingDetails/BookingDetails'
+import { ManagePartyModal } from '../src/booking-and-perks/components/ManagePartyModal/ManagePartyModal'
 import { PageTitle } from './ScreenChrome'
 import './Screens.css'
 
@@ -10,20 +11,37 @@ import './Screens.css'
  * "Confirmation — Booking Complete", node 4281:91224). Content column
  * confirmed via a read-only drill-down: Page Title Container, Share
  * Booking Link/October, Booking details, plus fine-print terms text.
+ *
+ * "Manage party" opens the real "Manage Your Party" overlay (node
+ * 4281:90882) — registration progress + share link + a `PlayerCard` per
+ * party member, with "Save and close" dismissing it.
  */
 export function ConfirmationScreen({ onRestart }: { onRestart: () => void }) {
+  const [showManageParty, setShowManageParty] = useState(false)
+
   return (
     <div className="pk-proto-screen">
       <AppHeader />
       <PageTitle title="You're in!" />
 
       <div className="pk-proto-screen__body">
-        <ShareBookingLink shareRegistrationLink onPrimaryAction={onRestart} />
+        <ShareBookingLink
+          shareRegistrationLink
+          onPrimaryAction={onRestart}
+          onManageParty={() => setShowManageParty(true)}
+        />
         <BookingDetails variant="mini-golf" heading round2 modify />
         <p className="pk-proto-screen__fine-print pk-text-body-small">
           By completing this booking, you agree to our terms of service &amp; privacy policy.
         </p>
       </div>
+
+      {showManageParty && (
+        <ManagePartyModal
+          onSaveAndClose={() => setShowManageParty(false)}
+          onClose={() => setShowManageParty(false)}
+        />
+      )}
     </div>
   )
 }

@@ -1,0 +1,8 @@
+/* Real capture (node 4281:90882, "Registered" badge): Feedback/Success/Hover #009A40 /
+   Feedback/Success/Text #001D06 — neither of Badge's own --pk-sys-success-hover values
+   (light-mode pastel green-300, dark-mode green-500) lands on this exact hex, so it's
+   overridden here rather than nudging the shared DS token off other verified usages. */
+.pk-badge--success.pk-registration-status-badge--registered {
+  background: #009a40;
+  color: #001d06;
+}

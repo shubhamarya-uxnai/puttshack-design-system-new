@@ -49,7 +49,7 @@ export function ShareBookingLink({
             Complete registration
           </Button>
         )}
-        <Button variant="secondary" leadingIcon={<Users aria-hidden="true" />} onClick={onManageParty}>
+        <Button variant="secondary" inverse leadingIcon={<Users aria-hidden="true" />} onClick={onManageParty}>
           Manage party
         </Button>
         <Button variant="ghost" trailingIcon={<Share2 aria-hidden="true" />}>

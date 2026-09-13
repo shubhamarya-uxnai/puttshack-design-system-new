@@ -1,26 +1,110 @@
-/* ============================================================================
-   Registration Count Summary — composition scaffold for Figma
-   "Registration Count Summary" (node 4261:215796).
-   ========================================================================== */
+/* Registration Count Summary (real capture inside "Manage Your Party" modal,
+   node 4281:90882). Pale gray card — Surface/Inverse's literal near-transparent
+   fallback would be invisible on this white modal, so a light black wash is used
+   directly instead. */
 
 .pk-registration-count-summary {
   box-sizing: border-box;
   display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: var(--pk-sys-gap-md);
+  flex-direction: column;
+  gap: var(--pk-sys-level3-gap, 16px);
+  width: 100%;
   padding: var(--pk-sys-level3-vertical) var(--pk-sys-level3-horizontal);
-  background: var(--pk-sys-bg-magenta-light); /* token: Background/Magenta light */
+  background: rgba(0, 0, 0, 0.04);
   border-radius: var(--pk-ref-radius-md);
+}
+
+.pk-registration-count-summary__header {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  width: 100%;
 }
 
 .pk-registration-count-summary__text {
   display: flex;
+  flex: 1;
+  min-width: 0;
   flex-direction: column;
   gap: 2px;
-  color: var(--pk-sys-text-primary); /* token: Text + Icon/Black */
 }
 
-.pk-registration-count-summary__count {
-  color: var(--pk-sys-text-secondary); /* token: Text + Icon/Black-Subtle */
+.pk-registration-count-summary__title {
+  color: var(--pk-sys-text-black);
+}
+
+.pk-registration-count-summary__note {
+  color: var(--pk-sys-text-black-subtle, rgba(0, 0, 0, 0.64));
+}
+
+.pk-registration-count-summary__percent {
+  flex-shrink: 0;
+  padding: 5px 10px;
+  border-radius: var(--pk-ref-radius-full);
+  background: var(--pk-sys-bg-default);
+  color: var(--pk-sys-text-magenta);
+  text-transform: uppercase;
+}
+
+.pk-registration-count-summary__progress-track {
+  width: 100%;
+  height: 6px;
+  border-radius: var(--pk-ref-radius-full);
+  background: var(--pk-sys-bg-default);
+  overflow: hidden;
+}
+
+.pk-registration-count-summary__progress-fill {
+  height: 100%;
+  border-radius: var(--pk-ref-radius-full);
+  background: var(--pk-sys-bg-magenta-light);
+}
+
+.pk-registration-count-summary__link-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--pk-sys-gap-sm);
+  width: 100%;
+  padding: 4px 4px 4px 13px;
+  border: var(--pk-ref-border-thin) solid var(--pk-sys-text-black);
+  border-radius: var(--pk-ref-radius-full);
+  background: var(--pk-sys-bg-default);
+  box-sizing: border-box;
+}
+
+.pk-registration-count-summary__link {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: var(--pk-sys-text-black);
+  text-transform: uppercase;
+}
+
+/* Hardcoded rather than --pk-sys-secondary-*: those flip with the app's light/dark
+   demo toggle (dark mode swaps to a white/near-invisible fill here), but this pill
+   sits inside a plain white card that never itself flips — same fixed
+   interactive/secondary/enabled value used elsewhere already (#0e0115 / white). */
+.pk-registration-count-summary__share {
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 8px 16px;
+  border: none;
+  border-radius: var(--pk-ref-radius-full);
+  background: var(--pk-ref-purple-midnight);
+  color: var(--pk-ref-white);
+  font-family: var(--pk-sys-font-ui-bold);
+  font-weight: 700;
+  font-size: 12px;
+  line-height: 16px;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+.pk-registration-count-summary__share:hover {
+  opacity: 0.9;
 }

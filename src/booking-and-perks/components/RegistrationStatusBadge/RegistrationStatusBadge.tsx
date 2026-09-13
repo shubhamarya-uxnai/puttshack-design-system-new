@@ -1,6 +1,8 @@
 import React from 'react'
+import { cx } from '../../../lib/cx'
 import { Badge } from '../../../components/Badge/Badge'
 import type { BadgeStatus } from '../../../components/Badge/Badge'
+import './RegistrationStatusBadge.css'
 
 /**
  * Composition scaffold for the Figma "Registration Status Badge" component
@@ -35,7 +37,11 @@ export interface RegistrationStatusBadgeProps {
 export function RegistrationStatusBadge({ status = 'not-registered', className }: RegistrationStatusBadgeProps) {
   const { badgeStatus, label } = STATUS_MAP[status]
   return (
-    <Badge type="small" status={badgeStatus} className={className}>
+    <Badge
+      type="small"
+      status={badgeStatus}
+      className={cx(`pk-registration-status-badge--${status}`, className)}
+    >
       {label}
     </Badge>
   )
