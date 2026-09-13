@@ -1,42 +1,213 @@
-/* "Perks Card" — booking-and-perks composition scaffold. */
+/* "Perks Card" — booking-and-perks composition (Figma node 4437:180394, 4 real captures). */
 
 .pk-oct-perks-card {
   display: flex;
   align-items: center;
-  gap: var(--pk-sys-gap-md); /* Figma token: GAP/Medium */
-  padding: var(--pk-sys-level2-vertical) var(--pk-sys-level2-horizontal); /* Figma token: Level 2/Vertical, Level 2/Horizontal */
-  border-radius: 24px; /* Figma token: xl */
-  background: var(--pk-sys-bg-magenta-dark); /* Figma token: Background/Magenta Dark 2 (closest semantic match; no dedicated "Dark 2" system token exists) */
+  gap: var(--pk-sys-gap-md);
+  padding: var(--pk-sys-level2-vertical) var(--pk-sys-level2-horizontal);
+  border-radius: var(--pk-ref-radius-xl);
+  background: var(--pk-sys-bg-magenta-dark);
+  box-sizing: border-box;
   flex-wrap: wrap;
-}
-
-.pk-oct-perks-card__icon {
-  flex-shrink: 0;
-  width: var(--pk-sys-icon-l);
-  height: var(--pk-sys-icon-l);
-  color: var(--pk-sys-text-inverse);
-}
-
-.pk-oct-perks-card__copy {
-  flex: 1;
-  min-width: 160px;
-  color: var(--pk-sys-text-inverse); /* Figma token: Text + Icon/Primary — inverse used here since this card sits on the dark Magenta surface */
-}
-
-.pk-oct-perks-card__text {
-  display: flex;
-  flex-direction: column;
-  gap: var(--pk-sys-gap-xs);
-  flex: 1 0 0;
-  min-width: 200px;
 }
 
 .pk-oct-perks-card__title {
   color: var(--pk-sys-text-inverse);
 }
 
+.pk-oct-perks-card__copy {
+  color: var(--pk-sys-text-inverse);
+  opacity: 0.95;
+}
+
+/* --- Sign In / signed-out ("Unlock your Perks") --------------------------------- */
+
+.pk-oct-perks-card__text {
+  display: flex;
+  flex-direction: column;
+  gap: var(--pk-sys-gap-xs);
+  flex: 1 0 304px;
+  min-width: 200px;
+}
+
 .pk-oct-perks-card__actions {
   display: flex;
   gap: var(--pk-sys-gap-sm);
   flex-wrap: wrap;
+}
+
+/* --- Sign In / signed-in ("Signed in as {name}") --------------------------------- */
+
+.pk-oct-perks-card--signed-in {
+  padding-top: var(--pk-sys-gap-lg);
+}
+
+.pk-oct-perks-card__signed-in-details {
+  display: flex;
+  flex-direction: column;
+  gap: var(--pk-sys-gap-xs);
+  flex: 1;
+  min-width: 120px;
+}
+
+.pk-oct-perks-card__log-out {
+  flex-shrink: 0;
+  border: none;
+  background: none;
+  padding: var(--pk-sys-gap-xs) 0;
+  color: #f2edf5;
+  text-transform: uppercase;
+  cursor: pointer;
+  opacity: 0.85;
+}
+
+.pk-oct-perks-card__log-out:hover {
+  opacity: 1;
+}
+
+/* --- Rewards / signed-in ("Your available rewards") ------------------------------ */
+
+.pk-oct-perks-card--rewards {
+  align-items: stretch;
+  flex-direction: column;
+  background: var(--pk-sys-bg-card);
+}
+
+.pk-oct-perks-card__rewards-heading {
+  display: flex;
+  align-items: center;
+  gap: var(--pk-sys-gap-sm);
+  color: var(--pk-sys-text-inverse);
+}
+
+.pk-oct-perks-card__reward-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--pk-sys-gap-md);
+}
+
+.pk-oct-perks-card__reward {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: var(--pk-sys-gap-xs);
+  min-width: 280px;
+  padding: var(--pk-sys-gap-lg);
+  border-radius: var(--pk-ref-radius-lg);
+  background: var(--pk-ref-white-06);
+  border: var(--pk-ref-border-thin) solid var(--pk-ref-white-06);
+  box-sizing: border-box;
+}
+
+.pk-oct-perks-card__reward-top {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+}
+
+.pk-oct-perks-card__reward-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  border-radius: var(--pk-ref-radius-xs);
+  background: var(--pk-sys-text-magenta);
+  color: var(--pk-sys-text-white);
+  flex-shrink: 0;
+}
+
+.pk-oct-perks-card__reward-label {
+  flex: 1;
+  min-width: 0;
+  color: var(--pk-sys-text-inverse);
+}
+
+.pk-oct-perks-card__reward-apply {
+  flex-shrink: 0;
+}
+
+.pk-oct-perks-card__reward-description {
+  color: #f2edf5;
+  width: 100%;
+}
+
+.pk-oct-perks-card__reward-footnote {
+  color: var(--pk-sys-text-inverse-subtle);
+}
+
+/* --- Rewards / signed-out ("Join Perks" gold card + location/consent block) ------ */
+
+.pk-oct-perks-card__join-wrap {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.pk-oct-perks-card--join {
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--pk-sys-gap-md);
+  width: 100%;
+  margin-bottom: -24px;
+  border: var(--pk-ref-border-thin) solid #bc841f;
+  background: linear-gradient(251deg, var(--pk-ref-magenta-300) 1.66%, var(--pk-sys-bg-magenta-dark) 100%);
+  position: relative;
+  z-index: 2;
+}
+
+.pk-oct-perks-card__join-top {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--pk-sys-gap-sm);
+  width: 100%;
+}
+
+.pk-oct-perks-card__join-checkbox {
+  pointer-events: none;
+}
+
+.pk-oct-perks-card__join-heading-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--pk-sys-gap-xs) var(--pk-sys-gap-md);
+}
+
+.pk-oct-perks-card__join-chip {
+  padding: var(--pk-sys-gap-xs) var(--pk-sys-gap-md);
+  border-radius: var(--pk-ref-radius-full);
+  background: var(--pk-sys-bg-warning, #ffc629);
+  border: var(--pk-ref-border-thin) solid var(--pk-sys-text-magenta);
+  color: var(--pk-sys-text-black);
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.pk-oct-perks-card__join-surface {
+  display: flex;
+  flex-direction: column;
+  gap: var(--pk-sys-level2-gap);
+  width: 100%;
+  padding: var(--pk-sys-level2-vertical) var(--pk-sys-level2-horizontal);
+  padding-top: calc(var(--pk-sys-level2-vertical) + 24px);
+  border-radius: 0 0 var(--pk-ref-radius-md) var(--pk-ref-radius-md);
+  background: var(--pk-ref-white-06);
+  box-sizing: border-box;
+  position: relative;
+  z-index: 1;
+}
+
+.pk-oct-perks-card__join-consent {
+  margin: 0;
+  color: var(--pk-sys-text-inverse);
+}
+
+.pk-oct-perks-card__join-consent-link {
+  color: var(--pk-sys-text-magenta);
+}
+
+.pk-oct-perks-card__join-create {
+  width: 100%;
 }

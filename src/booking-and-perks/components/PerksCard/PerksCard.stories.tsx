@@ -17,8 +17,12 @@ export const AllStates: Story = {
   render: () => (
     <div className="sbx-row">
       <div className="sbx-stack">
-        <span className="sbx-label">Sign In</span>
+        <span className="sbx-label">Sign In, signed out</span>
         <PerksCard type="sign-in" isSignedIn={false} />
+      </div>
+      <div className="sbx-stack">
+        <span className="sbx-label">Sign In, signed in</span>
+        <PerksCard type="sign-in" isSignedIn />
       </div>
       <div className="sbx-stack">
         <span className="sbx-label">Rewards, signed out</span>

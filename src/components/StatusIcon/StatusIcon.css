@@ -1,0 +1,44 @@
+/* Real capture (node 4199:165532): no matching system tokens exist yet for these 4 flat
+   feedback fills, so the literal Figma variable fallbacks are used directly (same
+   precedent as the gold Perks border elsewhere in this codebase) —
+   feedback/error/hover #FF2B3E, feedback/success/hover #009A40,
+   feedback/warning/hover #C76E00, feedback/info/hover #008DC8. */
+.pk-status-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 48px;
+  height: 48px;
+  border-radius: var(--pk-ref-radius-full);
+  color: var(--pk-sys-text-white);
+  box-sizing: border-box;
+}
+
+.pk-status-icon--negative {
+  background: #ff2b3e;
+}
+
+.pk-status-icon--positive {
+  background: #009a40;
+}
+
+.pk-status-icon--warning {
+  background: #c76e00;
+}
+
+.pk-status-icon--informative {
+  background: #008dc8;
+}
+
+/* "Brand" — the gold-bordered Perks gradient (Gradient/Perk icon gradient + Perks/Border),
+   reused verbatim from the Perks Card icon badge. */
+.pk-status-icon--brand {
+  background: linear-gradient(135deg, #592c82 0%, #93358d 45%, #f45197 100%);
+  border: 0.6px solid #bc841f;
+}
+
+.pk-status-icon-special {
+  display: inline-flex;
+  color: #009a40;
+}

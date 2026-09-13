@@ -82,7 +82,7 @@ export function ConfigureScreen({ onCheckout }: { onCheckout: () => void }) {
       </div>
 
       <div className="pk-proto-screen__body">
-        <PerksCard type="unlock" />
+        <PerksCard type="sign-in" isSignedIn={false} />
         <LocationPlayerPicker onDateSelect={setSelectedDate} onGuestsChange={setGuests} />
         {selectedDate && (
           <ExperienceTypeSelector
