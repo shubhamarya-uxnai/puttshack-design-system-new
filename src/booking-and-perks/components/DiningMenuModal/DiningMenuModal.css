@@ -1,5 +1,7 @@
-/* Figma node 4281:90599: the menu body sits on a dark "Surface/Inverse" panel even though the
-   Modal shell itself is the usual white card — fixed dark tokens, not theme-toggling ones. */
+/* Figma node 4199:163959/4281:90599: inside the white Modal shell, the menu itself is a dark
+   translucent SCRIM over the white card (a `Surface/Inverse` overlay), not the app's opaque
+   brand-purple `--pk-sys-bg-card` used elsewhere for real dark cards — that read as a whole
+   second solid card stacked inside the modal rather than "a little darker" panel. */
 
 .pk-dining-menu {
   display: flex;
@@ -8,7 +10,7 @@
   width: 100%;
   padding: var(--pk-sys-level2-vertical) var(--pk-sys-level2-horizontal);
   border-radius: var(--pk-ref-radius-md);
-  background: var(--pk-sys-bg-card);
+  background: var(--pk-ref-black-64);
   box-sizing: border-box;
 }
 

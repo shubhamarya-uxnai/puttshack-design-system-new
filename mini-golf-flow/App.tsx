@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { PhoneFrame } from './PhoneFrame'
-import { ConfigureScreen } from './ConfigureScreen'
+import { ConfigureScreen, type BookingSummary } from './ConfigureScreen'
 import { CheckoutScreen } from './CheckoutScreen'
 import { ConfirmationScreen } from './ConfirmationScreen'
 import { DEFAULT_PARTY_PLAYERS } from '../src/booking-and-perks/components/ManagePartyModal/ManagePartyModal'
@@ -25,6 +25,9 @@ export default function App() {
   // 5000:153811 "Checkout (NOT Perk User)" when false: the latter has no Perks
   // Cards at all, since rewards can't be available to someone who isn't signed in).
   const [isSignedIn, setIsSignedIn] = useState(false)
+  // The exact selection made on ConfigureScreen, handed off at "Checkout" so the Checkout
+  // screen's Booking Details reflects what was actually picked instead of its own defaults.
+  const [booking, setBooking] = useState<BookingSummary | null>(null)
   // Party roster lives here (not inside ManagePartyModal) so the prototype's external
   // "Accept invite" control — simulating the invited player tapping their own link on
   // their own device — can flip a player's status from outside the phone entirely.
@@ -56,12 +59,16 @@ export default function App() {
           isSignedIn={isSignedIn}
           onSignIn={() => setIsSignedIn(true)}
           onLogOut={() => setIsSignedIn(false)}
-          onCheckout={() => setScreen('checkout')}
+          onCheckout={(summary) => {
+            setBooking(summary)
+            setScreen('checkout')
+          }}
         />
       )}
       {screen === 'checkout' && (
         <CheckoutScreen
           isSignedIn={isSignedIn}
+          booking={booking}
           onLogOut={() => setIsSignedIn(false)}
           onBack={() => setScreen('configure')}
           onComplete={() => setScreen('confirmation')}

@@ -13,12 +13,32 @@ import type { TimeSelectionPeriod } from '../src/booking-and-perks/components/Ti
 import { FullCalendarModal } from '../src/booking-and-perks/components/FullCalendarModal/FullCalendarModal'
 import { DiningMenuModal } from '../src/booking-and-perks/components/DiningMenuModal/DiningMenuModal'
 import { buildTimeSlots, getDisabledPeriods, firstAvailablePeriod } from '../src/booking-and-perks/utils/timeSlots'
+import type { BookingDetailsVariant } from '../src/booking-and-perks/components/BookingDetails/BookingDetails'
 import './Screens.css'
 
 const EXPERIENCE_LABELS: Record<string, string> = {
   puttcade: 'Puttcade',
   'mini-golf': 'Interactive Mini Golf',
   dining: 'Dining Only',
+}
+
+const EXPERIENCE_TO_BOOKING_VARIANT: Record<string, BookingDetailsVariant> = {
+  puttcade: 'puttcade',
+  'mini-golf': 'mini-golf',
+  dining: 'dining-only',
+}
+
+/** Everything Checkout's `BookingDetails` needs to show the exact selection made on this
+ * screen, rather than its own hardcoded "Interactive Mini Golf / Sat, Apr 25" defaults. */
+export interface BookingSummary {
+  variant: BookingDetailsVariant
+  location: string
+  setup: string
+  groupSize: string
+  groupSizeDetail: string
+  date: string
+  time: string
+  totalPrice: string
 }
 
 /**
@@ -54,7 +74,7 @@ export function ConfigureScreen({
   isSignedIn: boolean
   onSignIn: () => void
   onLogOut: () => void
-  onCheckout: () => void
+  onCheckout: (summary: BookingSummary) => void
 }) {
   const [selectedDate, setSelectedDate] = useState<string | undefined>(undefined)
   const [guests, setGuests] = useState({ adults: 0, youngAdults: 0, juniors: 0 })
@@ -66,6 +86,16 @@ export function ConfigureScreen({
   const [selectedTime, setSelectedTime] = useState<string | undefined>(undefined)
   const [calendarOpen, setCalendarOpen] = useState(false)
   const [menuOpen, setMenuOpen] = useState(false)
+
+  // Switching experience must clear the previous one's own picks — otherwise the footer (and
+  // Checkout) can keep showing e.g. "1 Bay" after the guest moves on to Dining Only.
+  function handleExperienceChange(key: string) {
+    setSelectedExperience(key)
+    setSelectedRound(undefined)
+    setSelectedBay(undefined)
+    setSelectedDuration(undefined)
+    setSelectedTime(undefined)
+  }
 
   const isPuttcade = selectedExperience === 'puttcade'
   const isDining = selectedExperience === 'dining'
@@ -97,6 +127,25 @@ export function ConfigureScreen({
 
   const price = isPuttcade ? durationOption?.totalPrice : roundOption?.totalPrice
 
+  const groupSizeDetail = useMemo(() => {
+    const parts: string[] = []
+    if (guests.adults > 0) parts.push(`${guests.adults} adult${guests.adults > 1 ? 's' : ''}`)
+    if (guests.youngAdults > 0) parts.push(`${guests.youngAdults} young adult${guests.youngAdults > 1 ? 's' : ''}`)
+    if (guests.juniors > 0) parts.push(`${guests.juniors} junior${guests.juniors > 1 ? 's' : ''}`)
+    return parts.join(' · ')
+  }, [guests])
+
+  const bookingSummary: BookingSummary = {
+    variant: selectedExperience ? EXPERIENCE_TO_BOOKING_VARIANT[selectedExperience] : 'mini-golf',
+    location: 'Chicago, IL',
+    setup: isPuttcade ? (durationOption?.title ?? '') : isDining ? '' : (roundOption?.title ?? ''),
+    groupSize: `${totalGuests} guest${totalGuests === 1 ? '' : 's'}`,
+    groupSizeDetail,
+    date: selectedDate ?? '',
+    time: selectedTime ?? '',
+    totalPrice: price ?? '$0.00',
+  }
+
   return (
     <div className="pk-proto-screen">
       <AppHeader />
@@ -118,7 +167,7 @@ export function ConfigureScreen({
         {selectedDate && (
           <ExperienceTypeSelector
             experienceValue={selectedExperience}
-            onExperienceChange={setSelectedExperience}
+            onExperienceChange={handleExperienceChange}
             showOptions={selectedExperience === 'mini-golf' || isPuttcade}
             optionsHeading={isPuttcade ? 'Choose your setup' : 'How many rounds?'}
             optionGroups={
@@ -161,7 +210,7 @@ export function ConfigureScreen({
         duration={isPuttcade ? durationOption?.title : roundOption?.title}
         price={price ?? '$0.00'}
         checkoutDisabled={!selectedTime}
-        onCheckout={onCheckout}
+        onCheckout={() => onCheckout(bookingSummary)}
       />
 
       <FullCalendarModal

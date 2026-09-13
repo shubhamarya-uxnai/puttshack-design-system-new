@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { AppHeader } from '../src/booking-and-perks/components/AppHeader/AppHeader'
 import { PerksCard } from '../src/booking-and-perks/components/PerksCard/PerksCard'
 import { BookingDetails } from '../src/booking-and-perks/components/BookingDetails/BookingDetails'
+import type { BookingSummary } from './ConfigureScreen'
 import { ContactInformationForm } from '../src/booking-and-perks/components/ContactInformationForm/ContactInformationForm'
 import { PromoCodeInput } from '../src/booking-and-perks/components/PromoCodeInput/PromoCodeInput'
 import { PaymentMethodForm } from '../src/booking-and-perks/components/PaymentMethodForm/PaymentMethodForm'
@@ -35,11 +36,15 @@ import './Screens.css'
  */
 export function CheckoutScreen({
   isSignedIn,
+  booking,
   onLogOut,
   onBack,
   onComplete,
 }: {
   isSignedIn: boolean
+  /** The exact selection made on ConfigureScreen — null only if Checkout is somehow reached
+   * without going through it first, in which case BookingDetails falls back to its own defaults. */
+  booking: BookingSummary | null
   onLogOut: () => void
   onBack: () => void
   onComplete: () => void
@@ -68,7 +73,20 @@ export function CheckoutScreen({
 
       <div className="pk-proto-screen__body">
         {isSignedIn && <PerksCard type="sign-in" isSignedIn onLogOut={onLogOut} />}
-        <BookingDetails />
+        {booking ? (
+          <BookingDetails
+            variant={booking.variant}
+            location={booking.location}
+            setup={booking.setup}
+            groupSize={booking.groupSize}
+            groupSizeDetail={booking.groupSizeDetail}
+            date={booking.date}
+            time={booking.time}
+            totalPrice={booking.totalPrice}
+          />
+        ) : (
+          <BookingDetails />
+        )}
         {isSignedIn && <PerksCard type="rewards" isSignedIn rewardsAvailable />}
         <ContactInformationForm isSignedIn={isSignedIn} />
         <PromoCodeInput />
