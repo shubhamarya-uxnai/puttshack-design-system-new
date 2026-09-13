@@ -13,12 +13,6 @@ export type ModalVariant = 'default' | 'variant2'
 export interface ModalProps {
   /** Figma: `Property 1`. @default 'default' */
   variant?: ModalVariant
-  /** Real capture is a light card with dark text (node 4195:161696, "Review your
-   * changes"). Set `inverse` for the dark-card treatment seen on the Terms &
-   * Conditions overlay instance (node 4281:91061) — white header text, and any
-   * `children` reading content gets an opaque light panel instead of inheriting the
-   * dark card background. @default false */
-  inverse?: boolean
   /** Modal Headings text (node 4199:161760 inside this Modal — a different, simpler
    * shape than the standalone `ModalHeadings` DS component: just a small-caps title
    * + a body subtitle, no eyebrow category or icon). */
@@ -67,13 +61,20 @@ export interface ModalProps {
  * A generic modal shell: an "X" close button, a Modal Header (optional
  * "BACK" for stacked/second modals, then title + subtitle), a `children`
  * body slot, optional info banner / toast / inline `TermsAndConditions`,
- * and a button group (primary, tertiary-inverse secondary, optional ghost
- * link). Renders its own fixed, centered backdrop — nothing else needs to
- * wrap it.
+ * and a button group (primary, tertiary secondary, optional ghost link).
+ * Renders its own fixed, centered backdrop — nothing else needs to wrap it.
+ *
+ * Real resolved variables (`get_variable_defs` on both the generic "Review
+ * your changes" capture, node 4195:161696, and the Terms & Conditions
+ * overlay instance, node 4281:91061) confirm this card is always a plain
+ * white `Background/Default` card with dark text throughout — including
+ * "Interactive/Tertiary-Inverse/Text" resolving to `#0e0115` (dark), not
+ * white. There's no real dark/inverse variant of this Modal; an earlier
+ * pass here added one from eyeballing a design-context screenshot whose
+ * dark canvas backdrop was misread as the modal's own fill.
  */
 export function Modal({
   variant = 'default',
-  inverse = false,
   title,
   subtitle,
   children,
@@ -100,11 +101,7 @@ export function Modal({
 }: ModalProps) {
   return (
     <div className="pk-modal__overlay">
-      <div
-        className={cx('pk-modal', `pk-modal--${variant}`, inverse && 'pk-modal--inverse', className)}
-        role="dialog"
-        aria-modal="true"
-      >
+      <div className={cx('pk-modal', `pk-modal--${variant}`, className)} role="dialog" aria-modal="true">
         <button type="button" className="pk-modal__close" aria-label="Close" onClick={onClose}>
           <X aria-hidden="true" size={24} />
         </button>
@@ -149,7 +146,7 @@ export function Modal({
             <Button variant="primary" onClick={onPrimaryAction}>
               {primaryLabel}
             </Button>
-            <Button variant="tertiary" inverse onClick={onSecondaryAction}>
+            <Button variant="tertiary" onClick={onSecondaryAction}>
               {secondaryLabel}
             </Button>
             {linkLabel && (

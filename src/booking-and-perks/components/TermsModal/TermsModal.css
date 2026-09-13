@@ -1,5 +1,17 @@
-/* Real T&C reading-panel copy (node 4281:91059) — the panel chrome itself
-   (background, border, scroll) is owned by Modal's `inverse` body treatment. */
+/* Real T&C reading panel (node 4281:91059): resolved Surface/Inverse (~6% black) over
+   the white Modal card, bordered with resolved Border/Inverse (~24% black). Scrolling
+   itself is handled by the outer Modal's `.pk-modal__body`; this is just the panel. */
+
+.pk-terms-modal__panel {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  padding: var(--pk-sys-gap-lg);
+  background: rgba(0, 0, 0, 0.06);
+  border: var(--pk-ref-border-thin) solid rgba(0, 0, 0, 0.24);
+  border-radius: var(--pk-ref-radius-lg);
+  box-sizing: border-box;
+}
 
 .pk-terms-modal__section + .pk-terms-modal__section {
   margin-top: var(--pk-sys-gap-lg);

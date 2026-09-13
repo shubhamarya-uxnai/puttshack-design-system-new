@@ -1,10 +1,8 @@
-/* Real captures: default (node 4195:161696, "Review your changes") is a light card with
-   dark text — the codegen's literal `text+icon/inverse,white` on the header was stale.
-   `inverse` (node 4281:91061, the Terms & Conditions overlay) is a genuinely dark card
-   with white header text and an opaque light panel for any reading content, matching the
-   established "the render wins over the literal fallback" rule from earlier fixes this
-   session. Tokens: Background/Default -> --pk-sys-bg-default, Level 2/* -> --pk-sys-level2-*,
-   Button/Default/* -> --pk-sys-button-default-*. */
+/* Real resolved variables (`get_variable_defs`, both the generic "Review your changes"
+   capture and the Terms & Conditions overlay instance) confirm this is always a plain
+   white Background/Default card with dark text throughout — Interactive/Tertiary-Inverse/
+   Text resolves to #0e0115 (dark), not white. Tokens: Background/Default -> --pk-sys-bg-default,
+   Level 2/* -> --pk-sys-level2-*, Button/Default/* -> --pk-sys-button-default-*. */
 
 .pk-modal__overlay {
   position: fixed;
@@ -33,10 +31,6 @@
   border-radius: var(--pk-ref-radius-lg);
   box-sizing: border-box;
   overflow: hidden;
-}
-
-.pk-modal--inverse {
-  background: var(--pk-sys-bg-inverse);
 }
 
 .pk-modal__close {
@@ -77,26 +71,14 @@
   cursor: pointer;
 }
 
-.pk-modal--inverse .pk-modal__back {
-  color: var(--pk-sys-text-inverse);
-}
-
 .pk-modal__title {
   margin: 0;
   color: var(--pk-sys-text-primary);
 }
 
-.pk-modal--inverse .pk-modal__title {
-  color: var(--pk-sys-text-inverse);
-}
-
 .pk-modal__subtitle {
   margin: 0;
   color: var(--pk-sys-text-primary);
-}
-
-.pk-modal--inverse .pk-modal__subtitle {
-  color: var(--pk-sys-text-inverse);
 }
 
 .pk-modal__info-banner {
@@ -120,15 +102,6 @@
   max-height: 450px;
   overflow-y: auto;
   box-sizing: border-box;
-}
-
-/* Reading content inside an inverse (dark) modal gets its own opaque light panel —
-   otherwise dark body text would sit directly on the dark card and disappear. */
-.pk-modal--inverse .pk-modal__body {
-  padding: var(--pk-sys-gap-lg);
-  background: var(--pk-ref-white);
-  border: var(--pk-ref-border-thin) solid var(--pk-ref-black-06);
-  border-radius: 8px;
 }
 
 .pk-modal__button-group {
