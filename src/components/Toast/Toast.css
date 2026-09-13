@@ -268,12 +268,15 @@
   color: var(--pk-sys-text-white);
 }
 
+/* Exact hex confirmed by a real capture ("Link has been Sent to Alex", node
+   4753:118277): Feedback-Inverse/Info/Background #031A27, /Border #008DC8,
+   /Hover #006A97 — replacing the earlier info-blue-700/500 approximation. */
 .pk-toast--informative.pk-toast--inverse {
-  background: var(--pk-ref-info-blue-700); /* $Feedback-Inverse/Info/Background — unmapped, approximated */
-  border-color: var(--pk-ref-info-blue-500); /* $Feedback-Inverse/Info/Border — unmapped, approximated */
+  background: #031a27;
+  border-color: #008dc8;
 }
 .pk-toast--informative.pk-toast--inverse .pk-toast__icon {
-  background: var(--pk-ref-info-blue-500); /* $Feedback-Inverse/Info/Hover — unmapped, approximated */
+  background: #006a97;
   color: var(--pk-sys-text-white);
 }
 

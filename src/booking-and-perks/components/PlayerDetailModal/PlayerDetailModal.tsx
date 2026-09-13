@@ -3,15 +3,17 @@ import { Modal } from '../Modal/Modal'
 import { Toast } from '../../../components/Toast/Toast'
 import { InputField } from '../../../components/InputField/InputField'
 import { Checkbox } from '../../../components/Checkbox/Checkbox'
-import { CheckCircle2, User, Phone, Lock } from '../../../icons'
+import { CheckCircle2, Info, User, Phone, Lock, Edit3, X } from '../../../icons'
 import './PlayerDetailModal.css'
+
+export type PlayerDetailStatus = 'registered' | 'link-sent' | 'not-registered'
 
 export interface PlayerDetailModalProps {
   playerName: string
-  /** Figma: `isSignedIn`-style variant — a registered player sees a read-only
-   * success confirmation (node 4753:118285); an unregistered player sees the
-   * editable registration form (node 4281:91288). */
-  registered: boolean
+  /** Figma: the 3 real captures this sub-modal switches between — registered
+   * (node 4753:118285), link sent but not yet accepted (node 4753:118277), and
+   * not yet sent (node 4281:91288). */
+  status: PlayerDetailStatus
   phone?: string
   displayName?: string
   ageGroup?: string
@@ -24,19 +26,28 @@ export interface PlayerDetailModalProps {
 
 /**
  * Booking-and-Perks composite — the "Register {name}" sub-modal opened from a
- * `PlayerCard`'s chevron button inside "Manage Your Party". Two real
- * captures, both verified via design-context:
+ * `PlayerCard`'s chevron button inside "Manage Your Party". Three real
+ * captures, all verified via design-context:
  *
- * - Registered (node 4753:118285, "Register Alex Chen") — a success `Toast`
- *   ("{name} is Ready"), read-only "Sent to" / "Phone" fields, a guardian
- *   confirmation checkbox, and a single "Back to Party" button.
- * - Not registered (node 4281:91288, "Register Player 2") — editable
- *   Display Name / Phone Number (Optional) / Age Group (locked) fields,
- *   "Send Registration Link" primary + a "Remove From Party" ghost link.
+ * - Registered (node 4753:118285) — a success `Toast`, read-only "Sent to" /
+ *   "Phone" fields, a guardian confirmation checkbox, and a single "Back to
+ *   Party" button.
+ * - Link sent (node 4753:118277) — an informative `Toast` ("Link has been
+ *   Sent to {name}"), the same read-only fields + guardian checkbox, and 3
+ *   buttons: "Resend registration link" / "Edit contact information" (with a
+ *   leading edit icon) / "Remove from party" (with a leading "X").
+ * - Not registered (node 4281:91288) — editable Display Name / Phone Number
+ *   (Optional) / Age Group (locked) fields, "Send Registration Link" +
+ *   "Remove From Party" (no icon on this one).
+ *
+ * Rule established this session: a `Toast` used as a floating card inside a
+ * Modal is always `inverse`, regardless of the Modal's own (always-white)
+ * background — both real captures with a Toast in this sub-modal confirm it
+ * (success #001D06/#00742F, informative #031A27/#008DC8).
  */
 export function PlayerDetailModal({
   playerName,
-  registered,
+  status,
   phone = '',
   displayName = '',
   ageGroup = '',
@@ -49,8 +60,53 @@ export function PlayerDetailModal({
   const [nameValue, setNameValue] = useState(displayName)
   const [phoneValue, setPhoneValue] = useState(phone)
   const [guardianConfirmed, setGuardianConfirmed] = useState(true)
+  const firstName = playerName.split(' ')[0]
 
-  if (registered) {
+  if (status === 'not-registered') {
+    return (
+      <Modal
+        isSecondModal
+        onBack={onBack}
+        title={`Register ${playerName}`}
+        subtitle="Add their name or nickname and mobile number. We'll text them a secure link to complete their registration and accept the Terms & Conditions."
+        primaryLabel="Send Registration Link"
+        onPrimaryAction={() => onSendRegistrationLink?.({ displayName: nameValue, phone: phoneValue })}
+        linkLabel="Remove From Party"
+        onLinkAction={onRemoveFromParty}
+        onClose={onClose ?? onBack}
+        className={className}
+      >
+        <InputField
+          label="Display Name"
+          required
+          leadingIcon={<User aria-hidden="true" />}
+          helperText="Shows up on the leaderboard during play."
+          value={nameValue}
+          onChange={(e) => setNameValue(e.target.value)}
+        />
+        <InputField
+          label="Phone Number (Optional)"
+          leadingIcon={<Phone aria-hidden="true" />}
+          helperText="If you'd like them to get booking updates by text"
+          value={phoneValue}
+          onChange={(e) => setPhoneValue(e.target.value)}
+        />
+        <InputField label="Age Group" readOnly trailingIcon={<Lock aria-hidden="true" size={20} />} value={ageGroup} />
+      </Modal>
+    )
+  }
+
+  const guardianInformation = (
+    <label className="pk-player-detail-modal__guardian-row">
+      <Checkbox checked={guardianConfirmed} onCheckedChange={setGuardianConfirmed} />
+      <span className="pk-text-label-small">
+        I confirm that I am the player&rsquo;s parent or authorised guardian and have permission to accept the
+        Terms &amp; Conditions on their behalf.
+      </span>
+    </label>
+  )
+
+  if (status === 'link-sent') {
     return (
       <Modal
         isSecondModal
@@ -58,26 +114,23 @@ export function PlayerDetailModal({
         title={`Register ${playerName}`}
         subtitle="Add their name or nickname and mobile number. We'll text them a secure link to complete their registration and accept the Terms & Conditions."
         showInformation
-        information={
-          <label className="pk-player-detail-modal__guardian-row">
-            <Checkbox checked={guardianConfirmed} onCheckedChange={setGuardianConfirmed} />
-            <span className="pk-text-label-small">
-              I confirm that I am the player&rsquo;s parent or authorised guardian and have permission to accept
-              the Terms &amp; Conditions on their behalf.
-            </span>
-          </label>
-        }
-        primaryLabel="Back to Party"
-        onPrimaryAction={onBack}
+        information={guardianInformation}
+        primaryLabel="Resend registration link"
+        onPrimaryAction={() => onSendRegistrationLink?.({ displayName, phone })}
+        secondaryLabel="Edit contact information"
+        secondaryLeadingIcon={<Edit3 aria-hidden="true" size={20} />}
+        onSecondaryAction={onBack}
+        linkLabel="Remove from party"
+        linkIcon={<X aria-hidden="true" size={24} />}
+        onLinkAction={onRemoveFromParty}
         onClose={onClose ?? onBack}
         className={className}
       >
         <Toast
-          variant="success"
+          variant="informative"
           inverse
-          icon={<CheckCircle2 aria-hidden="true" size={16} />}
-          title={`${playerName.split(' ')[0]} is Ready`}
-          message={`${playerName.split(' ')[0]} accepted terms and conditions, and has been registered successfully.`}
+          icon={<Info aria-hidden="true" />}
+          title={`Link has been Sent to ${firstName}`}
         />
         <InputField label="Sent to" required readOnly leadingIcon={<User aria-hidden="true" />} value={displayName} />
         <InputField label="Phone" required readOnly leadingIcon={<Phone aria-hidden="true" />} value={phone} />
@@ -91,34 +144,22 @@ export function PlayerDetailModal({
       onBack={onBack}
       title={`Register ${playerName}`}
       subtitle="Add their name or nickname and mobile number. We'll text them a secure link to complete their registration and accept the Terms & Conditions."
-      primaryLabel="Send Registration Link"
-      onPrimaryAction={() => onSendRegistrationLink?.({ displayName: nameValue, phone: phoneValue })}
-      linkLabel="Remove From Party"
-      onLinkAction={onRemoveFromParty}
+      showInformation
+      information={guardianInformation}
+      primaryLabel="Back to Party"
+      onPrimaryAction={onBack}
       onClose={onClose ?? onBack}
       className={className}
     >
-      <InputField
-        label="Display Name"
-        required
-        leadingIcon={<User aria-hidden="true" />}
-        helperText="Shows up on the leaderboard during play."
-        value={nameValue}
-        onChange={(e) => setNameValue(e.target.value)}
+      <Toast
+        variant="success"
+        inverse
+        icon={<CheckCircle2 aria-hidden="true" size={16} />}
+        title={`${firstName} is Ready`}
+        message={`${firstName} accepted terms and conditions, and has been registered successfully.`}
       />
-      <InputField
-        label="Phone Number (Optional)"
-        leadingIcon={<Phone aria-hidden="true" />}
-        helperText="If you'd like them to get booking updates by text"
-        value={phoneValue}
-        onChange={(e) => setPhoneValue(e.target.value)}
-      />
-      <InputField
-        label="Age Group"
-        readOnly
-        trailingIcon={<Lock aria-hidden="true" size={20} />}
-        value={ageGroup}
-      />
+      <InputField label="Sent to" required readOnly leadingIcon={<User aria-hidden="true" />} value={displayName} />
+      <InputField label="Phone" required readOnly leadingIcon={<Phone aria-hidden="true" />} value={phone} />
     </Modal>
   )
 }

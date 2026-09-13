@@ -52,6 +52,9 @@ export interface ModalProps {
    * changes", but plenty of real usages (e.g. the T&C overlay) only have 2 buttons,
    * so this is opt-in via a label rather than always rendered. */
   linkLabel?: string
+  /** Leading icon on the ghost/link button (e.g. the "X" on "Remove from party" in the
+   * link-sent player state — the not-yet-sent state's "Remove From Party" has no icon). */
+  linkIcon?: React.ReactNode
   onLinkAction?: () => void
   onBack?: () => void
   /** Figma: the "Add" close ("X") button, top-right of every real capture. */
@@ -104,6 +107,7 @@ export function Modal({
   onPrimaryAction,
   onSecondaryAction,
   linkLabel,
+  linkIcon,
   onLinkAction,
   onBack,
   onClose,
@@ -159,7 +163,7 @@ export function Modal({
               </Button>
             )}
             {linkLabel && (
-              <Button variant="ghost" onClick={onLinkAction}>
+              <Button variant="ghost" leadingIcon={linkIcon} onClick={onLinkAction}>
                 {linkLabel}
               </Button>
             )}

@@ -3,6 +3,7 @@ import { AppHeader } from '../src/booking-and-perks/components/AppHeader/AppHead
 import { ShareBookingLink } from '../src/booking-and-perks/components/ShareBookingLink/ShareBookingLink'
 import { BookingDetails } from '../src/booking-and-perks/components/BookingDetails/BookingDetails'
 import { ManagePartyModal } from '../src/booking-and-perks/components/ManagePartyModal/ManagePartyModal'
+import type { ManagePartyPlayer } from '../src/booking-and-perks/components/ManagePartyModal/ManagePartyModal'
 import { Toast } from '../src/components/Toast/Toast'
 import { Info } from '../src/icons'
 import { PageTitle } from './ScreenChrome'
@@ -17,10 +18,22 @@ import './Screens.css'
  * "Manage party" opens the real "Manage Your Party" overlay (node
  * 4281:90882) — registration progress + share link + a `PlayerCard` per
  * party member. "Save and close" saves the party changes, dismisses the
- * modal, and surfaces a top informative Toast confirming the save, which
- * auto-dismisses after 2 seconds.
+ * modal, and surfaces a top Toast confirming the save, which auto-dismisses
+ * after 2 seconds. Per this session's established rule, a Toast floating as
+ * its own card (here, over the screen's dark background) is always
+ * `inverse`; since it's a single line with no second body line, that line
+ * goes in `title` alone (no `message`), matching how the real captures with
+ * only one line of copy render.
  */
-export function ConfirmationScreen({ onRestart }: { onRestart: () => void }) {
+export function ConfirmationScreen({
+  players,
+  onPlayersChange,
+  onRestart,
+}: {
+  players: ManagePartyPlayer[]
+  onPlayersChange: (players: ManagePartyPlayer[]) => void
+  onRestart: () => void
+}) {
   const [showManageParty, setShowManageParty] = useState(false)
   const [showSavedToast, setShowSavedToast] = useState(false)
 
@@ -49,6 +62,8 @@ export function ConfirmationScreen({ onRestart }: { onRestart: () => void }) {
 
       {showManageParty && (
         <ManagePartyModal
+          players={players}
+          onPlayersChange={onPlayersChange}
           onSaveAndClose={() => {
             setShowManageParty(false)
             setShowSavedToast(true)
@@ -59,7 +74,7 @@ export function ConfirmationScreen({ onRestart }: { onRestart: () => void }) {
 
       {showSavedToast && (
         <div className="pk-proto-screen__top-toast">
-          <Toast variant="informative" icon={<Info aria-hidden="true" />} message="Your changes have been saved." />
+          <Toast variant="informative" inverse icon={<Info aria-hidden="true" />} title="Your changes have been saved." />
         </div>
       )}
     </div>

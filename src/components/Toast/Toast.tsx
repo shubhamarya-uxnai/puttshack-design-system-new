@@ -33,9 +33,12 @@ export interface ToastProps extends React.HTMLAttributes<HTMLDivElement> {
   /**
    * Figma: `Content` text prop. Primary body copy. Pass a string, or a
    * fragment with an inner `<strong>` for a bold lead-in — the component
-   * doesn't parse bold out of a plain string itself.
+   * doesn't parse bold out of a plain string itself. Omit entirely for a
+   * single-line toast (e.g. a plain confirmation like "Changes saved") —
+   * real captures with only one line of copy put it in `title` alone and
+   * render no second line, rather than repeating it as a body line too.
    */
-  message: React.ReactNode
+  message?: React.ReactNode
   /**
    * Figma: `Subheading` boolean + its bound text layer. An optional second
    * line rendered below `message`, off by default (mirrors the boolean's
@@ -77,7 +80,7 @@ export function Toast({
         )}
         {title && <p className="pk-toast__title">{title}</p>}
       </div>
-      <p className="pk-toast__message">{message}</p>
+      {message && <p className="pk-toast__message">{message}</p>}
       {subheading && <p className="pk-toast__subheading">{subheading}</p>}
       {onDismiss && (
         <button

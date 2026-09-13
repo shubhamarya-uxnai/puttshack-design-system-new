@@ -3,6 +3,10 @@ import { PhoneFrame } from './PhoneFrame'
 import { ConfigureScreen } from './ConfigureScreen'
 import { CheckoutScreen } from './CheckoutScreen'
 import { ConfirmationScreen } from './ConfirmationScreen'
+import { DEFAULT_PARTY_PLAYERS } from '../src/booking-and-perks/components/ManagePartyModal/ManagePartyModal'
+import type { ManagePartyPlayer } from '../src/booking-and-perks/components/ManagePartyModal/ManagePartyModal'
+import { Button } from '../src/components/Button/Button'
+import { UserCheck } from '../src/icons'
 
 /**
  * "Interactive Mini Golf" booking flow prototype — Figma: Booking and Perks
@@ -21,9 +25,31 @@ export default function App() {
   // 5000:153811 "Checkout (NOT Perk User)" when false: the latter has no Perks
   // Cards at all, since rewards can't be available to someone who isn't signed in).
   const [isSignedIn, setIsSignedIn] = useState(false)
+  // Party roster lives here (not inside ManagePartyModal) so the prototype's external
+  // "Accept invite" control — simulating the invited player tapping their own link on
+  // their own device — can flip a player's status from outside the phone entirely.
+  const [players, setPlayers] = useState<ManagePartyPlayer[]>(DEFAULT_PARTY_PLAYERS)
+
+  const pendingInvite = players.find((p) => p.registrationStatus === 'link-sent')
 
   return (
-    <PhoneFrame>
+    <PhoneFrame
+      sideAction={
+        screen === 'confirmation' && pendingInvite ? (
+          <Button
+            variant="secondary"
+            leadingIcon={<UserCheck aria-hidden="true" />}
+            onClick={() =>
+              setPlayers((prev) =>
+                prev.map((p) => (p.id === pendingInvite.id ? { ...p, registrationStatus: 'registered' } : p))
+              )
+            }
+          >
+            {`Accept invite as ${pendingInvite.name}`}
+          </Button>
+        ) : undefined
+      }
+    >
       {screen === 'configure' && (
         <ConfigureScreen
           isSignedIn={isSignedIn}
@@ -40,7 +66,13 @@ export default function App() {
           onComplete={() => setScreen('confirmation')}
         />
       )}
-      {screen === 'confirmation' && <ConfirmationScreen onRestart={() => setScreen('configure')} />}
+      {screen === 'confirmation' && (
+        <ConfirmationScreen
+          players={players}
+          onPlayersChange={setPlayers}
+          onRestart={() => setScreen('configure')}
+        />
+      )}
     </PhoneFrame>
   )
 }

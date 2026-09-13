@@ -24,7 +24,9 @@ const STATUS_MAP: Record<RegistrationStatus, { badgeStatus: BadgeStatus; label: 
   'not-registered': { badgeStatus: 'disabled', label: 'Not Registered' },
   registered: { badgeStatus: 'success', label: 'Registered' },
   guardian: { badgeStatus: 'linked', label: 'Guardian' },
-  'link-sent': { badgeStatus: 'linked-secondary', label: 'Link Sent' },
+  /* Real capture (node 5000:154252): Background/Magenta-Light #F45197 with white text —
+     that's `linked`, not `linked-secondary` (Background/Magenta-Dark), which was a guess. */
+  'link-sent': { badgeStatus: 'linked', label: 'Link Sent' },
   'in-progress': { badgeStatus: 'warning', label: 'In Progress' },
 }
 

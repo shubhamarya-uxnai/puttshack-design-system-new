@@ -4,6 +4,7 @@ import { RegistrationCountSummary } from '../RegistrationCountSummary/Registrati
 import { PlayerCard } from '../PlayerCard/PlayerCard'
 import { ShareLinkModal } from '../ShareLinkModal/ShareLinkModal'
 import { PlayerDetailModal } from '../PlayerDetailModal/PlayerDetailModal'
+import type { PlayerDetailStatus } from '../PlayerDetailModal/PlayerDetailModal'
 import type { RegistrationStatus } from '../RegistrationStatusBadge/RegistrationStatusBadge'
 import { Plus } from '../../../icons'
 
@@ -16,7 +17,7 @@ export interface ManagePartyPlayer {
   phone?: string
 }
 
-const DEFAULT_PLAYERS: ManagePartyPlayer[] = [
+export const DEFAULT_PARTY_PLAYERS: ManagePartyPlayer[] = [
   {
     id: 'p1',
     name: 'Alex Parry',
@@ -30,8 +31,17 @@ const DEFAULT_PLAYERS: ManagePartyPlayer[] = [
   { id: 'p4', name: 'Player 4', type: 'Junior (0-12)', registrationStatus: 'not-registered' },
 ]
 
+/** Maps a party member's badge status to which of the 3 real "Register {name}"
+ * sub-modal captures they should open. */
+function toDetailStatus(status?: RegistrationStatus): PlayerDetailStatus {
+  if (status === 'registered') return 'registered'
+  if (status === 'link-sent') return 'link-sent'
+  return 'not-registered'
+}
+
 export interface ManagePartyModalProps {
-  players?: ManagePartyPlayer[]
+  players: ManagePartyPlayer[]
+  onPlayersChange: (players: ManagePartyPlayer[]) => void
   registrationLink?: string
   onSaveAndClose?: (players: ManagePartyPlayer[]) => void
   onAddMorePlayer?: () => void
@@ -50,18 +60,24 @@ type View = { name: 'list' } | { name: 'share' } | { name: 'player'; playerId: s
  *
  * - The party list itself (this Modal's default view).
  * - "Share registration link" (node 4281:91056) — opened from "Share Link".
- * - "Register {name}" (node 4753:118285 registered / 4281:91288 not) —
- *   opened from a `PlayerCard`'s chevron, with "Back"/close returning here.
+ * - "Register {name}" (registered/link-sent/not-registered, see
+ *   `PlayerDetailModal`) — opened from a `PlayerCard`'s chevron, with
+ *   "Back"/close returning here.
+ *
+ * `players` is controlled by the caller (not local state) so a change made
+ * here — e.g. sending a registration link — is visible outside this modal
+ * too, such as the prototype's external "Accept invite" control simulating
+ * the invited guest.
  */
 export function ManagePartyModal({
-  players: initialPlayers = DEFAULT_PLAYERS,
+  players,
+  onPlayersChange,
   registrationLink = 'puttshack.com/register/PSK-P4381PB',
   onSaveAndClose,
   onAddMorePlayer,
   onClose,
   className,
 }: ManagePartyModalProps) {
-  const [players, setPlayers] = useState(initialPlayers)
   const [view, setView] = useState<View>({ name: 'list' })
 
   const registeredCount = players.filter((p) => p.registrationStatus === 'registered').length
@@ -82,19 +98,21 @@ export function ManagePartyModal({
       return (
         <PlayerDetailModal
           playerName={player.name}
-          registered={player.registrationStatus === 'registered'}
+          status={toDetailStatus(player.registrationStatus)}
           phone={player.phone}
           displayName={player.name}
           ageGroup={player.type}
           onBack={() => setView({ name: 'list' })}
           onSendRegistrationLink={({ displayName, phone }) => {
-            setPlayers((prev) =>
-              prev.map((p) => (p.id === player.id ? { ...p, name: displayName || p.name, phone } : p))
+            onPlayersChange(
+              players.map((p) =>
+                p.id === player.id ? { ...p, name: displayName || p.name, phone, registrationStatus: 'link-sent' } : p
+              )
             )
             setView({ name: 'list' })
           }}
           onRemoveFromParty={() => {
-            setPlayers((prev) => prev.filter((p) => p.id !== player.id))
+            onPlayersChange(players.filter((p) => p.id !== player.id))
             setView({ name: 'list' })
           }}
           className={className}

@@ -4,9 +4,20 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  gap: var(--pk-sys-gap-xl);
   background: var(--pk-sys-bg-magenta-dark);
   padding: var(--pk-sys-gap-lg);
   box-sizing: border-box;
+}
+
+/* Prototype-only control(s) living outside the phone, to its right — see
+   PhoneFrame's `sideAction` prop doc for why this exists. */
+.pk-proto-side-action {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--pk-sys-gap-sm);
+  max-width: 220px;
 }
 
 .pk-proto-theme-toggle {

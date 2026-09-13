@@ -4,6 +4,11 @@ import './PhoneFrame.css'
 
 export interface PhoneFrameProps {
   children: React.ReactNode
+  /** Prototype-only control(s) rendered outside the phone, to its right — for
+   * simulating an action taken by someone other than the guest holding this
+   * phone (e.g. "Accept invite" standing in for the invited player tapping
+   * their own registration link on their own device). */
+  sideAction?: React.ReactNode
 }
 
 /**
@@ -29,7 +34,7 @@ export interface PhoneFrameProps {
  * semantic token values rather than a curated alternate layout — some
  * elements (e.g. the Stepper's icon-on-white contrast) aren't tuned for it.
  */
-export function PhoneFrame({ children }: PhoneFrameProps) {
+export function PhoneFrame({ children, sideAction }: PhoneFrameProps) {
   const [theme, setTheme] = useState<'light' | 'dark'>('light')
 
   return (
@@ -50,6 +55,8 @@ export function PhoneFrame({ children }: PhoneFrameProps) {
           <div className="pk-proto-phone__home-indicator" aria-hidden="true" />
         </div>
       </div>
+
+      {sideAction && <div className="pk-proto-side-action">{sideAction}</div>}
     </div>
   )
 }
