@@ -291,13 +291,22 @@
   --pk-sys-container-bottom:       var(--pk-ref-space-32);
   --pk-sys-container-gap:          var(--pk-ref-space-16);
 
-  --pk-sys-level2-horizontal: var(--pk-ref-space-20);
-  --pk-sys-level2-vertical:   var(--pk-ref-space-16);
-  --pk-sys-level2-gap:        var(--pk-ref-space-12);
+  /* Level 2/Horizontal, Level 2/Vertical and Level 2/Gap were mismapped to 20/16/12px —
+     every real capture fetched this session (dozens of components: PerksCard,
+     ContactInformationForm, PaymentMethodForm, PromoCodeInput, Modal, ManagePartyModal...)
+     consistently cites `level-2/horizontal,24px` / `level-2/vertical,24px` /
+     `level-2/gap,24px` as the literal codegen fallback, and Figma's own dev-mode
+     inspector (padding box model + "Level 2/Gap" callouts) confirms 24/24/24 directly —
+     corrected here, at the source, rather than patching every consumer. */
+  --pk-sys-level2-horizontal: var(--pk-ref-space-24);
+  --pk-sys-level2-vertical:   var(--pk-ref-space-24);
+  --pk-sys-level2-gap:        var(--pk-ref-space-24);
 
+  /* Same mismapping pattern on Level 3/Vertical and Level 3/Gap (12px/8px) — every real
+     capture this session cites `level-3/vertical,16px` / `level-3/gap,16px`. */
   --pk-sys-level3-horizontal: var(--pk-ref-space-16);
-  --pk-sys-level3-vertical:   var(--pk-ref-space-12);
-  --pk-sys-level3-gap:        var(--pk-ref-space-8);
+  --pk-sys-level3-vertical:   var(--pk-ref-space-16);
+  --pk-sys-level3-gap:        var(--pk-ref-space-16);
 
   --pk-sys-gap-xs: var(--pk-ref-space-4);
   --pk-sys-gap-sm: var(--pk-ref-space-8);
