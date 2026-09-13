@@ -50,6 +50,10 @@ export function CheckoutScreen({
   onComplete: () => void
 }) {
   const [showTerms, setShowTerms] = useState(false)
+  // Figma: node 6014:90572 (Add Debit/Credit Card clicked -> "New Card Details" form) vs
+  // 6014:90617 (a first-time guest with no cards on file at all, before adding one).
+  const [showNewCard, setShowNewCard] = useState(false)
+  const [selectedCardId, setSelectedCardId] = useState('card-1')
 
   return (
     <div className="pk-proto-screen">
@@ -90,7 +94,13 @@ export function CheckoutScreen({
         {isSignedIn && <PerksCard type="rewards" isSignedIn rewardsAvailable />}
         <ContactInformationForm isSignedIn={isSignedIn} />
         <PromoCodeInput />
-        <PaymentMethodForm />
+        <PaymentMethodForm
+          cardsAdded={isSignedIn}
+          newCard={showNewCard}
+          selectedCardId={selectedCardId}
+          onSelectCard={setSelectedCardId}
+          onToggleNewCard={() => setShowNewCard((v) => !v)}
+        />
       </div>
 
       <div className="pk-proto-screen__submit">

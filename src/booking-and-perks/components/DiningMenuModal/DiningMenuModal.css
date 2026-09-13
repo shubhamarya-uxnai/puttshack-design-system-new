@@ -1,7 +1,8 @@
-/* Figma node 4199:163959/4281:90599: inside the white Modal shell, the menu itself is a dark
-   translucent SCRIM over the white card (a `Surface/Inverse` overlay), not the app's opaque
-   brand-purple `--pk-sys-bg-card` used elsewhere for real dark cards — that read as a whole
-   second solid card stacked inside the modal rather than "a little darker" panel. */
+/* Figma node 4199:163959/4281:90599: `Surface/Inverse` -> --pk-sys-surface-inverse (the real
+   token, not an approximated opaque card fill), category labels ("PLATES & SNACKS",
+   "COCKTAILS") -> `Text+Icon/Magenta` -> --pk-sys-text-magenta, divider -> --pk-sys-surface-
+   modal-overlay — all real semantic tokens rather than the literal --pk-ref-* values guessed
+   at before this was corrected. */
 
 .pk-dining-menu {
   display: flex;
@@ -10,7 +11,7 @@
   width: 100%;
   padding: var(--pk-sys-level2-vertical) var(--pk-sys-level2-horizontal);
   border-radius: var(--pk-ref-radius-md);
-  background: var(--pk-ref-black-64);
+  background: var(--pk-sys-surface-inverse);
   box-sizing: border-box;
 }
 
@@ -22,13 +23,13 @@
 
 .pk-dining-menu__category {
   margin: 0;
-  color: var(--pk-ref-magenta-500, #f45197);
+  color: var(--pk-sys-text-magenta);
   text-transform: uppercase;
 }
 
 .pk-dining-menu__divider {
   height: 1px;
-  background: var(--pk-ref-white-06, rgba(255, 255, 255, 0.12));
+  background: var(--pk-sys-surface-modal-overlay);
 }
 
 .pk-dining-menu__items {

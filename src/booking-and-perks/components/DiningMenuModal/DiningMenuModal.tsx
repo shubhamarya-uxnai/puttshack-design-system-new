@@ -58,7 +58,7 @@ export function DiningMenuModal({ open, onClose }: DiningMenuModalProps) {
         </>
       }
     >
-      <div className="pk-dining-menu">
+      <div className="pk-dining-menu" data-theme="dark">
         {MENU.map((section) => (
           <div key={section.category} className="pk-dining-menu__section">
             <p className="pk-dining-menu__category pk-text-label-small">{section.category}</p>
