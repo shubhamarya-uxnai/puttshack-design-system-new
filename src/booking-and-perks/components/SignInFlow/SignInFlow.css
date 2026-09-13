@@ -1,0 +1,66 @@
+/* Figma node 4281:90674: the phone-entry step's gift-icon badge — a diagonal magenta/purple
+   gradient fill with a gold hairline border, sitting on the always-white Modal card. */
+
+.pk-sign-in-flow__header {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--pk-sys-gap-md);
+  width: 100%;
+}
+
+.pk-sign-in-flow__icon-badge {
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  border-radius: var(--pk-ref-radius-full);
+  border: 0.6px solid #bc841f;
+  background: linear-gradient(135deg, #592c82 0%, #93358d 45%, #f45197 100%);
+  color: var(--pk-ref-white);
+}
+
+.pk-sign-in-flow__header-text {
+  display: flex;
+  flex-direction: column;
+  gap: var(--pk-sys-gap-xs);
+}
+
+.pk-sign-in-flow__header-text .pk-modal__subtitle {
+  margin: 0;
+}
+
+.pk-sign-in-flow__otp-heading {
+  display: flex;
+  flex-direction: column;
+  gap: var(--pk-sys-gap-xs);
+  width: 100%;
+}
+
+.pk-sign-in-flow__otp-subtitle {
+  display: flex;
+  align-items: center;
+  gap: var(--pk-sys-gap-sm);
+}
+
+.pk-sign-in-flow__otp-subtitle .pk-modal__subtitle {
+  margin: 0;
+}
+
+.pk-sign-in-flow__edit {
+  flex-shrink: 0;
+  display: inline-flex;
+  border: none;
+  background: none;
+  padding: 0;
+  color: var(--pk-ref-blue-100);
+  cursor: pointer;
+}
+
+.pk-sign-in-flow__timer {
+  display: flex;
+  align-items: center;
+  gap: var(--pk-sys-gap-xs);
+  color: var(--pk-ref-purple-midnight);
+}

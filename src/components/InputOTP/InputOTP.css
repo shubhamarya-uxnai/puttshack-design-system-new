@@ -26,6 +26,10 @@
 .pk-input-otp[data-screen='mobile'] {
   --pk-comp-input-otp-cell-w: 61px;
   --pk-comp-input-otp-cell-h: 72px;
+  /* Cells flex down to fill a narrow host (see .pk-input-otp__cell) well below their
+     61px Figma max-width, so the 48px digit (sized for that fixed width) overflows —
+     scaled down to fit the mobile cell's own proportions instead. */
+  --pk-comp-input-otp-digit-size: 28px;
 }
 
 .pk-input-otp[data-screen='kiosk'] {
@@ -46,11 +50,19 @@
 .pk-input-otp__cells {
   display: flex;
   gap: var(--pk-comp-input-otp-cell-gap);
+  width: 100%;
 }
 
 .pk-input-otp__cell {
   box-sizing: border-box; /* Figma strokes draw INSIDE the frame — keeps px sizing exact once a border is added on focus/error */
-  width: var(--pk-comp-input-otp-cell-w);
+  /* Figma's fixed per-Mode cell width assumes a container wide enough for it (e.g. a
+     desktop form) — inside a narrower host (a 660px-max modal on a 402px phone) that
+     overflows the card instead of wrapping, so cells flex to fill whatever width is
+     actually available and only the height stays pinned to the Mode's own value. */
+  width: auto;
+  flex: 1 1 0;
+  min-width: 0;
+  max-width: var(--pk-comp-input-otp-cell-w);
   height: var(--pk-comp-input-otp-cell-h);
   border-radius: var(--pk-comp-input-otp-cell-radius);
   /* Figma: cells carry no visible border in the default state at any Mode —

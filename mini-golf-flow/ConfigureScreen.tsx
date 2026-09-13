@@ -12,6 +12,7 @@ import { TimeSlotPicker } from '../src/booking-and-perks/components/TimeSlotPick
 import type { TimeSelectionPeriod } from '../src/booking-and-perks/components/TimeSelectionPanel/TimeSelectionPanel'
 import { FullCalendarModal } from '../src/booking-and-perks/components/FullCalendarModal/FullCalendarModal'
 import { DiningMenuModal } from '../src/booking-and-perks/components/DiningMenuModal/DiningMenuModal'
+import { SignInFlow } from '../src/booking-and-perks/components/SignInFlow/SignInFlow'
 import { buildTimeSlots, getDisabledPeriods, firstAvailablePeriod } from '../src/booking-and-perks/utils/timeSlots'
 import type { BookingDetailsVariant } from '../src/booking-and-perks/components/BookingDetails/BookingDetails'
 import './Screens.css'
@@ -86,6 +87,7 @@ export function ConfigureScreen({
   const [selectedTime, setSelectedTime] = useState<string | undefined>(undefined)
   const [calendarOpen, setCalendarOpen] = useState(false)
   const [menuOpen, setMenuOpen] = useState(false)
+  const [signInOpen, setSignInOpen] = useState(false)
 
   // Switching experience must clear the previous one's own picks — otherwise the footer (and
   // Checkout) can keep showing e.g. "1 Bay" after the guest moves on to Dining Only.
@@ -158,7 +160,7 @@ export function ConfigureScreen({
       </div>
 
       <div className="pk-proto-screen__body">
-        <PerksCard type="sign-in" isSignedIn={isSignedIn} onSignIn={onSignIn} onLogOut={onLogOut} />
+        <PerksCard type="sign-in" isSignedIn={isSignedIn} onSignIn={() => setSignInOpen(true)} onLogOut={onLogOut} />
         <LocationPlayerPicker
           onDateSelect={setSelectedDate}
           onGuestsChange={setGuests}
@@ -222,6 +224,14 @@ export function ConfigureScreen({
         }}
       />
       <DiningMenuModal open={menuOpen} onClose={() => setMenuOpen(false)} />
+      <SignInFlow
+        open={signInOpen}
+        onClose={() => setSignInOpen(false)}
+        onSignedIn={() => {
+          setSignInOpen(false)
+          onSignIn()
+        }}
+      />
     </div>
   )
 }
