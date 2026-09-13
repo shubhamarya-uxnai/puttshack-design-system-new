@@ -42,7 +42,17 @@ const EXPERIENCE_LABELS: Record<string, string> = {
  * far — location/date/time in the magenta row, guests/experience/setup/
  * duration in the black/64% row — rather than the earlier static copy.
  */
-export function ConfigureScreen({ onCheckout }: { onCheckout: () => void }) {
+export function ConfigureScreen({
+  isSignedIn,
+  onSignIn,
+  onLogOut,
+  onCheckout,
+}: {
+  isSignedIn: boolean
+  onSignIn: () => void
+  onLogOut: () => void
+  onCheckout: () => void
+}) {
   const [selectedDate, setSelectedDate] = useState<string | undefined>(undefined)
   const [guests, setGuests] = useState({ adults: 0, youngAdults: 0, juniors: 0 })
   const [selectedExperience, setSelectedExperience] = useState<string | undefined>(undefined)
@@ -82,7 +92,7 @@ export function ConfigureScreen({ onCheckout }: { onCheckout: () => void }) {
       </div>
 
       <div className="pk-proto-screen__body">
-        <PerksCard type="sign-in" isSignedIn={false} />
+        <PerksCard type="sign-in" isSignedIn={isSignedIn} onSignIn={onSignIn} onLogOut={onLogOut} />
         <LocationPlayerPicker onDateSelect={setSelectedDate} onGuestsChange={setGuests} />
         {selectedDate && (
           <ExperienceTypeSelector

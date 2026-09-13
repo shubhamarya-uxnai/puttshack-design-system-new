@@ -10,18 +10,34 @@ import { ChevronLeft } from '../src/icons'
 import './Screens.css'
 
 /**
- * Screen 2 — "Checkout — Contact Info & Booking Summary" (Figma:
- * https://www.figma.com/design/X5YJsGIXBKazkrUaxk0jR9/Booking-and-Perks-Flow?node-id=4281-91137).
- * Real top-to-bottom composition: App Header, a "BACK TO BOOKING" tertiary
- * Button (not the small chevron+title chrome used before), the same
- * Page-Title-Container hero pattern as ConfigureScreen ("CHECKOUT" +
- * subtitle — Stepper on this frame is hidden, matching the same real
- * pattern seen on screen 1), then Booking Details / Perks Card / Contact
- * Information Form / Promo Code Input / Payment Method Form, all real
- * booking-and-perks components already in the codebase — verified against
- * this node before wiring, not re-guessed.
+ * Screen 2 — "Checkout — Contact Info & Booking Summary". Two real captures,
+ * both verified via design-context, that this screen switches between on
+ * `isSignedIn`:
+ *
+ * - Signed in (node 4281:91157, "Background") — a small "Signed in as
+ *   {name}" Perks Card right below the hero, then Booking Details, then the
+ *   "Your available rewards" Perks Card, then Contact Information Form
+ *   (`isSignedIn`, the shorter variant).
+ * - Not signed in (node 5000:153811, "Checkout (NOT Perk User)") — no Perks
+ *   Card at all (rewards can't be available to a guest who isn't signed
+ *   in): straight from Booking Details into Contact Information Form
+ *   (`isSignedIn={false}`, the taller variant with its own "Join Perks"
+ *   card and phone-verification flow already covering that pitch).
+ *
+ * Promo Code Input / Payment Method Form / the terms fine-print are
+ * identical in both captures.
  */
-export function CheckoutScreen({ onBack, onComplete }: { onBack: () => void; onComplete: () => void }) {
+export function CheckoutScreen({
+  isSignedIn,
+  onLogOut,
+  onBack,
+  onComplete,
+}: {
+  isSignedIn: boolean
+  onLogOut: () => void
+  onBack: () => void
+  onComplete: () => void
+}) {
   return (
     <div className="pk-proto-screen">
       <AppHeader />
@@ -43,9 +59,10 @@ export function CheckoutScreen({ onBack, onComplete }: { onBack: () => void; onC
       </div>
 
       <div className="pk-proto-screen__body">
+        {isSignedIn && <PerksCard type="sign-in" isSignedIn onLogOut={onLogOut} />}
         <BookingDetails />
-        <PerksCard type="rewards" isSignedIn rewardsAvailable />
-        <ContactInformationForm />
+        {isSignedIn && <PerksCard type="rewards" isSignedIn rewardsAvailable />}
+        <ContactInformationForm isSignedIn={isSignedIn} />
         <PromoCodeInput />
         <PaymentMethodForm />
       </div>

@@ -16,12 +16,29 @@ type Screen = 'configure' | 'checkout' | 'confirmation'
 
 export default function App() {
   const [screen, setScreen] = useState<Screen>('configure')
+  // Whether the "guest" has signed in to Puttshack Perks — drives which real Figma
+  // checkout layout renders (node 4281:91157 "Background" when true, vs. node
+  // 5000:153811 "Checkout (NOT Perk User)" when false: the latter has no Perks
+  // Cards at all, since rewards can't be available to someone who isn't signed in).
+  const [isSignedIn, setIsSignedIn] = useState(false)
 
   return (
     <PhoneFrame>
-      {screen === 'configure' && <ConfigureScreen onCheckout={() => setScreen('checkout')} />}
+      {screen === 'configure' && (
+        <ConfigureScreen
+          isSignedIn={isSignedIn}
+          onSignIn={() => setIsSignedIn(true)}
+          onLogOut={() => setIsSignedIn(false)}
+          onCheckout={() => setScreen('checkout')}
+        />
+      )}
       {screen === 'checkout' && (
-        <CheckoutScreen onBack={() => setScreen('configure')} onComplete={() => setScreen('confirmation')} />
+        <CheckoutScreen
+          isSignedIn={isSignedIn}
+          onLogOut={() => setIsSignedIn(false)}
+          onBack={() => setScreen('configure')}
+          onComplete={() => setScreen('confirmation')}
+        />
       )}
       {screen === 'confirmation' && <ConfirmationScreen onRestart={() => setScreen('configure')} />}
     </PhoneFrame>
