@@ -47,6 +47,12 @@
   opacity: 0.9;
 }
 
+/* Verified state (after the OTP modal confirms the code) — a fixed green regardless of the
+   app's light/dark toggle, matching every other real "success" glyph in this flow. */
+.pk-contact-info-form__verified-icon {
+  color: var(--pk-ref-green-500);
+}
+
 /* "Join Perks" card — gold-bordered gradient panel (Figma "Perks/Card Gradient" +
    "Perks/Border"), only shown when not signed in. */
 .pk-contact-info-form__perks-card {

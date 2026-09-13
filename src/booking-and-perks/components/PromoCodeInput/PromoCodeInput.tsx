@@ -43,8 +43,30 @@ export function PromoCodeInput({
 }: PromoCodeInputProps) {
   const [promoInput, setPromoInput] = useState('')
   const [promoApplied, setPromoApplied] = useState(false)
+  const [promoError, setPromoError] = useState<string | null>(null)
   const [giftCardInput, setGiftCardInput] = useState('')
   const [giftCardApplied, setGiftCardApplied] = useState(false)
+  const [giftCardError, setGiftCardError] = useState<string | null>(null)
+
+  // No real backend behind this prototype — `promoValue` ("PUTT10") is the one demo code
+  // that applies; everything else shows the real invalid-code error (node 4281:90739).
+  function handleApplyPromo() {
+    if (promoInput.trim().toUpperCase() === promoValue.toUpperCase()) {
+      setPromoError(null)
+      setPromoApplied(true)
+    } else {
+      setPromoError(`Code "${promoInput}" isn't valid.`)
+    }
+  }
+
+  function handleApplyGiftCard() {
+    if (giftCardInput.replace(/\D/g, '').length >= 8) {
+      setGiftCardError(null)
+      setGiftCardApplied(true)
+    } else {
+      setGiftCardError('Gift card numbers are at least 8 digits')
+    }
+  }
 
   return (
     <div className={cx('pk-promo-code-input', `pk-promo-code-input--${mode}`, className)}>
@@ -64,10 +86,15 @@ export function PromoCodeInput({
             label="Promo code"
             required
             inverse
+            state={promoError ? 'error' : 'default'}
+            helperText={promoError ?? undefined}
             value={promoInput}
-            onChange={(e) => setPromoInput(e.target.value)}
+            onChange={(e) => {
+              setPromoInput(e.target.value)
+              if (promoError) setPromoError(null)
+            }}
           />
-          <Button variant="tertiary" inverse disabled={!promoInput} onClick={() => setPromoApplied(true)}>
+          <Button variant="tertiary" inverse disabled={!promoInput} onClick={handleApplyPromo}>
             Apply
           </Button>
         </div>
@@ -87,10 +114,15 @@ export function PromoCodeInput({
             label="Gift card"
             required
             inverse
+            state={giftCardError ? 'error' : 'default'}
+            helperText={giftCardError ?? undefined}
             value={giftCardInput}
-            onChange={(e) => setGiftCardInput(e.target.value)}
+            onChange={(e) => {
+              setGiftCardInput(e.target.value)
+              if (giftCardError) setGiftCardError(null)
+            }}
           />
-          <Button variant="tertiary" inverse disabled={!giftCardInput} onClick={() => setGiftCardApplied(true)}>
+          <Button variant="tertiary" inverse disabled={!giftCardInput} onClick={handleApplyGiftCard}>
             Apply
           </Button>
         </div>

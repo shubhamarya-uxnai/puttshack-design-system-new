@@ -3,7 +3,8 @@ import { cx } from '../../../lib/cx'
 import { InputField } from '../../../components/InputField/InputField'
 import { Checkbox } from '../../../components/Checkbox/Checkbox'
 import { Button } from '../../../components/Button/Button'
-import { User, AtSign, Phone, Calendar, MapPin } from '../../../icons'
+import { User, AtSign, Phone, Calendar, MapPin, CheckCircle2 } from '../../../icons'
+import { OtpModal } from '../SignInFlow/OtpModal'
 import './ContactInformationForm.css'
 
 /** Figma variant property `isSignedIn`. `Property 2` ("October") is a constant release tag, not modeled. */
@@ -46,6 +47,8 @@ export function ContactInformationForm({
   className,
 }: ContactInformationFormProps) {
   const [phoneVerified, setPhoneVerified] = useState(false)
+  const [phoneInput, setPhoneInput] = useState(phone)
+  const [showOtp, setShowOtp] = useState(false)
 
   return (
     <section className={cx('pk-contact-info-form', className)}>
@@ -85,8 +88,14 @@ export function ContactInformationForm({
               required
               inverse
               leadingIcon={<Phone aria-hidden="true" />}
+              trailingIcon={
+                phoneVerified && !isSignedIn ? (
+                  <CheckCircle2 aria-hidden="true" className="pk-contact-info-form__verified-icon" />
+                ) : undefined
+              }
               helperText="We'll text booking updates and your party's check-in code."
-              defaultValue={phone}
+              value={phoneInput}
+              onChange={(e) => setPhoneInput(e.target.value)}
               readOnly={isSignedIn}
             />
           ) : (
@@ -97,11 +106,13 @@ export function ContactInformationForm({
                 inverse
                 leadingIcon={<Phone aria-hidden="true" />}
                 helperText="We'll text booking updates and your party's check-in code."
-                defaultValue={phone}
+                value={phoneInput}
+                onChange={(e) => setPhoneInput(e.target.value)}
               />
               <Button
                 className="pk-contact-info-form__verify"
-                onClick={() => setPhoneVerified(true)}
+                disabled={!phoneInput.trim()}
+                onClick={() => setShowOtp(true)}
               >
                 Verify
               </Button>
@@ -160,6 +171,17 @@ export function ContactInformationForm({
             </Button>
           </div>
         </>
+      )}
+
+      {showOtp && (
+        <OtpModal
+          phone={phoneInput}
+          onClose={() => setShowOtp(false)}
+          onVerify={() => {
+            setPhoneVerified(true)
+            setShowOtp(false)
+          }}
+        />
       )}
     </section>
   )

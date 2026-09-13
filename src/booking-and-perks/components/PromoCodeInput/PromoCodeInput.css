@@ -34,6 +34,19 @@
   max-width: 420px;
 }
 
+/* Figma node 4281:90739: the error border/helper text is the fixed dark-mode "Feedback/
+   Error/Pressed" value (--pk-ref-red-300) — this card is always dark regardless of the
+   app's light/dark toggle, so the theme-flipping --pk-sys-error-* tokens (which resolve to
+   the darker light-mode red here) would pick the wrong one. */
+.pk-promo-code-input .pk-input-field--error .pk-input-field__row {
+  border-color: var(--pk-ref-red-300);
+}
+
+.pk-promo-code-input .pk-input-field--error .pk-input-field__helper-icon,
+.pk-promo-code-input .pk-input-field--error .pk-input-field__helper-text {
+  color: var(--pk-ref-red-300);
+}
+
 /* "Applied" state (Property 1=Applied) — replaces the input+Apply row with a real chip: a magenta
    icon badge, the code/card text, a colored discount/balance badge, and a close button. */
 .pk-promo-code-input__field {

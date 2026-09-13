@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { cx } from '../../../lib/cx'
 import { InputField } from '../../../components/InputField/InputField'
 import { Plus, Check, CreditCard } from '../../../icons'
@@ -31,6 +31,14 @@ const DEFAULT_CARDS: SavedCard[] = [
   { id: 'card-1', brand: 'mastercard', last4: '3745' },
   { id: 'card-2', brand: 'visa', last4: '3045' },
 ]
+
+/** "0700" -> "07/00" — strips non-digits, caps at 4 digits (MMYY), inserts the slash after
+ * the month once a 3rd digit is typed. */
+function formatExpiry(raw: string): string {
+  const digits = raw.replace(/\D/g, '').slice(0, 4)
+  if (digits.length < 3) return digits
+  return `${digits.slice(0, 2)}/${digits.slice(2)}`
+}
 
 function BrandMark({ brand }: { brand: SavedCardBrand }) {
   if (brand === 'mastercard') {
@@ -70,6 +78,8 @@ export function PaymentMethodForm({
   onGooglePay,
   className,
 }: PaymentMethodFormProps) {
+  const [expiry, setExpiry] = useState('')
+
   return (
     <section className={cx('pk-payment-method-form', className)}>
       <span className="pk-payment-method-form__heading pk-text-title-small-capital">Payment</span>
@@ -111,7 +121,15 @@ export function PaymentMethodForm({
           <div className="pk-payment-method-form__new-card">
             <InputField label="Card Number" required inverse defaultValue="1234 5678 3425 4342" />
             <div className="pk-payment-method-form__new-card-row">
-              <InputField label="Expiry" required inverse placeholder="MM/YY" />
+              <InputField
+                label="Expiry"
+                required
+                inverse
+                placeholder="MM/YY"
+                inputMode="numeric"
+                value={expiry}
+                onChange={(e) => setExpiry(formatExpiry(e.target.value))}
+              />
               <InputField label="CVV" required inverse placeholder="..." className="pk-payment-method-form__cvv" />
             </div>
           </div>

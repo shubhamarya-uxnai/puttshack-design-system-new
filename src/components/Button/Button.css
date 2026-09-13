@@ -37,8 +37,15 @@
   gap: var(--pk-sys-button-large-gap);
 }
 
+/* Every real button capture (any variant/size) uses this exact type spec — not the
+   size-dependent Title/Small-vs-Title/Large split assumed before this was corrected. */
 .pk-button__label {
   white-space: nowrap;
+  font-family: var(--pk-sys-font-ui-bold);
+  font-weight: 700;
+  font-size: 18px;
+  line-height: 20px;
+  letter-spacing: 0;
 }
 
 .pk-button__label--sr-only {

@@ -4,6 +4,7 @@ import { ShareBookingLink } from '../src/booking-and-perks/components/ShareBooki
 import { BookingDetails } from '../src/booking-and-perks/components/BookingDetails/BookingDetails'
 import { ManagePartyModal } from '../src/booking-and-perks/components/ManagePartyModal/ManagePartyModal'
 import type { ManagePartyPlayer } from '../src/booking-and-perks/components/ManagePartyModal/ManagePartyModal'
+import { ShareLinkModal } from '../src/booking-and-perks/components/ShareLinkModal/ShareLinkModal'
 import { Toast } from '../src/components/Toast/Toast'
 import { Info } from '../src/icons'
 import { PageTitle } from './ScreenChrome'
@@ -36,6 +37,7 @@ export function ConfirmationScreen({
 }) {
   const [showManageParty, setShowManageParty] = useState(false)
   const [showSavedToast, setShowSavedToast] = useState(false)
+  const [showShareLink, setShowShareLink] = useState(false)
 
   useEffect(() => {
     if (!showSavedToast) return
@@ -51,7 +53,7 @@ export function ConfirmationScreen({
       <div className="pk-proto-screen__body">
         <ShareBookingLink
           shareRegistrationLink
-          onPrimaryAction={onRestart}
+          onPrimaryAction={() => setShowShareLink(true)}
           onManageParty={() => setShowManageParty(true)}
         />
         <BookingDetails variant="mini-golf" heading round2 modify />
@@ -71,6 +73,8 @@ export function ConfirmationScreen({
           onClose={() => setShowManageParty(false)}
         />
       )}
+
+      {showShareLink && <ShareLinkModal onClose={() => setShowShareLink(false)} />}
 
       {showSavedToast && (
         <div className="pk-proto-screen__top-toast">

@@ -84,13 +84,7 @@ export function Button({
           {leadingIcon}
         </span>
       )}
-      <span
-        className={cx(
-          'pk-button__label',
-          size === 'large' ? 'pk-text-title-large' : 'pk-text-title-small',
-          onlyIcon && 'pk-button__label--sr-only'
-        )}
-      >
+      <span className={cx('pk-button__label', onlyIcon && 'pk-button__label--sr-only')}>
         {children}
       </span>
       {trailingIcon && (
