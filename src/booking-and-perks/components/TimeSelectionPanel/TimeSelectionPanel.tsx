@@ -14,6 +14,8 @@ export interface TimeSlot {
    * `selectedTime`/`onSelectTime` instead of baking `'selected'` into the data. */
   state?: Exclude<TimeSlotChipState, 'selected'>
   badge?: string
+  /** Figma node 4281:91102: 8:00 PM–10:00 PM slots carry the "21+" corner badge. */
+  ageRestricted?: boolean
 }
 
 export interface TimeSelectionPanelProps {
@@ -26,6 +28,8 @@ export interface TimeSelectionPanelProps {
   /** The currently-picked time, e.g. `'2:00 PM'` — matches a `slots[].time`. */
   selectedTime?: string
   onSelectTime?: (time: string) => void
+  /** Periods whose entire window has already passed for "today" — disables that tab. */
+  disabledPeriods?: TimeSelectionPeriod[]
   className?: string
 }
 
@@ -52,6 +56,7 @@ export function TimeSelectionPanel({
   slots = DEFAULT_SLOTS,
   selectedTime,
   onSelectTime,
+  disabledPeriods = [],
   className,
 }: TimeSelectionPanelProps) {
   return (
@@ -59,8 +64,15 @@ export function TimeSelectionPanel({
       <h3 className="pk-time-selection-panel__heading pk-text-title-medium">Select your time</h3>
 
       <TabGroup
-        items={PERIODS.map((p) => ({ label: p, state: p === period ? 'selected' : 'default' }))}
-        onSelectTab={(i) => onPeriodChange?.(PERIODS[i])}
+        items={PERIODS.map((p) => ({
+          label: p,
+          state: p === period ? 'selected' : 'default',
+          disabled: disabledPeriods.includes(p),
+        }))}
+        onSelectTab={(i) => {
+          const next = PERIODS[i]
+          if (!disabledPeriods.includes(next)) onPeriodChange?.(next)
+        }}
       />
 
       <div className="pk-time-selection-panel__picks">
@@ -74,6 +86,7 @@ export function TimeSelectionPanel({
               time={slot.time}
               state={slot.state === 'disabled' ? 'disabled' : slot.time === selectedTime ? 'selected' : 'default'}
               badge={slot.badge}
+              ageRestricted={slot.ageRestricted}
               onClick={() => onSelectTime?.(slot.time)}
             />
           ))}

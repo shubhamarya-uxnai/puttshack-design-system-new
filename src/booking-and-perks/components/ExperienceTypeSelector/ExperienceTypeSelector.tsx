@@ -104,7 +104,7 @@ export const PUTTCADE_SETUP_OPTION_GROUPS: Omit<ExperienceTypeSelectorOptionGrou
   {
     name: 'bays',
     options: [
-      { title: '1 BAY', content: 'Cozier — one room, one vibe', badge: 'Reccomended' },
+      { title: '1 BAY', content: 'Cozier — one room, one vibe' },
       { title: '2 BAYS', content: 'More room to spread out & rotate', badge: 'Reccomended' },
     ],
   },
@@ -134,46 +134,46 @@ export function ExperienceTypeSelector({
   onViewMenu,
 }: ExperienceTypeSelectorProps) {
   return (
-    <>
-      <div className="pk-oct-experience-selector">
-        <div className="pk-oct-experience-selector__section">
-          <h3 className="pk-oct-experience-selector__heading pk-text-title-medium">Choose your experience</h3>
-          <ExperienceSelector options={experienceOptions} value={experienceValue} onChange={onExperienceChange} />
-        </div>
-
-        {showOptions && (
-          <div className="pk-oct-experience-selector__section">
-            <h3 className="pk-oct-experience-selector__heading pk-text-title-medium">{optionsHeading}</h3>
-            {optionGroups.map((group, g) => (
-              <React.Fragment key={group.name}>
-                {g > 0 && <div className="pk-oct-experience-selector__group-divider" />}
-                <div className="pk-oct-experience-selector__cards">
-                  {group.options.map((opt, i) => (
-                    <SelectionCards
-                      key={opt.title}
-                      name={group.name}
-                      title={opt.title}
-                      content={opt.content}
-                      showDetails={Boolean(opt.content)}
-                      badge={opt.badge}
-                      showPriceBreakdown={Boolean(opt.adultPrice || opt.juniorPrice)}
-                      adultPrice={opt.adultPrice}
-                      juniorPrice={opt.juniorPrice}
-                      showTotalPrice={Boolean(opt.totalPrice)}
-                      totalPrice={opt.totalPrice}
-                      selected={group.selectedIndex === i}
-                      onSelect={() => group.onSelect?.(i)}
-                      onDarkBackground={onDarkBackground}
-                    />
-                  ))}
-                </div>
-              </React.Fragment>
-            ))}
-          </div>
-        )}
+    <div className="pk-oct-experience-selector">
+      <div className="pk-oct-experience-selector__section">
+        <h3 className="pk-oct-experience-selector__heading pk-text-title-medium">Choose your experience</h3>
+        <ExperienceSelector options={experienceOptions} value={experienceValue} onChange={onExperienceChange} />
       </div>
 
+      {showOptions && (
+        <div className="pk-oct-experience-selector__section">
+          <h3 className="pk-oct-experience-selector__heading pk-text-title-medium">{optionsHeading}</h3>
+          {optionGroups.map((group, g) => (
+            <React.Fragment key={group.name}>
+              {g > 0 && <div className="pk-oct-experience-selector__group-divider" />}
+              <div className="pk-oct-experience-selector__cards">
+                {group.options.map((opt, i) => (
+                  <SelectionCards
+                    key={opt.title}
+                    name={group.name}
+                    title={opt.title}
+                    content={opt.content}
+                    showDetails={Boolean(opt.content)}
+                    badge={opt.badge}
+                    showPriceBreakdown={Boolean(opt.adultPrice || opt.juniorPrice)}
+                    adultPrice={opt.adultPrice}
+                    juniorPrice={opt.juniorPrice}
+                    showTotalPrice={Boolean(opt.totalPrice)}
+                    totalPrice={opt.totalPrice}
+                    selected={group.selectedIndex === i}
+                    onSelect={() => group.onSelect?.(i)}
+                    onDarkBackground={onDarkBackground}
+                  />
+                ))}
+              </div>
+            </React.Fragment>
+          ))}
+        </div>
+      )}
+
+      {/* Figma node 5483:87293 — when Dining Only is selected, this card sits inside the same
+          card container as the experience selectors, not as a separate floating card below it. */}
       {showDiningPrompt && <DiningPromptCard onViewMenu={onViewMenu} />}
-    </>
+    </div>
   )
 }

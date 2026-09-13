@@ -14,6 +14,7 @@ import './TabGroup.css'
 export interface TabGroupItem {
   label: string
   state?: TabState
+  disabled?: boolean
 }
 
 export interface TabGroupProps extends React.HTMLAttributes<HTMLDivElement> {
@@ -32,7 +33,13 @@ export function TabGroup({ items = DEFAULT_ITEMS, onSelectTab, className, ...res
   return (
     <div className={cx('pk-tab-group', className)} role="tablist" {...rest}>
       {items.map((item, i) => (
-        <Tabs key={`${item.label}-${i}`} label={item.label} state={item.state} onClick={() => onSelectTab?.(i)} />
+        <Tabs
+          key={`${item.label}-${i}`}
+          label={item.label}
+          state={item.state}
+          disabled={item.disabled}
+          onClick={() => onSelectTab?.(i)}
+        />
       ))}
     </div>
   )

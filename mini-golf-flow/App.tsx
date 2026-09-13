@@ -34,6 +34,7 @@ export default function App() {
 
   return (
     <PhoneFrame
+      resetScrollKey={screen}
       sideAction={
         screen === 'confirmation' && pendingInvite ? (
           <Button

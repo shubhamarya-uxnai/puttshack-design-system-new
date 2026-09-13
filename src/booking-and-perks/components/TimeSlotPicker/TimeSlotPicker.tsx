@@ -2,7 +2,11 @@ import React from 'react'
 import { cx } from '../../../lib/cx'
 import { ChevronDown } from '../../../icons'
 import { Button } from '../../../components/Button/Button'
-import { TimeSelectionPanel, type TimeSelectionPeriod, type TimeSlot } from '../TimeSelectionPanel/TimeSelectionPanel'
+import {
+  TimeSelectionPanel,
+  type TimeSelectionPeriod,
+  type TimeSlot,
+} from '../TimeSelectionPanel/TimeSelectionPanel'
 import './TimeSlotPicker.css'
 
 export interface TimeSlotPickerProps {
@@ -12,6 +16,7 @@ export interface TimeSlotPickerProps {
   slots?: TimeSlot[]
   selectedTime?: string
   onSelectTime?: (time: string) => void
+  disabledPeriods?: TimeSelectionPeriod[]
   onViewAllTimes?: () => void
   className?: string
 }
@@ -31,6 +36,7 @@ export function TimeSlotPicker({
   slots,
   selectedTime,
   onSelectTime,
+  disabledPeriods,
   onViewAllTimes,
   className,
 }: TimeSlotPickerProps) {
@@ -42,6 +48,7 @@ export function TimeSlotPicker({
         slots={slots}
         selectedTime={selectedTime}
         onSelectTime={onSelectTime}
+        disabledPeriods={disabledPeriods}
       />
       <Button variant="tertiary" inverse trailingIcon={<ChevronDown aria-hidden="true" />} onClick={onViewAllTimes}>
         See all times

@@ -21,12 +21,13 @@ export interface TabsProps extends Omit<React.ButtonHTMLAttributes<HTMLButtonEle
   onClick?: () => void
 }
 
-export function Tabs({ state = 'default', label = 'Tab Name', onClick, className, ...rest }: TabsProps) {
+export function Tabs({ state = 'default', label = 'Tab Name', onClick, className, disabled, ...rest }: TabsProps) {
   return (
     <button
       type="button"
       className={cx('pk-tab', `pk-tab--${state}`, className)}
       aria-selected={state === 'selected'}
+      disabled={disabled}
       onClick={onClick}
       {...rest}
     >

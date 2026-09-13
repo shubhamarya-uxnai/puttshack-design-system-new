@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { Sun, Moon } from '../src/icons'
 import './PhoneFrame.css'
 
@@ -9,6 +9,10 @@ export interface PhoneFrameProps {
    * phone (e.g. "Accept invite" standing in for the invited player tapping
    * their own registration link on their own device). */
   sideAction?: React.ReactNode
+  /** Any value that changes when the caller navigates to a different screen (e.g. the
+   * `Screen` union in App.tsx) — scrolls `.pk-proto-phone__screen` back to the top whenever
+   * it changes, so a screen never opens mid-scroll from wherever the previous one was left. */
+  resetScrollKey?: string | number
 }
 
 /**
@@ -34,8 +38,13 @@ export interface PhoneFrameProps {
  * semantic token values rather than a curated alternate layout — some
  * elements (e.g. the Stepper's icon-on-white contrast) aren't tuned for it.
  */
-export function PhoneFrame({ children, sideAction }: PhoneFrameProps) {
+export function PhoneFrame({ children, sideAction, resetScrollKey }: PhoneFrameProps) {
   const [theme, setTheme] = useState<'light' | 'dark'>('light')
+  const screenRef = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    screenRef.current?.scrollTo({ top: 0 })
+  }, [resetScrollKey])
 
   return (
     <div className="pk-proto-backdrop">
@@ -51,7 +60,9 @@ export function PhoneFrame({ children, sideAction }: PhoneFrameProps) {
 
       <div className="pk-proto-phone-shell">
         <div className="pk-proto-phone" data-theme={theme}>
-          <div className="pk-proto-phone__screen">{children}</div>
+          <div className="pk-proto-phone__screen" ref={screenRef}>
+            {children}
+          </div>
           <div className="pk-proto-phone__home-indicator" aria-hidden="true" />
         </div>
       </div>

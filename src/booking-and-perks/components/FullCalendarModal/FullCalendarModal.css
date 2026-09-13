@@ -1,0 +1,57 @@
+/* Fixed white-modal-body tokens — this card is always white regardless of the phone's
+   light/dark toggle, same rule applied to every other always-white surface in this flow. */
+
+.pk-full-calendar {
+  display: flex;
+  flex-direction: column;
+  gap: var(--pk-sys-gap-md);
+  width: 100%;
+}
+
+.pk-full-calendar__banner {
+  padding: var(--pk-sys-gap-lg);
+  border-radius: var(--pk-ref-radius-md);
+  background: var(--pk-ref-white-06, rgba(0, 0, 0, 0.02));
+  border: var(--pk-ref-border-thin) solid var(--pk-ref-black-12);
+  color: var(--pk-ref-purple-midnight);
+}
+
+.pk-full-calendar__weekdays {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+}
+
+.pk-full-calendar__weekday {
+  text-align: center;
+  color: var(--pk-ref-black-64);
+}
+
+.pk-full-calendar__grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: var(--pk-sys-gap-sm);
+}
+
+.pk-full-calendar__cell {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 40px;
+  border: none;
+  border-radius: var(--pk-ref-radius-sm);
+  background: var(--pk-ref-black-06);
+  color: var(--pk-ref-purple-midnight);
+  font-family: var(--pk-sys-font-ui-bold);
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.pk-full-calendar__cell--filler {
+  background: transparent;
+  cursor: default;
+}
+
+.pk-full-calendar__cell--selected {
+  background: var(--pk-ref-purple-midnight);
+  color: var(--pk-ref-white);
+}

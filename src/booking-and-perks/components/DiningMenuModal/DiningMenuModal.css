@@ -1,0 +1,54 @@
+/* Figma node 4281:90599: the menu body sits on a dark "Surface/Inverse" panel even though the
+   Modal shell itself is the usual white card — fixed dark tokens, not theme-toggling ones. */
+
+.pk-dining-menu {
+  display: flex;
+  flex-direction: column;
+  gap: var(--pk-sys-gap-lg);
+  width: 100%;
+  padding: var(--pk-sys-level2-vertical) var(--pk-sys-level2-horizontal);
+  border-radius: var(--pk-ref-radius-md);
+  background: var(--pk-sys-bg-card);
+  box-sizing: border-box;
+}
+
+.pk-dining-menu__section {
+  display: flex;
+  flex-direction: column;
+  gap: var(--pk-sys-gap-sm);
+}
+
+.pk-dining-menu__category {
+  margin: 0;
+  color: var(--pk-ref-magenta-500, #f45197);
+  text-transform: uppercase;
+}
+
+.pk-dining-menu__divider {
+  height: 1px;
+  background: var(--pk-ref-white-06, rgba(255, 255, 255, 0.12));
+}
+
+.pk-dining-menu__items {
+  display: flex;
+  flex-direction: column;
+  gap: var(--pk-sys-gap-md);
+}
+
+.pk-dining-menu__item-row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--pk-sys-gap-sm);
+}
+
+.pk-dining-menu__item-name,
+.pk-dining-menu__item-price {
+  margin: 0;
+  color: var(--pk-sys-text-inverse);
+}
+
+.pk-dining-menu__item-description {
+  margin: 0;
+  color: var(--pk-sys-text-inverse-subtle);
+}

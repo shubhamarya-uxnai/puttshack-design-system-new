@@ -1,9 +1,14 @@
 import React from 'react'
 import { SignalHigh, Wifi, BatteryFull } from '../../../icons'
+import { DEMO_NOW_LABEL } from '../../utils/timeSlots'
 import './StatusBar.css'
 
+/** Drops the "AM"/"PM" suffix — the OS status bar shows a bare "10:01", not "10:01 AM". */
+const DEFAULT_TIME = DEMO_NOW_LABEL.replace(/\s*(AM|PM)$/i, '')
+
 export interface StatusBarProps {
-  /** @default '10:01' */
+  /** Kept in sync with `DEMO_NOW_LABEL` (see `utils/timeSlots`) so the clock shown here matches
+   * the "past times are disabled" logic driving the Time Slot Picker. @default '10:01' */
   time?: string
   className?: string
 }
@@ -16,7 +21,7 @@ export interface StatusBarProps {
  * stood in for with the closest Lucide equivalents (`SignalHigh`, `Wifi`,
  * `BatteryFull`) rather than hand-tracing iOS glyphs.
  */
-export function StatusBar({ time = '10:01', className }: StatusBarProps) {
+export function StatusBar({ time = DEFAULT_TIME, className }: StatusBarProps) {
   return (
     <div className={`pk-status-bar${className ? ` ${className}` : ''}`}>
       <span className="pk-status-bar__time">{time}</span>

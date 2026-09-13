@@ -41,6 +41,8 @@ export interface LocationPlayerPickerProps {
   onGuestsChange?: (guests: { adults: number; youngAdults: number; juniors: number }) => void
   /** Figma: "Plan an event for 12+ guest" — shown once the 12-guest cap is hit. */
   onPlanEvent?: () => void
+  /** Opens the Full Calendar modal (node 4281:91048). */
+  onViewCalendar?: () => void
   className?: string
 }
 
@@ -80,6 +82,7 @@ export function LocationPlayerPicker({
   onDateSelect,
   onGuestsChange,
   onPlanEvent,
+  onViewCalendar,
   className,
 }: LocationPlayerPickerProps) {
   const [adults, setAdults] = useState(0)
@@ -289,7 +292,13 @@ export function LocationPlayerPicker({
             )
           })}
         </div>
-        <Button variant="tertiary" inverse disabled={!hasPlayers} className="pk-location-player-picker__calendar-btn">
+        <Button
+          variant="tertiary"
+          inverse
+          disabled={!hasPlayers}
+          onClick={onViewCalendar}
+          className="pk-location-player-picker__calendar-btn"
+        >
           See Full Calendar
         </Button>
       </div>

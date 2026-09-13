@@ -13,6 +13,8 @@ export interface TimeSlotChipProps extends Omit<React.ButtonHTMLAttributes<HTMLB
   /** Figma: the floating yellow "Best Value" chip shown on the 1:00 PM capture — real text, not a
    * generic "Peak" placeholder. */
   badge?: string
+  /** Figma node 4281:91102: the corner "21+" badge shown on evening slots from 8:00 PM on. */
+  ageRestricted?: boolean
 }
 
 /**
@@ -22,7 +24,14 @@ export interface TimeSlotChipProps extends Omit<React.ButtonHTMLAttributes<HTMLB
  * elsewhere when selected (thinner than the 3/6/9 ring on bigger cards —
  * this chip is much smaller), and a muted translucent look when disabled.
  */
-export function TimeSlotChip({ time = '3:00 PM', state = 'default', badge, className, ...rest }: TimeSlotChipProps) {
+export function TimeSlotChip({
+  time = '3:00 PM',
+  state = 'default',
+  badge,
+  ageRestricted = false,
+  className,
+  ...rest
+}: TimeSlotChipProps) {
   const disabled = state === 'disabled'
   const selected = state === 'selected'
 
@@ -36,6 +45,7 @@ export function TimeSlotChip({ time = '3:00 PM', state = 'default', badge, class
     >
       {badge && <span className="pk-time-slot-chip__badge">{badge}</span>}
       <span className="pk-time-slot-chip__time pk-text-title-small">{time}</span>
+      {ageRestricted && <span className="pk-time-slot-chip__age-badge">21+</span>}
     </button>
   )
 }

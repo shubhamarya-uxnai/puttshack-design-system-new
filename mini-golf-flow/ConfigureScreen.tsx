@@ -10,6 +10,9 @@ import {
 } from '../src/booking-and-perks/components/ExperienceTypeSelector/ExperienceTypeSelector'
 import { TimeSlotPicker } from '../src/booking-and-perks/components/TimeSlotPicker/TimeSlotPicker'
 import type { TimeSelectionPeriod } from '../src/booking-and-perks/components/TimeSelectionPanel/TimeSelectionPanel'
+import { FullCalendarModal } from '../src/booking-and-perks/components/FullCalendarModal/FullCalendarModal'
+import { DiningMenuModal } from '../src/booking-and-perks/components/DiningMenuModal/DiningMenuModal'
+import { buildTimeSlots, getDisabledPeriods, firstAvailablePeriod } from '../src/booking-and-perks/utils/timeSlots'
 import './Screens.css'
 
 const EXPERIENCE_LABELS: Record<string, string> = {
@@ -59,11 +62,25 @@ export function ConfigureScreen({
   const [selectedRound, setSelectedRound] = useState<number | undefined>(undefined)
   const [selectedBay, setSelectedBay] = useState<number | undefined>(undefined)
   const [selectedDuration, setSelectedDuration] = useState<number | undefined>(undefined)
-  const [period, setPeriod] = useState<TimeSelectionPeriod>('afternoon')
+  const [period, setPeriod] = useState<TimeSelectionPeriod>(() => firstAvailablePeriod())
   const [selectedTime, setSelectedTime] = useState<string | undefined>(undefined)
+  const [calendarOpen, setCalendarOpen] = useState(false)
+  const [menuOpen, setMenuOpen] = useState(false)
 
   const isPuttcade = selectedExperience === 'puttcade'
-  const readyForTime = isPuttcade ? selectedBay !== undefined && selectedDuration !== undefined : selectedRound !== undefined
+  const isDining = selectedExperience === 'dining'
+  const totalGuests = guests.adults + guests.youngAdults + guests.juniors
+  // Figma node 4281:91078: bay count only matters once the party is big enough to need the
+  // choice — under 7 guests, Puttcade skips straight to picking a duration.
+  const showBaySelection = totalGuests > 6
+  const readyForTime = isPuttcade
+    ? (!showBaySelection || selectedBay !== undefined) && selectedDuration !== undefined
+    : isDining
+      ? true
+      : selectedRound !== undefined
+
+  const disabledPeriods = useMemo(() => getDisabledPeriods(), [])
+  const slots = useMemo(() => buildTimeSlots(period), [period])
 
   const guestsLabel = useMemo(() => {
     const parts: string[] = []
@@ -93,7 +110,11 @@ export function ConfigureScreen({
 
       <div className="pk-proto-screen__body">
         <PerksCard type="sign-in" isSignedIn={isSignedIn} onSignIn={onSignIn} onLogOut={onLogOut} />
-        <LocationPlayerPicker onDateSelect={setSelectedDate} onGuestsChange={setGuests} />
+        <LocationPlayerPicker
+          onDateSelect={setSelectedDate}
+          onGuestsChange={setGuests}
+          onViewCalendar={() => setCalendarOpen(true)}
+        />
         {selectedDate && (
           <ExperienceTypeSelector
             experienceValue={selectedExperience}
@@ -103,7 +124,9 @@ export function ConfigureScreen({
             optionGroups={
               isPuttcade
                 ? [
-                    { ...PUTTCADE_SETUP_OPTION_GROUPS[0], selectedIndex: selectedBay, onSelect: setSelectedBay },
+                    ...(showBaySelection
+                      ? [{ ...PUTTCADE_SETUP_OPTION_GROUPS[0], selectedIndex: selectedBay, onSelect: setSelectedBay }]
+                      : []),
                     {
                       ...PUTTCADE_SETUP_OPTION_GROUPS[1],
                       selectedIndex: selectedDuration,
@@ -112,11 +135,19 @@ export function ConfigureScreen({
                   ]
                 : [{ ...MINI_GOLF_ROUND_OPTION_GROUPS[0], selectedIndex: selectedRound, onSelect: setSelectedRound }]
             }
-            showDiningPrompt={selectedExperience === 'dining'}
+            showDiningPrompt={isDining}
+            onViewMenu={() => setMenuOpen(true)}
           />
         )}
         {readyForTime && (
-          <TimeSlotPicker period={period} onPeriodChange={setPeriod} selectedTime={selectedTime} onSelectTime={setSelectedTime} />
+          <TimeSlotPicker
+            period={period}
+            onPeriodChange={setPeriod}
+            slots={slots}
+            disabledPeriods={disabledPeriods}
+            selectedTime={selectedTime}
+            onSelectTime={setSelectedTime}
+          />
         )}
       </div>
 
@@ -132,6 +163,16 @@ export function ConfigureScreen({
         checkoutDisabled={!selectedTime}
         onCheckout={onCheckout}
       />
+
+      <FullCalendarModal
+        open={calendarOpen}
+        onClose={() => setCalendarOpen(false)}
+        onSelectDay={(day) => {
+          setSelectedDate(`APR ${day}`)
+          setCalendarOpen(false)
+        }}
+      />
+      <DiningMenuModal open={menuOpen} onClose={() => setMenuOpen(false)} />
     </div>
   )
 }
