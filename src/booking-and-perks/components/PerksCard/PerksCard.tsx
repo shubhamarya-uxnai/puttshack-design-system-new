@@ -1,6 +1,6 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { cx } from '../../../lib/cx'
-import { Gift, UserCheck, UtensilsCrossed } from '../../../icons'
+import { Check, Gift, UserCheck, UtensilsCrossed } from '../../../icons'
 import { Button } from '../../../components/Button/Button'
 import { Checkbox } from '../../../components/Checkbox/Checkbox'
 import { InputField } from '../../../components/InputField/InputField'
@@ -77,6 +77,11 @@ export function PerksCard({
   onCreateAccount,
   className,
 }: PerksCardProps) {
+  // Figma: node 6021:11191 (Apply, Secondary/Default/Inverse) -> node 6021:11231 (Applied,
+  // Success/Hover, check icon) once tapped — tracked per reward id, not a single flag, so
+  // applying one reward doesn't visually apply the other.
+  const [appliedRewardIds, setAppliedRewardIds] = useState<Set<string>>(new Set())
+
   if (type === 'sign-in' && !isSignedIn) {
     return (
       <div className={cx('pk-oct-perks-card', 'pk-oct-perks-card--unlock', className)}>
@@ -125,22 +130,31 @@ export function PerksCard({
         {rewardsAvailable ? (
           <>
             <div className="pk-oct-perks-card__reward-list">
-              {rewards.map((reward) => (
-                <div key={reward.id} className="pk-oct-perks-card__reward">
-                  <div className="pk-oct-perks-card__reward-top">
-                    <span className="pk-oct-perks-card__reward-icon">{reward.icon}</span>
-                    <span className="pk-oct-perks-card__reward-label pk-text-title-small">{reward.label}</span>
-                    <Button
-                      variant="secondary"
-                      className="pk-oct-perks-card__reward-apply"
-                      onClick={() => onApplyReward?.(reward.id)}
-                    >
-                      Apply
-                    </Button>
+              {rewards.map((reward) => {
+                const applied = appliedRewardIds.has(reward.id)
+                return (
+                  <div key={reward.id} className="pk-oct-perks-card__reward">
+                    <div className="pk-oct-perks-card__reward-top">
+                      <span className="pk-oct-perks-card__reward-icon">{reward.icon}</span>
+                      <span className="pk-oct-perks-card__reward-label pk-text-title-small">{reward.label}</span>
+                      <Button
+                        variant={applied ? 'success' : 'secondary'}
+                        inverse
+                        forceState={applied ? 'hover' : undefined}
+                        leadingIcon={applied ? <Check aria-hidden="true" size={16} /> : undefined}
+                        className="pk-oct-perks-card__reward-apply"
+                        onClick={() => {
+                          setAppliedRewardIds((prev) => new Set(prev).add(reward.id))
+                          onApplyReward?.(reward.id)
+                        }}
+                      >
+                        {applied ? 'Applied' : 'Apply'}
+                      </Button>
+                    </div>
+                    <span className="pk-oct-perks-card__reward-description pk-text-body-small">{reward.description}</span>
                   </div>
-                  <span className="pk-oct-perks-card__reward-description pk-text-body-small">{reward.description}</span>
-                </div>
-              ))}
+                )
+              })}
             </div>
             <span className="pk-oct-perks-card__reward-footnote pk-text-body-small">
               Apply your reward <strong>at checkout.</strong>

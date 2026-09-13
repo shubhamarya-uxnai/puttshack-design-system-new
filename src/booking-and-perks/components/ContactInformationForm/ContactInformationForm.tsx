@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
 import { cx } from '../../../lib/cx'
 import { InputField } from '../../../components/InputField/InputField'
-import { Stepper } from '../../../components/Stepper/Stepper'
 import { Checkbox } from '../../../components/Checkbox/Checkbox'
 import { Button } from '../../../components/Button/Button'
 import { User, AtSign, Phone, Calendar, MapPin } from '../../../icons'
@@ -22,8 +21,6 @@ export interface ContactInformationFormProps {
   email?: string
   phone?: string
   dateOfBirth?: string
-  /** Called when the "Add" stepper is pressed — the captured instance ("Add / Active=True") adds another registrant field group. */
-  onAddRegistrant?: () => void
   className?: string
 }
 
@@ -31,8 +28,7 @@ export interface ContactInformationFormProps {
  * Booking-and-Perks composite (Figma: "Contact Information Form", node
  * 4435:179208, https://www.figma.com/design/X5YJsGIXBKazkrUaxk0jR9/
  * Booking-and-Perks-Flow?node-id=4435-179208). Reuses the DS `InputField`
- * for every field and the DS `Stepper` ("Add" variant) for the trailing
- * add-another-registrant control. `isSignedIn=False` (node 4123:151405)
+ * for every field. `isSignedIn=False` (node 4123:151405)
  * additionally shows a "Verify" button next to the phone field — clicking
  * it marks the number verified — plus a gold-bordered "Join Perks" card and
  * a preferred-location/consent/"Create Account" block, matching the real
@@ -47,7 +43,6 @@ export function ContactInformationForm({
   email = 'john@example.com',
   phone = '(555) 123-4567',
   dateOfBirth = '07/24/1992',
-  onAddRegistrant,
   className,
 }: ContactInformationFormProps) {
   const [phoneVerified, setPhoneVerified] = useState(false)
@@ -121,8 +116,6 @@ export function ContactInformationForm({
           />
         </>
       )}
-
-      <Stepper direction="add" aria-label="Add another registrant" onClick={onAddRegistrant} />
 
       {!isSignedIn && (
         <>

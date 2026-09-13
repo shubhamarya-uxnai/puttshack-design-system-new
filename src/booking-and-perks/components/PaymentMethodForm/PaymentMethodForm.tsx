@@ -112,7 +112,7 @@ export function PaymentMethodForm({
             <InputField label="Card Number" required inverse defaultValue="1234 5678 3425 4342" />
             <div className="pk-payment-method-form__new-card-row">
               <InputField label="Expiry" required inverse placeholder="MM/YY" />
-              <InputField label="CVV" required inverse placeholder="..." />
+              <InputField label="CVV" required inverse placeholder="..." className="pk-payment-method-form__cvv" />
             </div>
           </div>
         )}

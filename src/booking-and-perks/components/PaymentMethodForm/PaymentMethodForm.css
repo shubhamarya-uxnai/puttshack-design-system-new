@@ -156,4 +156,11 @@
 
 .pk-payment-method-form__new-card-row > * {
   flex: 1;
+  min-width: 0;
+}
+
+/* Figma: CVV is a fixed 100px field (3-4 digits), not an equal flex share with Expiry —
+   flexing it caused it to stretch past the card and overflow the form. */
+.pk-payment-method-form__new-card-row > .pk-payment-method-form__cvv {
+  flex: 0 0 100px;
 }

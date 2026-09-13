@@ -33,7 +33,9 @@
 }
 
 .pk-contact-info-form__verify {
-  align-self: flex-end;
+  /* Top-align with the phone INPUT itself, not the row's own top (the label sits above the
+     input) — offset by the label row's height (16px line-height) + the field's internal gap. */
+  margin-top: calc(16px + var(--pk-sys-gap-xs));
   background: var(--pk-ref-blue-100);
   color: var(--pk-sys-text-primary);
   border-color: transparent;
