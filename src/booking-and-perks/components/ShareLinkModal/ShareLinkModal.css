@@ -1,0 +1,53 @@
+/* Real capture (node 4281:91056): read-only link field with an inline "Copy" text
+   button — the DS InputField's border/inverse literal is stale on this white modal;
+   built directly here to match the render (light gray box, dark text, cyan "Copy"). */
+
+.pk-share-link-modal__field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--pk-sys-gap-xs);
+  width: 100%;
+}
+
+.pk-share-link-modal__label {
+  color: var(--pk-ref-purple-midnight);
+  text-transform: uppercase;
+}
+
+.pk-share-link-modal__required {
+  color: var(--pk-sys-text-magenta);
+}
+
+.pk-share-link-modal__row {
+  display: flex;
+  align-items: center;
+  gap: var(--pk-sys-gap-sm);
+  width: 100%;
+  padding: 13px;
+  border: var(--pk-ref-border-medium) solid var(--pk-ref-black-24);
+  border-radius: var(--pk-ref-radius-sm);
+  background: var(--pk-ref-white);
+  box-sizing: border-box;
+}
+
+.pk-share-link-modal__link {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: var(--pk-ref-purple-midnight);
+}
+
+.pk-share-link-modal__copy {
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  border: none;
+  background: none;
+  padding: 0;
+  color: #0091b3; /* Interactive/Link/Text — fixed, not a theme-toggling token */
+  text-transform: uppercase;
+  cursor: pointer;
+}

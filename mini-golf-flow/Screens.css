@@ -76,6 +76,17 @@
   text-align: center;
 }
 
+/* Toast confirming a save (e.g. "Manage Your Party" -> "Save and close"), pinned to the
+   top of the phone (position: fixed resolves against .pk-proto-phone's transform, not
+   the browser viewport — see PhoneFrame.css). */
+.pk-proto-screen__top-toast {
+  position: fixed;
+  top: var(--pk-sys-gap-lg);
+  left: var(--pk-sys-gap-lg);
+  right: var(--pk-sys-gap-lg);
+  z-index: 60;
+}
+
 .pk-placeholder {
   display: flex;
   align-items: center;

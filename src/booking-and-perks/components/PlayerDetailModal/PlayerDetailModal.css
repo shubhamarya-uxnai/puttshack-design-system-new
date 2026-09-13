@@ -1,0 +1,8 @@
+.pk-player-detail-modal__guardian-row {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--pk-sys-gap-sm);
+  width: 100%;
+  color: var(--pk-ref-black-64);
+  cursor: pointer;
+}

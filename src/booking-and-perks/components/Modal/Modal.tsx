@@ -25,9 +25,12 @@ export interface ModalProps {
   secondaryBody?: React.ReactNode
   /** Figma: `Button Group#4199:79` boolean. @default true */
   showButtonGroup?: boolean
-  /** Figma: `Information#4199:82` text + `information#4199:83` boolean toggle. */
+  /** Figma: `Information#4199:82` slot + `information#4199:83` boolean toggle. Real
+   * captures show two different shapes here (a plain icon+text row with no
+   * background, and a checkbox+text confirmation row) — so this takes the whole
+   * row as a node rather than a fixed icon+string, and renders no box of its own. */
   showInformation?: boolean
-  information?: string
+  information?: React.ReactNode
   /** Figma: `Is 2nd Modal#4199:78` boolean — shows the "BACK" tertiary button in the header. @default false */
   isSecondModal?: boolean
   /** Figma: `TnC#4538:21` boolean — shows the `TermsAndConditions` composite inline. @default false */
@@ -36,8 +39,12 @@ export interface ModalProps {
   showToast?: boolean
   toastMessage?: React.ReactNode
   primaryLabel?: string
+  /** Leading icon on the primary button (e.g. the message icon on "Share via Text"). */
+  primaryIcon?: React.ReactNode
   onPrimaryAction?: () => void
   secondaryLabel?: string
+  /** Leading icon on the secondary button (e.g. the mail icon on "Share via Email"). */
+  secondaryLeadingIcon?: React.ReactNode
   /** Trailing icon on the secondary button (e.g. the "+" on "Add more player"). */
   secondaryIcon?: React.ReactNode
   onSecondaryAction?: () => void
@@ -84,13 +91,15 @@ export function Modal({
   secondaryBody,
   showButtonGroup = true,
   showInformation = false,
-  information = "Heads up — adding this player adds $20.00 to your reservation. You'll review & confirm the new total on the next screen.",
+  information,
   isSecondModal = false,
   showTnC = false,
   showToast = false,
   toastMessage,
   primaryLabel = 'Pay $100.00 & confirm',
-  secondaryLabel = 'Keep Editing',
+  primaryIcon,
+  secondaryLabel,
+  secondaryLeadingIcon,
   secondaryIcon,
   onPrimaryAction,
   onSecondaryAction,
@@ -122,36 +131,33 @@ export function Modal({
           </div>
         )}
 
-        {showInformation && (
-          <div className="pk-modal__info-banner">
-            <Info aria-hidden="true" />
-            <span className="pk-text-label-small">{information}</span>
-          </div>
-        )}
-
         {children && <div className="pk-modal__body">{children}</div>}
 
         {showSecondaryBody && secondaryBody && <div className="pk-modal__body-secondary">{secondaryBody}</div>}
 
-        {showToast && (
-          <Toast
-            variant="informative"
-            inverse
-            icon={<Info aria-hidden="true" />}
-            message={toastMessage ?? information}
-          />
+        {showInformation && information && <div className="pk-modal__info-row">{information}</div>}
+
+        {showToast && toastMessage && (
+          <Toast variant="informative" inverse icon={<Info aria-hidden="true" />} message={toastMessage} />
         )}
 
         {showTnC && <TermsAndConditions />}
 
         {showButtonGroup && (
           <div className="pk-modal__button-group">
-            <Button variant="primary" onClick={onPrimaryAction}>
+            <Button variant="primary" leadingIcon={primaryIcon} onClick={onPrimaryAction}>
               {primaryLabel}
             </Button>
-            <Button variant="tertiary" trailingIcon={secondaryIcon} onClick={onSecondaryAction}>
-              {secondaryLabel}
-            </Button>
+            {secondaryLabel && (
+              <Button
+                variant="tertiary"
+                leadingIcon={secondaryLeadingIcon}
+                trailingIcon={secondaryIcon}
+                onClick={onSecondaryAction}
+              >
+                {secondaryLabel}
+              </Button>
+            )}
             {linkLabel && (
               <Button variant="ghost" onClick={onLinkAction}>
                 {linkLabel}

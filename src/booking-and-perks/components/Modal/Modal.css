@@ -58,6 +58,8 @@
   box-sizing: border-box;
 }
 
+/* Fixed dark (--pk-ref-purple-midnight), not --pk-sys-tertiary-text/text-primary —
+   those flip with the app's light/dark demo toggle, but this modal card is always white. */
 .pk-modal__back {
   display: inline-flex;
   align-items: center;
@@ -66,30 +68,29 @@
   border: none;
   background: none;
   padding: var(--pk-sys-gap-xs) 2px;
-  color: var(--pk-sys-tertiary-text);
+  color: var(--pk-ref-purple-midnight);
   text-transform: uppercase;
   cursor: pointer;
 }
 
 .pk-modal__title {
   margin: 0;
-  color: var(--pk-sys-text-primary);
+  color: var(--pk-ref-purple-midnight);
 }
 
 .pk-modal__subtitle {
   margin: 0;
-  color: var(--pk-sys-text-primary);
+  color: var(--pk-ref-purple-midnight);
 }
 
-.pk-modal__info-banner {
+/* Fixed dark-subtle, not --pk-sys-text-inverse-subtle — that token flips with the
+   app's light/dark demo toggle, but this row sits on the modal's always-white card. */
+.pk-modal__info-row {
   display: flex;
   align-items: flex-start;
   gap: var(--pk-sys-gap-sm);
   width: 100%;
-  padding: var(--pk-sys-level3-vertical) var(--pk-sys-level3-horizontal);
-  background: var(--pk-sys-info-bg);
-  border: 1px solid var(--pk-sys-info-border);
-  border-radius: 12px;
+  color: var(--pk-ref-black-64);
   box-sizing: border-box;
 }
 
@@ -97,7 +98,7 @@
 .pk-modal__body-secondary {
   display: flex;
   flex-direction: column;
-  gap: var(--pk-sys-gap-sm);
+  gap: var(--pk-sys-level3-gap);
   width: 100%;
   max-height: 450px;
   overflow-y: auto;
