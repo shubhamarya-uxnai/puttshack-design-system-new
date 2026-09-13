@@ -39,7 +39,7 @@ export default {
   example: figma.code`
     <Toast
       variant="${variant}"
-      ${inverse ? 'inverse' : ''}
+      ${inverse ? '' : 'inverse={false}'}
       ${title ? figma.code` title="${title}"` : ''}
       message="${message}"
       ${showSubheading ? 'subheading="..."' : ''}

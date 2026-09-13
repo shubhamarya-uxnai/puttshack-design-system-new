@@ -22,7 +22,13 @@ export interface ToastProps extends React.HTMLAttributes<HTMLDivElement> {
    * instance in the source file, so their inverse look here falls back to
    * the DS's generic inverse-surface tokens rather than a confirmed Figma
    * value — flagged in the component report.
-   * @default false
+   *
+   * Session-wide rule: a Toast used as a floating card on top of any surface —
+   * a Modal's card, a screen background, anything — reads as this saturated
+   * `inverse` treatment in every real capture seen so far, not the flatter
+   * default. So `inverse` now defaults `true`; pass `inverse={false}`
+   * explicitly for the rare non-inverse case instead of the other way around.
+   * @default true
    */
   inverse?: boolean
   /**
@@ -56,7 +62,7 @@ export interface ToastProps extends React.HTMLAttributes<HTMLDivElement> {
 
 export function Toast({
   variant = 'warning',
-  inverse = false,
+  inverse = true,
   title,
   message,
   subheading,
