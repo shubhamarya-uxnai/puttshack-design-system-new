@@ -1,0 +1,17 @@
+/* Real T&C reading-panel copy (node 4281:91059) — the panel chrome itself
+   (background, border, scroll) is owned by Modal's `inverse` body treatment. */
+
+.pk-terms-modal__section + .pk-terms-modal__section {
+  margin-top: var(--pk-sys-gap-lg);
+}
+
+.pk-terms-modal__section-heading {
+  margin: 0 0 var(--pk-sys-gap-sm);
+  color: var(--pk-sys-text-black);
+  text-transform: uppercase;
+}
+
+.pk-terms-modal__section-copy {
+  margin: 0;
+  color: var(--pk-sys-text-black);
+}

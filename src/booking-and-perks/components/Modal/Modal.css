@@ -1,39 +1,114 @@
-/* Tokens: Background/Default -> --pk-sys-bg-default, Surface/Inverse -> --pk-sys-surface-inverse,
-   Border/Inverse -> --pk-sys-border-inverse, Feedback-Inverse/Info/Background & Border have no
-   dedicated inverse-feedback tokens in tokens.css — falling back to --pk-sys-info-bg/--pk-sys-info-border
-   (flagged, not invented), Text + Icon/Inverse-Subtle -> --pk-sys-text-inverse-subtle,
-   Level 2/*, Level 3/* -> --pk-sys-level2-*/--pk-sys-level3-*, Icon size/M -> --pk-sys-icon-m,
+/* Real captures: default (node 4195:161696, "Review your changes") is a light card with
+   dark text — the codegen's literal `text+icon/inverse,white` on the header was stale.
+   `inverse` (node 4281:91061, the Terms & Conditions overlay) is a genuinely dark card
+   with white header text and an opaque light panel for any reading content, matching the
+   established "the render wins over the literal fallback" rule from earlier fixes this
+   session. Tokens: Background/Default -> --pk-sys-bg-default, Level 2/* -> --pk-sys-level2-*,
    Button/Default/* -> --pk-sys-button-default-*. */
 
 .pk-modal__overlay {
   position: fixed;
   inset: 0;
+  z-index: 50;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: var(--pk-sys-surface-modal-overlay);
+  background: var(--pk-sys-surface-modal-overlay, rgba(0, 0, 0, 0.32));
+  backdrop-filter: blur(4px);
   padding: var(--pk-sys-gap-lg);
+  box-sizing: border-box;
 }
 
 .pk-modal {
+  position: relative;
   display: flex;
   flex-direction: column;
+  align-items: center;
   gap: var(--pk-sys-level2-gap);
   width: 100%;
-  max-width: 480px;
-  padding: var(--pk-sys-level2-vertical) var(--pk-sys-level2-horizontal);
+  max-width: 660px;
+  max-height: 100%;
+  padding: var(--pk-sys-gap-md) var(--pk-sys-level2-horizontal) var(--pk-sys-level2-vertical);
   background: var(--pk-sys-bg-default);
-  border-radius: 16px;
+  border-radius: var(--pk-ref-radius-lg);
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+.pk-modal--inverse {
+  background: var(--pk-sys-bg-inverse);
+}
+
+.pk-modal__close {
+  position: absolute;
+  top: 14px;
+  right: var(--pk-sys-gap-md);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--pk-sys-gap-sm);
+  border: none;
+  border-radius: var(--pk-ref-radius-full);
+  background: var(--pk-sys-bg-default);
+  color: var(--pk-sys-text-black);
+  cursor: pointer;
+}
+
+.pk-modal__header {
+  display: flex;
+  flex-direction: column;
+  gap: var(--pk-sys-gap-xs);
+  width: 100%;
+  padding: var(--pk-sys-gap-sm) 0;
+  padding-right: 40px;
+  box-sizing: border-box;
+}
+
+.pk-modal__back {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--pk-sys-gap-xs);
+  align-self: flex-start;
+  border: none;
+  background: none;
+  padding: var(--pk-sys-gap-xs) 2px;
+  color: var(--pk-sys-tertiary-text);
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+.pk-modal--inverse .pk-modal__back {
+  color: var(--pk-sys-text-inverse);
+}
+
+.pk-modal__title {
+  margin: 0;
+  color: var(--pk-sys-text-primary);
+}
+
+.pk-modal--inverse .pk-modal__title {
+  color: var(--pk-sys-text-inverse);
+}
+
+.pk-modal__subtitle {
+  margin: 0;
+  color: var(--pk-sys-text-primary);
+}
+
+.pk-modal--inverse .pk-modal__subtitle {
+  color: var(--pk-sys-text-inverse);
 }
 
 .pk-modal__info-banner {
   display: flex;
   align-items: flex-start;
   gap: var(--pk-sys-gap-sm);
+  width: 100%;
   padding: var(--pk-sys-level3-vertical) var(--pk-sys-level3-horizontal);
   background: var(--pk-sys-info-bg);
   border: 1px solid var(--pk-sys-info-border);
   border-radius: 12px;
+  box-sizing: border-box;
 }
 
 .pk-modal__body,
@@ -41,10 +116,24 @@
   display: flex;
   flex-direction: column;
   gap: var(--pk-sys-gap-sm);
+  width: 100%;
+  max-height: 450px;
+  overflow-y: auto;
+  box-sizing: border-box;
+}
+
+/* Reading content inside an inverse (dark) modal gets its own opaque light panel —
+   otherwise dark body text would sit directly on the dark card and disappear. */
+.pk-modal--inverse .pk-modal__body {
+  padding: var(--pk-sys-gap-lg);
+  background: var(--pk-ref-white);
+  border: var(--pk-ref-border-thin) solid var(--pk-ref-black-06);
+  border-radius: 8px;
 }
 
 .pk-modal__button-group {
   display: flex;
   flex-direction: column;
   gap: var(--pk-sys-gap-sm);
+  width: 100%;
 }

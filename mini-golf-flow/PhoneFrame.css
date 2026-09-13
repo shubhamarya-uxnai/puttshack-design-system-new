@@ -60,6 +60,12 @@
   overflow: hidden;
   display: flex;
   flex-direction: column;
+  /* Makes this the containing block for `position: fixed` descendants (e.g. TermsModal's
+     backdrop) instead of the browser viewport, so a screen's full-bleed overlay stays
+     pinned to the phone bounds — and, since fixed positioning escapes normal-flow
+     overflow clipping, it isn't cut off by .pk-proto-phone__screen's own scroll clip
+     when the guest has scrolled the checkout content down before opening it. */
+  transform: translateZ(0);
 }
 
 .pk-proto-phone__screen {

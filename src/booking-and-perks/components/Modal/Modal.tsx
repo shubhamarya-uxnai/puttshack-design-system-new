@@ -4,7 +4,7 @@ import { Button } from '../../../components/Button/Button'
 import { Toast } from '../../../components/Toast/Toast'
 import { Stepper } from '../../../components/Stepper/Stepper'
 import { TermsAndConditions } from '../TermsAndConditions/TermsAndConditions'
-import { Info } from '../../../icons'
+import { Info, X, ChevronLeft } from '../../../icons'
 import './Modal.css'
 
 /** Figma variant property `Property 1`. */
@@ -13,6 +13,17 @@ export type ModalVariant = 'default' | 'variant2'
 export interface ModalProps {
   /** Figma: `Property 1`. @default 'default' */
   variant?: ModalVariant
+  /** Real capture is a light card with dark text (node 4195:161696, "Review your
+   * changes"). Set `inverse` for the dark-card treatment seen on the Terms &
+   * Conditions overlay instance (node 4281:91061) — white header text, and any
+   * `children` reading content gets an opaque light panel instead of inheriting the
+   * dark card background. @default false */
+  inverse?: boolean
+  /** Modal Headings text (node 4199:161760 inside this Modal — a different, simpler
+   * shape than the standalone `ModalHeadings` DS component: just a small-caps title
+   * + a body subtitle, no eyebrow category or icon). */
+  title?: string
+  subtitle?: string
   /** Body slot content (Figma: `Body#4199:77` SLOT property). */
   children?: React.ReactNode
   /** Figma: `Body2#4199:81` boolean — a second body region, off by default in this scaffold since no data describes its content. @default false */
@@ -30,28 +41,41 @@ export interface ModalProps {
   /** Figma: `Toast#4199:80` boolean. @default false */
   showToast?: boolean
   toastMessage?: React.ReactNode
-  title?: string
-  subtitle?: string
   primaryLabel?: string
   onPrimaryAction?: () => void
   secondaryLabel?: string
   onSecondaryAction?: () => void
+  /** The third, "ghost/link" button in the group — real capture default is "Cancel
+   * changes", but plenty of real usages (e.g. the T&C overlay) only have 2 buttons,
+   * so this is opt-in via a label rather than always rendered. */
   linkLabel?: string
   onLinkAction?: () => void
   onBack?: () => void
+  /** Figma: the "Add" close ("X") button, top-right of every real capture. */
+  onClose?: () => void
+  /** Figma: the Stepper("Add") instance seen in this scaffold's original capture —
+   * not present in either of the two real captures this session verified (the
+   * "Review your changes" default and the T&C overlay), so off by default. */
+  showStepper?: boolean
   onAdd?: () => void
   className?: string
 }
 
 /**
- * Booking-and-Perks composite (Figma: "Modal"). A generic modal shell built
- * from DS `Button`, `Toast` and this batch's `TermsAndConditions` — plus a
- * `children` slot for the `Body` content, per the task brief. The captured
- * "Modal Headings" instance is a separate October Release component being
- * built by another agent in this batch run — placeholdered here.
+ * Booking-and-Perks composite (Figma: "Modal", node 4199:164515,
+ * https://www.figma.com/design/X5YJsGIXBKazkrUaxk0jR9/Booking-and-Perks-Flow?node-id=4199-164515).
+ * A generic modal shell: an "X" close button, a Modal Header (optional
+ * "BACK" for stacked/second modals, then title + subtitle), a `children`
+ * body slot, optional info banner / toast / inline `TermsAndConditions`,
+ * and a button group (primary, tertiary-inverse secondary, optional ghost
+ * link). Renders its own fixed, centered backdrop — nothing else needs to
+ * wrap it.
  */
 export function Modal({
   variant = 'default',
+  inverse = false,
+  title,
+  subtitle,
   children,
   showSecondaryBody = false,
   secondaryBody,
@@ -66,23 +90,37 @@ export function Modal({
   secondaryLabel = 'Keep Editing',
   onPrimaryAction,
   onSecondaryAction,
-  linkLabel = 'Cancel changes',
+  linkLabel,
   onLinkAction,
   onBack,
+  onClose,
+  showStepper = false,
   onAdd,
   className,
 }: ModalProps) {
   return (
     <div className="pk-modal__overlay">
-      <div className={cx('pk-modal', `pk-modal--${variant}`, className)} role="dialog" aria-modal="true">
-        {isSecondModal && (
-          <Button variant="tertiary" inverse onlyIcon onClick={onBack}>
-            BACK
-          </Button>
-        )}
+      <div
+        className={cx('pk-modal', `pk-modal--${variant}`, inverse && 'pk-modal--inverse', className)}
+        role="dialog"
+        aria-modal="true"
+      >
+        <button type="button" className="pk-modal__close" aria-label="Close" onClick={onClose}>
+          <X aria-hidden="true" size={24} />
+        </button>
 
-        {/* TODO: replace with <ModalHeadings> from booking-and-perks/components once built */}
-        <div className="pk-placeholder">Modal Headings</div>
+        {(isSecondModal || title || subtitle) && (
+          <div className="pk-modal__header">
+            {isSecondModal && (
+              <button type="button" className="pk-modal__back" onClick={onBack}>
+                <ChevronLeft aria-hidden="true" size={20} />
+                Back
+              </button>
+            )}
+            {title && <h2 className="pk-modal__title pk-text-title-small-capital">{title}</h2>}
+            {subtitle && <p className="pk-modal__subtitle pk-text-body-small">{subtitle}</p>}
+          </div>
+        )}
 
         {showInformation && (
           <div className="pk-modal__info-banner">
@@ -91,7 +129,7 @@ export function Modal({
           </div>
         )}
 
-        <div className="pk-modal__body">{children}</div>
+        {children && <div className="pk-modal__body">{children}</div>}
 
         {showSecondaryBody && secondaryBody && <div className="pk-modal__body-secondary">{secondaryBody}</div>}
 
@@ -114,13 +152,15 @@ export function Modal({
             <Button variant="tertiary" inverse onClick={onSecondaryAction}>
               {secondaryLabel}
             </Button>
-            <Button variant="ghost" onClick={onLinkAction}>
-              {linkLabel}
-            </Button>
+            {linkLabel && (
+              <Button variant="ghost" onClick={onLinkAction}>
+                {linkLabel}
+              </Button>
+            )}
           </div>
         )}
 
-        <Stepper direction="add" aria-label="Add" onClick={onAdd} />
+        {showStepper && <Stepper direction="add" aria-label="Add" onClick={onAdd} />}
       </div>
     </div>
   )
