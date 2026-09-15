@@ -137,7 +137,10 @@
   width: 100%;
   padding: var(--pk-sys-gap-md) var(--pk-sys-gap-lg);
   border-radius: 8px;
-  background: var(--pk-sys-surface-inverse);
+  /* Figma node 4538:269365: a light grey row on this always-white card — --pk-sys-surface-inverse
+     is the theme-flipping token (near-invisible white-on-white in light mode, which is why the row
+     had no visible background), not the fixed subtle-grey one this card actually needs. */
+  background: var(--pk-sys-surface-subtle);
   box-sizing: border-box;
 }
 

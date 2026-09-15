@@ -1,0 +1,72 @@
+/* "Remove from Party" confirm overlay (node 4281:91417) — same fixed, centered, blurred
+   backdrop and always-white card shell as Modal, since this sits stacked above whichever
+   Manage Party sub-modal is currently open. */
+
+.pk-remove-player-modal__overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--pk-sys-surface-modal-overlay, rgba(0, 0, 0, 0.32));
+  backdrop-filter: blur(4px);
+  padding: var(--pk-sys-gap-md);
+  box-sizing: border-box;
+}
+
+.pk-remove-player-modal {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--pk-sys-level2-gap);
+  width: 100%;
+  max-width: 660px;
+  padding: var(--pk-sys-gap-md) var(--pk-sys-level2-horizontal) var(--pk-sys-level2-vertical);
+  background: var(--pk-sys-bg-default);
+  border-radius: var(--pk-ref-radius-lg);
+  box-sizing: border-box;
+}
+
+.pk-remove-player-modal__close {
+  position: absolute;
+  top: 14px;
+  right: var(--pk-sys-gap-md);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--pk-sys-gap-sm);
+  border: none;
+  border-radius: var(--pk-ref-radius-full);
+  background: var(--pk-sys-bg-default);
+  color: var(--pk-sys-text-black);
+  cursor: pointer;
+}
+
+.pk-remove-player-modal__header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--pk-sys-gap-sm);
+  max-width: 360px;
+  text-align: center;
+}
+
+.pk-remove-player-modal__title {
+  margin: 0;
+  color: var(--pk-sys-text-primary);
+  text-transform: uppercase;
+}
+
+.pk-remove-player-modal__subtitle {
+  margin: 0;
+  color: var(--pk-sys-text-secondary);
+}
+
+.pk-remove-player-modal__actions {
+  display: flex;
+  flex-direction: column;
+  gap: var(--pk-sys-gap-sm);
+  width: 100%;
+}

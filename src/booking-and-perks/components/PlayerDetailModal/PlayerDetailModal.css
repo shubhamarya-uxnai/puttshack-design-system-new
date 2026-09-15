@@ -6,3 +6,17 @@
   color: var(--pk-ref-black-64);
   cursor: pointer;
 }
+
+/* "Is this player under 18?" / "Who will complete registration?" — a labeled group of two
+   SelectionCards (nodes 6074:36603, 4753:118344). */
+.pk-player-detail-modal__question {
+  display: flex;
+  flex-direction: column;
+  gap: var(--pk-sys-gap-sm);
+  width: 100%;
+}
+
+.pk-player-detail-modal__question-label {
+  color: var(--pk-sys-text-secondary);
+  text-transform: uppercase;
+}

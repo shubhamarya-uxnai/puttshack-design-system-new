@@ -5,6 +5,7 @@ import { PlayerCard } from '../PlayerCard/PlayerCard'
 import { ShareLinkModal } from '../ShareLinkModal/ShareLinkModal'
 import { PlayerDetailModal } from '../PlayerDetailModal/PlayerDetailModal'
 import type { PlayerDetailStatus } from '../PlayerDetailModal/PlayerDetailModal'
+import { RemovePlayerModal } from '../RemovePlayerModal/RemovePlayerModal'
 import type { RegistrationStatus } from '../RegistrationStatusBadge/RegistrationStatusBadge'
 import { Plus } from '../../../icons'
 
@@ -49,7 +50,11 @@ export interface ManagePartyModalProps {
   className?: string
 }
 
-type View = { name: 'list' } | { name: 'share' } | { name: 'player'; playerId: string }
+type View =
+  | { name: 'list' }
+  | { name: 'share' }
+  | { name: 'player'; playerId: string }
+  | { name: 'remove-confirm'; playerId: string }
 
 /**
  * Booking-and-Perks composite (Figma: "OVERLAY" wrapping the "Manage Your
@@ -111,10 +116,25 @@ export function ManagePartyModal({
             )
             setView({ name: 'list' })
           }}
-          onRemoveFromParty={() => {
+          onRemoveFromParty={() => setView({ name: 'remove-confirm', playerId: player.id })}
+          className={className}
+        />
+      )
+    }
+  }
+
+  if (view.name === 'remove-confirm') {
+    const player = players.find((p) => p.id === view.playerId)
+    if (player) {
+      return (
+        <RemovePlayerModal
+          playerName={player.name}
+          onConfirm={() => {
             onPlayersChange(players.filter((p) => p.id !== player.id))
             setView({ name: 'list' })
           }}
+          onKeep={() => setView({ name: 'player', playerId: player.id })}
+          onClose={() => setView({ name: 'player', playerId: player.id })}
           className={className}
         />
       )

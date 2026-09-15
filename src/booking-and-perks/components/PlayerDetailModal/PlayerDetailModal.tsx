@@ -3,8 +3,20 @@ import { Modal } from '../Modal/Modal'
 import { Toast } from '../../../components/Toast/Toast'
 import { InputField } from '../../../components/InputField/InputField'
 import { Checkbox } from '../../../components/Checkbox/Checkbox'
+import { SelectionCards } from '../SelectionCards/SelectionCards'
 import { CheckCircle2, Info, User, Phone, Lock, Edit3, X } from '../../../icons'
 import './PlayerDetailModal.css'
+
+/** Which of the 3 real "Register {name}" — not-registered captures this player's `ageGroup`
+ * maps to: Adult (node 4753:118322, name/phone/"Send Registration Link"), Young Adult (node
+ * 6074:36603, an under-18 branch + guardian consent before "Continue to Registration"), Junior
+ * (node 4753:118344, display name + guardian consent, no phone field, same CTA label). */
+function toAgeCategory(ageGroup: string): 'adult' | 'young-adult' | 'junior' {
+  const lower = ageGroup.toLowerCase()
+  if (lower.includes('junior')) return 'junior'
+  if (lower.includes('young adult')) return 'young-adult'
+  return 'adult'
+}
 
 export type PlayerDetailStatus = 'registered' | 'link-sent' | 'not-registered'
 
@@ -60,38 +72,107 @@ export function PlayerDetailModal({
   const [nameValue, setNameValue] = useState(displayName)
   const [phoneValue, setPhoneValue] = useState(phone)
   const [guardianConfirmed, setGuardianConfirmed] = useState(true)
+  const [isUnder18, setIsUnder18] = useState(true)
+  const [isGuardian, setIsGuardian] = useState(true)
   const firstName = playerName.split(' ')[0]
 
   if (status === 'not-registered') {
+    const ageCategory = toAgeCategory(ageGroup)
+
+    // Young Adult only shows the guardian-consent question once "Yes, under 18" is picked —
+    // an 18-20 young adult registers themselves, same as an Adult.
+    const showGuardianQuestion = ageCategory === 'junior' || (ageCategory === 'young-adult' && isUnder18)
+
     return (
       <Modal
         isSecondModal
         onBack={onBack}
         title={`Register ${playerName}`}
         subtitle="Add their name or nickname and mobile number. We'll text them a secure link to complete their registration and accept the Terms & Conditions."
-        primaryLabel="Send Registration Link"
+        primaryLabel={ageCategory === 'adult' ? 'Send Registration Link' : 'Continue to Registration'}
         onPrimaryAction={() => onSendRegistrationLink?.({ displayName: nameValue, phone: phoneValue })}
         linkLabel="Remove From Party"
+        linkIcon={<X aria-hidden="true" size={24} />}
         onLinkAction={onRemoveFromParty}
         onClose={onClose ?? onBack}
         className={className}
       >
-        <InputField
-          label="Display Name"
-          required
-          leadingIcon={<User aria-hidden="true" />}
-          helperText="Shows up on the leaderboard during play."
-          value={nameValue}
-          onChange={(e) => setNameValue(e.target.value)}
-        />
-        <InputField
-          label="Phone Number (Optional)"
-          leadingIcon={<Phone aria-hidden="true" />}
-          helperText="If you'd like them to get booking updates by text"
-          value={phoneValue}
-          onChange={(e) => setPhoneValue(e.target.value)}
-        />
+        {ageCategory !== 'young-adult' && (
+          <InputField
+            label="Display Name"
+            required
+            leadingIcon={<User aria-hidden="true" />}
+            helperText="Shows up on the leaderboard during play."
+            value={nameValue}
+            onChange={(e) => setNameValue(e.target.value)}
+          />
+        )}
+
+        {ageCategory === 'adult' && (
+          <InputField
+            label="Phone Number"
+            required
+            leadingIcon={<Phone aria-hidden="true" />}
+            helperText="If you'd like them to get booking updates by text"
+            value={phoneValue}
+            onChange={(e) => setPhoneValue(e.target.value)}
+          />
+        )}
+
         <InputField label="Age Group" readOnly trailingIcon={<Lock aria-hidden="true" size={20} />} value={ageGroup} />
+
+        {ageCategory === 'young-adult' && (
+          <div className="pk-player-detail-modal__question">
+            <span className="pk-player-detail-modal__question-label pk-text-label-medium">
+              Is this player under 18?
+            </span>
+            <SelectionCards
+              name="under-18"
+              title="Yes, under 18"
+              showDetails={false}
+              selected={isUnder18}
+              onSelect={() => setIsUnder18(true)}
+            />
+            <SelectionCards
+              name="under-18"
+              title="No, 18 or older"
+              showDetails={false}
+              selected={!isUnder18}
+              onSelect={() => setIsUnder18(false)}
+            />
+          </div>
+        )}
+
+        {showGuardianQuestion && (
+          <div className="pk-player-detail-modal__question">
+            <span className="pk-player-detail-modal__question-label pk-text-label-medium">
+              Who will complete registration?
+            </span>
+            <SelectionCards
+              name="guardian"
+              title="I am the parent or authorised guardian"
+              content="I will complete the Registration."
+              selected={isGuardian}
+              onSelect={() => setIsGuardian(true)}
+            />
+            <SelectionCards
+              name="guardian"
+              title="I am not the authorised guardian"
+              content="Another parent or guardian will complete registration."
+              selected={!isGuardian}
+              onSelect={() => setIsGuardian(false)}
+            />
+            {isGuardian && (
+              <label className="pk-player-detail-modal__guardian-row">
+                <Checkbox checked={guardianConfirmed} onCheckedChange={setGuardianConfirmed} />
+                <span className="pk-text-label-small">
+                  I confirm that I am the player&rsquo;s parent or authorised guardian and have permission to accept
+                  the Terms &amp; Conditions on their behalf.
+                </span>
+              </label>
+            )}
+          </div>
+        )}
       </Modal>
     )
   }
