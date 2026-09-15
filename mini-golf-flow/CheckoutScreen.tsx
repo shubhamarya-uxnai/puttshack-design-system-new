@@ -29,10 +29,16 @@ import './Screens.css'
  * Promo Code Input / Payment Method Form / the terms fine-print are
  * identical in both captures.
  *
- * "Complete booking" opens the real Terms & Conditions overlay (node
- * 4281:91061) instead of completing the booking directly — "I agree"
- * closes it and calls `onComplete` (advancing to the Confirmation screen,
- * node 4281:91224); "Cancel" / the close button just dismiss the overlay.
+ * "Pay $X & Book" (Figma node 4281:91137 — the real label carries the exact
+ * total, not the generic "Complete booking" this used to say) opens the real
+ * Terms & Conditions overlay (node 4281:91061) instead of completing the
+ * booking directly — "I agree" closes it and calls `onComplete` (advancing
+ * to the Confirmation screen, node 4281:91224); "Cancel" / the close button
+ * just dismiss the overlay. Per that same node, the button lives in a sticky
+ * bar pinned to the bottom of the screen (not simply after the last scrolled
+ * section), and stays disabled until the guest has a verified phone number
+ * on file — a signed-in guest's counts as already verified; an unsigned
+ * guest has to complete the phone OTP flow in Contact Information first.
  */
 export function CheckoutScreen({
   isSignedIn,
@@ -54,6 +60,10 @@ export function CheckoutScreen({
   // 6014:90617 (a first-time guest with no cards on file at all, before adding one).
   const [showNewCard, setShowNewCard] = useState(false)
   const [selectedCardId, setSelectedCardId] = useState('card-1')
+  const [phoneVerified, setPhoneVerified] = useState(false)
+
+  // Figma sample shows "PAY $93 & BOOK" — no trailing cents — for a whole-dollar total.
+  const displayPrice = (booking?.totalPrice ?? '$0.00').replace(/\.00$/, '')
 
   return (
     <div className="pk-proto-screen">
@@ -92,7 +102,7 @@ export function CheckoutScreen({
           <BookingDetails />
         )}
         {isSignedIn && <PerksCard type="rewards" isSignedIn rewardsAvailable />}
-        <ContactInformationForm isSignedIn={isSignedIn} />
+        <ContactInformationForm isSignedIn={isSignedIn} onVerifiedChange={setPhoneVerified} />
         <PromoCodeInput />
         <PaymentMethodForm
           cardsAdded={isSignedIn}
@@ -101,15 +111,15 @@ export function CheckoutScreen({
           onSelectCard={setSelectedCardId}
           onToggleNewCard={() => setShowNewCard((v) => !v)}
         />
-      </div>
-
-      <div className="pk-proto-screen__submit">
-        <Button variant="primary" onClick={() => setShowTerms(true)}>
-          Complete booking
-        </Button>
         <p className="pk-proto-screen__fine-print pk-text-body-small">
           By completing this booking, you agree to our terms of service &amp; privacy policy.
         </p>
+      </div>
+
+      <div className="pk-proto-screen__sticky-cta">
+        <Button variant="primary" disabled={!phoneVerified} onClick={() => setShowTerms(true)}>
+          {`Pay ${displayPrice} & book`}
+        </Button>
       </div>
 
       {showTerms && (

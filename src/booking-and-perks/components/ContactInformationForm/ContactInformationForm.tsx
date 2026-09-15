@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { cx } from '../../../lib/cx'
 import { InputField } from '../../../components/InputField/InputField'
 import { Checkbox } from '../../../components/Checkbox/Checkbox'
@@ -23,6 +23,10 @@ export interface ContactInformationFormProps {
   phone?: string
   dateOfBirth?: string
   className?: string
+  /** Fires whenever whether the guest has a verified phone number on file changes — a signed-in
+   * guest's phone counts as already verified, an unsigned guest's only once they complete the
+   * OTP flow. Checkout gates its "Pay & book" action on this. */
+  onVerifiedChange?: (verified: boolean) => void
 }
 
 /**
@@ -45,10 +49,16 @@ export function ContactInformationForm({
   phone = '(555) 123-4567',
   dateOfBirth = '07/24/1992',
   className,
+  onVerifiedChange,
 }: ContactInformationFormProps) {
   const [phoneVerified, setPhoneVerified] = useState(false)
   const [phoneInput, setPhoneInput] = useState(phone)
   const [showOtp, setShowOtp] = useState(false)
+
+  useEffect(() => {
+    onVerifiedChange?.(onlyJunior || isSignedIn || phoneVerified)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [onlyJunior, isSignedIn, phoneVerified])
 
   return (
     <section className={cx('pk-contact-info-form', className)}>

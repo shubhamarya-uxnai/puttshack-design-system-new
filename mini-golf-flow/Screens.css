@@ -70,6 +70,25 @@
   padding: 0 var(--pk-sys-container-horizontal) var(--pk-sys-gap-xl);
 }
 
+/* Checkout's "Pay & book" CTA (Figma node 4437:180396, "Checkout" variant) is a sticky bar
+   pinned to the bottom of the phone's scroll area — same pattern as .pk-booking-footer on
+   Configure — sitting below the fine-print, which stays part of the normal scrolling body
+   content. Always-white surface like Booking Footer itself, so it stays legible regardless of
+   the phone's own light/dark toggle — fixed token, not the theme-flipping one. */
+.pk-proto-screen__sticky-cta {
+  display: flex;
+  position: sticky;
+  bottom: 0;
+  z-index: 20;
+  padding: var(--pk-sys-gap-md) var(--pk-sys-container-horizontal);
+  background: var(--pk-sys-bg-default);
+  border-top: 1px solid var(--pk-sys-border-magenta);
+}
+
+.pk-proto-screen__sticky-cta .pk-button {
+  width: 100%;
+}
+
 .pk-proto-screen__fine-print {
   margin: 0;
   color: var(--pk-sys-text-inverse-subtle);

@@ -271,11 +271,11 @@ export function LocationPlayerPicker({
           <p className="pk-location-player-picker__group-hint pk-location-player-picker__group-hint--max pk-text-body-small">
             Juniors must be accompanied by at least one Adult or Young Adult.
           </p>
-        ) : (
+        ) : !hasPlayers ? (
           <p className="pk-location-player-picker__group-hint pk-text-label-small">
             Add at least 1 player to check availability.
           </p>
-        )}
+        ) : null}
       </div>
 
       <div className="pk-location-player-picker__section">
