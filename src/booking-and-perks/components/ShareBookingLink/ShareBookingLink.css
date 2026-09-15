@@ -3,11 +3,14 @@
 .pk-oct-share-link {
   display: flex;
   flex-direction: column;
+  align-items: center;
   gap: var(--pk-sys-gap-sm); /* Figma token: S3 (approx) */
   padding: var(--pk-ref-space-24) var(--pk-ref-space-16); /* Figma tokens: S8, S4 (approx) */
   border-radius: 24px; /* Figma token: xl */
+  border: 1px solid var(--pk-sys-border-magenta); /* Figma style: Text + Icon/Magenta */
   background: var(--pk-sys-bg-card); /* Figma style: Web/Card Background (#290E3C) */
   color: var(--pk-sys-text-inverse); /* Figma token: Text + Icon/White */
+  text-align: center;
 }
 
 .pk-oct-share-link__headline {
@@ -17,12 +20,17 @@
 
 .pk-oct-share-link__note {
   margin: 0;
-  color: var(--pk-sys-text-magenta); /* Figma token: Text + Icon/Magenta */
+  color: var(--pk-sys-text-inverse);
+  opacity: 0.92;
+}
+
+.pk-oct-share-link__complete-badge {
+  color: var(--pk-ref-green-500);
 }
 
 .pk-oct-share-link__actions {
   display: flex;
   flex-direction: column;
   gap: var(--pk-ref-space-12); /* Figma token: S1 (approx) */
-  margin-top: var(--pk-sys-gap-sm);
+  width: 100%;
 }

@@ -31,6 +31,8 @@ export interface LocationPlayerPickerProps {
    * or taps the locate icon for the (demo) nearest location. */
   selectedLocation?: LocationPlayerPickerLocation | null
   onClearLocation?: () => void
+  /** Fires whenever the picked location changes — `null` once cleared/unselected. */
+  onLocationChange?: (location: LocationPlayerPickerLocation | null) => void
   /** Figma: the 5 `Date Picker Card` instances — `{ day, label }` pairs, e.g. `{ day: 'APR 20', label: 'Today' }`. */
   dates?: { day: string; label: string }[]
   /** Day (matching a `dates` entry's `day`) with no availability. @default the last date */
@@ -77,6 +79,7 @@ const DEFAULT_DATES = [
 export function LocationPlayerPicker({
   selectedLocation = null,
   onClearLocation,
+  onLocationChange,
   dates = DEFAULT_DATES,
   disabledDate,
   onDateSelect,
@@ -103,11 +106,15 @@ export function LocationPlayerPicker({
   const total = adults + youngAdults + juniors
   const hasPlayers = total > 0
   const atMaxGuests = total >= MAX_GUESTS
+  // Figma node 4281:91078: juniors can't book unsupervised — the hint below the steppers
+  // swaps to this warning as soon as a junior is added without a chaperoning Adult/Young Adult.
+  const juniorsNeedChaperone = juniors > 0 && adults === 0 && youngAdults === 0
 
   function selectLocation(next: LocationPlayerPickerLocation) {
     setLocation(next)
     setQuery(next.name)
     setShowSuggestions(false)
+    onLocationChange?.(next)
   }
 
   const suggestions = DEMO_LOCATIONS.filter((l) =>
@@ -197,6 +204,7 @@ export function LocationPlayerPicker({
                 setLocation(null)
                 setQuery('')
                 onClearLocation?.()
+                onLocationChange?.(null)
               }}
             >
               <X aria-hidden="true" size={20} />
@@ -259,6 +267,10 @@ export function LocationPlayerPicker({
               Plan an event for 12+ guest
             </Button>
           </>
+        ) : juniorsNeedChaperone ? (
+          <p className="pk-location-player-picker__group-hint pk-location-player-picker__group-hint--max pk-text-body-small">
+            Juniors must be accompanied by at least one Adult or Young Adult.
+          </p>
         ) : (
           <p className="pk-location-player-picker__group-hint pk-text-label-small">
             Add at least 1 player to check availability.

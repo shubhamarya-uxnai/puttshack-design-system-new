@@ -5,9 +5,11 @@ import { BookingDetails } from '../src/booking-and-perks/components/BookingDetai
 import { ManagePartyModal } from '../src/booking-and-perks/components/ManagePartyModal/ManagePartyModal'
 import type { ManagePartyPlayer } from '../src/booking-and-perks/components/ManagePartyModal/ManagePartyModal'
 import { ShareLinkModal } from '../src/booking-and-perks/components/ShareLinkModal/ShareLinkModal'
+import { TermsModal } from '../src/booking-and-perks/components/TermsModal/TermsModal'
 import { Toast } from '../src/components/Toast/Toast'
 import { Info } from '../src/icons'
 import { PageTitle } from './ScreenChrome'
+import type { BookingSummary } from './ConfigureScreen'
 import './Screens.css'
 
 /**
@@ -27,10 +29,12 @@ import './Screens.css'
  * only one line of copy render.
  */
 export function ConfirmationScreen({
+  booking,
   players,
   onPlayersChange,
   onRestart,
 }: {
+  booking: BookingSummary | null
   players: ManagePartyPlayer[]
   onPlayersChange: (players: ManagePartyPlayer[]) => void
   onRestart: () => void
@@ -38,6 +42,11 @@ export function ConfirmationScreen({
   const [showManageParty, setShowManageParty] = useState(false)
   const [showSavedToast, setShowSavedToast] = useState(false)
   const [showShareLink, setShowShareLink] = useState(false)
+  // Figma nodes 6119:71749 (unsigned) / 6119:71767 (signed) — the Share Booking Link card's
+  // "Complete registration" action opens the real T&C overlay (node 4281:91061) rather than
+  // completing registration outright; agreeing is what flips the card to its signed state.
+  const [showTerms, setShowTerms] = useState(false)
+  const [signTandC, setSignTandC] = useState(false)
 
   useEffect(() => {
     if (!showSavedToast) return
@@ -52,11 +61,27 @@ export function ConfirmationScreen({
 
       <div className="pk-proto-screen__body">
         <ShareBookingLink
-          shareRegistrationLink
-          onPrimaryAction={() => setShowShareLink(true)}
+          signTandC={signTandC}
+          onPrimaryAction={() => (signTandC ? setShowShareLink(true) : setShowTerms(true))}
           onManageParty={() => setShowManageParty(true)}
         />
-        <BookingDetails variant="mini-golf" heading round2 modify />
+        {booking ? (
+          <BookingDetails
+            variant={booking.variant}
+            location={booking.location}
+            setup={booking.setup}
+            groupSize={booking.groupSize}
+            groupSizeDetail={booking.groupSizeDetail}
+            date={booking.date}
+            time={booking.time}
+            totalPrice={booking.totalPrice}
+            heading
+            round2
+            modify
+          />
+        ) : (
+          <BookingDetails variant="mini-golf" heading round2 modify />
+        )}
         <p className="pk-proto-screen__fine-print pk-text-body-small">
           By completing this booking, you agree to our terms of service &amp; privacy policy.
         </p>
@@ -75,6 +100,16 @@ export function ConfirmationScreen({
       )}
 
       {showShareLink && <ShareLinkModal onClose={() => setShowShareLink(false)} />}
+
+      {showTerms && (
+        <TermsModal
+          onAgree={() => {
+            setShowTerms(false)
+            setSignTandC(true)
+          }}
+          onCancel={() => setShowTerms(false)}
+        />
+      )}
 
       {showSavedToast && (
         <div className="pk-proto-screen__top-toast">

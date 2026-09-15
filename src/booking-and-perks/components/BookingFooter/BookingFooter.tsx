@@ -40,7 +40,7 @@ function FooterChip({
 }
 
 export interface BookingFooterProps extends React.HTMLAttributes<HTMLDivElement> {
-  /** Figma: `Location`. @default 'Chicago, IL' */
+  /** Figma: `Location` — omitted (no chip shown) until the guest picks one in Location & Player Picker. */
   location?: string
   /** Figma: `Date`, e.g. "APR 21". */
   date?: string
@@ -64,7 +64,7 @@ export interface BookingFooterProps extends React.HTMLAttributes<HTMLDivElement>
 }
 
 export function BookingFooter({
-  location = 'Chicago, IL',
+  location,
   date,
   time,
   guests,

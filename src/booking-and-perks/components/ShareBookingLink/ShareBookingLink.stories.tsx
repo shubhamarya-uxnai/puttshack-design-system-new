@@ -5,7 +5,7 @@ const meta = {
   title: 'Booking & Perks/Share Booking Link',
   component: ShareBookingLink,
   parameters: { layout: 'padded' },
-  args: { shareRegistrationLink: false, signTandC: true },
+  args: { signTandC: false },
 } satisfies Meta<typeof ShareBookingLink>
 
 export default meta
@@ -19,10 +19,10 @@ export const Playground: Story = {
   ),
 }
 
-export const ShareLinkVariant: Story = {
+export const SignedVariant: Story = {
   render: () => (
     <div style={{ maxWidth: 400 }}>
-      <ShareBookingLink shareRegistrationLink signTandC />
+      <ShareBookingLink signTandC />
     </div>
   ),
 }

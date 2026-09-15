@@ -4,14 +4,12 @@
 import figma from 'figma'
 const instance = figma.selectedInstance
 
-const shareRegistrationLink = instance.getBoolean('Share Registration link#1420:1')
 const signTandC = instance.getBoolean('Sign T&C#1420:0')
 
 export default {
   example: figma.code`
     <ShareBookingLink
-      ${shareRegistrationLink ? 'shareRegistrationLink' : ''}
-      ${signTandC ? '' : 'signTandC={false}'}
+      ${signTandC ? 'signTandC' : ''}
     />
   `,
   imports: ['import { ShareBookingLink } from "./ShareBookingLink"'],

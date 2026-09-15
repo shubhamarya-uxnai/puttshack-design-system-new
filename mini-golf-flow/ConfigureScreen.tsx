@@ -2,7 +2,10 @@ import React, { useMemo, useState } from 'react'
 import { AppHeader } from '../src/booking-and-perks/components/AppHeader/AppHeader'
 import { BookingFooter } from '../src/booking-and-perks/components/BookingFooter/BookingFooter'
 import { PerksCard } from '../src/booking-and-perks/components/PerksCard/PerksCard'
-import { LocationPlayerPicker } from '../src/booking-and-perks/components/LocationPlayerPicker/LocationPlayerPicker'
+import {
+  LocationPlayerPicker,
+  type LocationPlayerPickerLocation,
+} from '../src/booking-and-perks/components/LocationPlayerPicker/LocationPlayerPicker'
 import {
   ExperienceTypeSelector,
   MINI_GOLF_ROUND_OPTION_GROUPS,
@@ -77,6 +80,7 @@ export function ConfigureScreen({
   onLogOut: () => void
   onCheckout: (summary: BookingSummary) => void
 }) {
+  const [selectedLocation, setSelectedLocation] = useState<LocationPlayerPickerLocation | null>(null)
   const [selectedDate, setSelectedDate] = useState<string | undefined>(undefined)
   const [guests, setGuests] = useState({ adults: 0, youngAdults: 0, juniors: 0 })
   const [selectedExperience, setSelectedExperience] = useState<string | undefined>(undefined)
@@ -139,7 +143,7 @@ export function ConfigureScreen({
 
   const bookingSummary: BookingSummary = {
     variant: selectedExperience ? EXPERIENCE_TO_BOOKING_VARIANT[selectedExperience] : 'mini-golf',
-    location: 'Chicago, IL',
+    location: selectedLocation?.name ?? '',
     setup: isPuttcade ? (durationOption?.title ?? '') : isDining ? '' : (roundOption?.title ?? ''),
     groupSize: `${totalGuests} guest${totalGuests === 1 ? '' : 's'}`,
     groupSizeDetail,
@@ -164,6 +168,7 @@ export function ConfigureScreen({
         <LocationPlayerPicker
           onDateSelect={setSelectedDate}
           onGuestsChange={setGuests}
+          onLocationChange={setSelectedLocation}
           onViewCalendar={() => setCalendarOpen(true)}
         />
         {selectedDate && (
@@ -203,7 +208,7 @@ export function ConfigureScreen({
       </div>
 
       <BookingFooter
-        location="Chicago, IL"
+        location={selectedLocation?.name}
         date={selectedDate}
         time={selectedTime}
         guests={guestsLabel}

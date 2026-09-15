@@ -76,6 +76,7 @@ export default function App() {
       )}
       {screen === 'confirmation' && (
         <ConfirmationScreen
+          booking={booking}
           players={players}
           onPlayersChange={setPlayers}
           onRestart={() => setScreen('configure')}
